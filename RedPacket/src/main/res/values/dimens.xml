@@ -1,0 +1,7 @@
+<resources>
+
+    <dimen name="actionbar_height">44dip</dimen>
+    <dimen name="base_padding">16dip</dimen>
+    <dimen name="round_radius">6dip</dimen>
+    <dimen name="input_height">48dip</dimen>
+</resources>

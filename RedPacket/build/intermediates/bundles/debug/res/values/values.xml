@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#f1f1f3</color>
+    <color name="black">#3e3a39</color>
+    <color name="blue">#3b93e9</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="color_323232">#323232</color>
+    <color name="color_434343">#434343</color>
+    <color name="color_80b5b5b5">#80b5b5b5</color>
+    <color name="color_80c9c9c9">#80c9c9c9</color>
+    <color name="color_b7b7b7">#b7b7b7</color>
+    <color name="gray">#ababab</color>
+    <color name="navpage">#FFE1E8EB</color>
+    <color name="red">#fe5c5c</color>
+    <color name="red_dark">#e54141</color>
+    <color name="red_trans">#88fe5c5c</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <declare-styleable name="ActionBarView"><attr format="string" name="content"/><attr format="color" name="bankground"/><attr format="boolean" name="isBackFinish"/><attr format="reference" name="leftIcon"/></declare-styleable>
+    <declare-styleable name="FloatingLabelTextView"><attr format="string" name="validationMessage"/><attr format="string" name="hint"/><attr format="boolean" name="allowEmpty"/><attr format="enum" name="validatorType">
+            <enum name="alpha" value="0"/>
+            <enum name="numeric" value="1"/>
+            <enum name="alphaNumeric" value="2"/>
+            <enum name="email" value="3"/>
+            <enum name="phone" value="4"/>
+        </attr><attr format="integer" name="textSize"/></declare-styleable>
+    <declare-styleable name="gridPasswordView"><attr format="color|reference" name="gpvTextColor"/><attr format="dimension" name="gpvTextSize"/><attr format="color" name="gpvLineColor"/><attr format="color" name="gpvGridColor"/><attr format="dimension" name="gpvLineWidth"/><attr format="integer" name="gpvPasswordLength"/><attr format="string" name="gpvPasswordTransformation"/><attr format="enum" name="gpvPasswordType"><enum name="numberPassword" value="0"/><enum name="textPassword" value="1"/><enum name="textVisiblePassword" value="2"/><enum name="textWebPassword" value="3"/></attr></declare-styleable>
+    <dimen name="actionbar_height">44dip</dimen>
+    <dimen name="base_padding">16dip</dimen>
+    <dimen name="input_height">48dip</dimen>
+    <dimen name="round_radius">6dip</dimen>
+    <string name="_bribery_message">恭喜发财，大吉大利！</string>
+    <string name="_de_dialog_item_message_delete">删除消息</string>
+    <string name="_s_bribery">红包</string>
+    <string name="add_card_pay">添加银行卡支付</string>
+    <string name="alipay">支付宝支付</string>
+    <string name="app_name">JRMF_IM</string>
+    <string name="bind_card_suss">银行卡绑定成功</string>
+    <string name="btn_pay">立即支付</string>
+    <string name="btn_put">塞钱进红包</string>
+    <string name="card_name_tip">请用{XXX}名下银行储蓄卡</string>
+    <string name="card_num_empty">银行卡号不能为空</string>
+    <string name="card_num_error">请输入正确银行卡号</string>
+    <string name="forget_pwd">重置支付密码</string>
+    <string name="group_number">本群共%1$d人</string>
+    <string name="idcard_tip">请输入正确的身份证号</string>
+    <string name="input_pwd">请输入支付密码</string>
+    <string name="input_verify_code">请输入您{phonenum}手机号收到的验证码</string>
+    <string name="input_verify_code_title">请输入短信验证码</string>
+    <string name="name_error_tip">请输入正确的姓名</string>
+    <string name="name_tip">请输入姓名</string>
+    <string name="network_error">当前网络不佳，请稍后再试</string>
+    <string name="next_step_tip">点击下一步视为您同意《金融魔方用户协议》</string>
+    <string name="pay_failure">支付失败</string>
+    <string name="pay_waiting">支付结果确认中</string>
+    <string name="phone_hint">请输入正确的银行预留手机号</string>
+    <string name="phone_tip">请输入正确的手机号</string>
+    <string name="please_pay">请支付</string>
+    <string name="re_send">重新发送</string>
+    <string name="re_send_code">重新发送验证码</string>
+    <string name="red_envelope_blessing">红包祝福语最多输入25个字噢～</string>
+    <string name="send_code">发送验证码</string>
+    <string name="set_pwd_succ">支付密码设置成功</string>
+    <string name="update_pwd_succ">支付失败</string>
+    <string name="user_protocol">用户协议</string>
+    <string name="user_protocol_title">金融魔方用户协议</string>
+    <string name="verify_code_empty">请输入验证码</string>
+    <string name="verify_code_error">请输入正确验证码</string>
+    <string name="verify_code_suss">验证码发送成功</string>
+    <string name="wallet_title">我的钱包</string>
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/_slide_right_in</item>
+        <item name="android:windowExitAnimation">@anim/_slide_right_out</item>
+    </style>
+    <style name="AnimTranslucent" parent="@android:style/Theme.Translucent">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
+        <!--<item name="android:activityOpenEnterAnimation">@null</item>-->
+        <!--<item name="android:activityOpenExitAnimation">@null</item>-->
+        <!--<item name="android:activityCloseEnterAnimation">@null</item>-->
+        <!--<item name="android:activityCloseExitAnimation">@null</item>-->
+    </style>
+    <style name="GridPasswordView"/>
+    <style name="GridPasswordView.Divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:layout_marginBottom">1dp</item>
+    </style>
+    <style name="GridPasswordView.EditText" parent="GridPasswordView.TextView">
+        <item name="android:cursorVisible">false</item>
+    </style>
+    <style name="GridPasswordView.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="NavPage">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <!-- <item name="android:background">@drawable/nav_page</item> -->
+        <item name="android:background">@color/navpage</item>
+    </style>
+    <style name="commondialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--窗口背景色-->
+        <item name="android:windowFrame">@null</item>
+        <!--Dialog的windowFrame框为无-->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 窗口是否半透明——是（与第一条配合使用） -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 这个不设置的话，可能会出现边框黑线 -->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <!-- 窗口弹出效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 是否允许背景模糊 -->
+    </style>
+    <style name="mediumCustomProgressBar" parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/_progress_medium_holo</item>
+    </style>
+    <style name="text_black_12">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">12dip</item>
+    </style>
+    <style name="text_black_16">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="text_black_28">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="text_blue_12">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">12dip</item>
+    </style>
+    <style name="text_blue_16">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">16dip</item>
+    </style>
+    <style name="text_gray_12">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">12dip</item>
+    </style>
+    <style name="text_gray_16">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">16dip</item>
+    </style>
+    <style name="text_red_12">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">12dip</item>
+    </style>
+    <style name="text_red_16">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">16dip</item>
+    </style>
+    <style name="text_red_28">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">28dip</item>
+    </style>
+    <style name="text_white_16">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16dip</item>
+    </style>
+    <style name="text_white_28">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">28dip</item>
+    </style>
+</resources>

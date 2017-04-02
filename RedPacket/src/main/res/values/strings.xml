@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">JRMF_IM</string>
+
+    <!--发红包-->
+    <string name="_bribery_message">恭喜发财，大吉大利！</string>
+    <string name="btn_put">塞钱进红包</string>
+    <string name="btn_pay">立即支付</string>
+    <string name="_s_bribery">红包</string>
+    <string name="network_error">当前网络不佳，请稍后再试</string>
+    <string name="_de_dialog_item_message_delete">删除消息</string>
+    <string name="red_envelope_blessing">红包祝福语最多输入25个字噢～</string>
+    <string name="group_number">本群共%1$d人</string>
+
+    <!--添加银行卡-->
+    <string name="card_name_tip">请用{XXX}名下银行储蓄卡</string>
+    <string name="card_num_empty">银行卡号不能为空</string>
+    <string name="card_num_error">请输入正确银行卡号</string>
+    <string name="next_step_tip">点击下一步视为您同意《金融魔方用户协议》</string>
+    <string name="name_tip">请输入姓名</string>
+    <string name="name_error_tip">请输入正确的姓名</string>
+    <string name="idcard_tip">请输入正确的身份证号</string>
+    <string name="phone_tip">请输入正确的手机号</string>
+    <string name="phone_hint">请输入正确的银行预留手机号</string>
+    <string name="verify_code_empty">请输入验证码</string>
+    <string name="verify_code_error">请输入正确验证码</string>
+    <string name="bind_card_suss">银行卡绑定成功</string>
+    <string name="user_protocol">用户协议</string>
+
+    <!--webview-->
+    <string name="user_protocol_title">金融魔方用户协议</string>
+    <string name="wallet_title">我的钱包</string>
+
+    <!--paytype-->
+    <string name="input_pwd">请输入支付密码</string>
+    <string name="forget_pwd">重置支付密码</string>
+    <string name="please_pay">请支付</string>
+    <string name="send_code">发送验证码</string>
+    <string name="re_send_code">重新发送验证码</string>
+    <string name="re_send">重新发送</string>
+    <string name="input_verify_code">请输入您{phonenum}手机号收到的验证码</string>
+    <string name="input_verify_code_title">请输入短信验证码</string>
+    <string name="add_card_pay">添加银行卡支付</string>
+    <string name="alipay">支付宝支付</string>
+    <string name="verify_code_suss">验证码发送成功</string>
+    <string name="pay_waiting">支付结果确认中</string>
+    <string name="pay_failure">支付失败</string>
+
+    <!--重置密码-->
+    <string name="update_pwd_succ">支付失败</string>
+    <string name="set_pwd_succ">支付密码设置成功</string>
+
+
+</resources>

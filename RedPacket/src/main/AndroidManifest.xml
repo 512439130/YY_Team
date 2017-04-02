@@ -1,0 +1,51 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.jrmf360.rylib">
+
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION_LOCATION" />-->
+
+    <application>
+        <activity android:name="com.jrmf360.rylib.ui.AddCardActivity"/>
+        <activity android:name="com.jrmf360.rylib.ui.AddCardFirsstActivity"/>
+        <activity android:name="com.jrmf360.rylib.ui.AddCardSecondActivity"/>
+        <activity android:name="com.jrmf360.rylib.ui.BankCardListActivity"/>
+        <activity
+            android:name="com.jrmf360.rylib.ui.EnBrowserActivity"
+            android:theme="@style/AnimTranslucent"/>
+        <activity
+            android:name="com.jrmf360.rylib.ui.PayTypeActivity"
+            android:theme="@style/dialog"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="com.jrmf360.rylib.ui.RealNameActivity"/>
+        <activity android:name="com.jrmf360.rylib.ui.ResetPswdActivity"/>
+        <activity android:name="com.jrmf360.rylib.ui.SendGroupEnvelopesActivity"/>
+        <activity android:name="com.jrmf360.rylib.ui.SendSingleEnvelopesActivity"/>
+        <activity android:name="com.jrmf360.rylib.ui.SettingPswdActivity"/>
+        <!--支付宝 begin-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind">
+
+        </activity>
+        <!--支付宝 end-->
+
+    </application>
+
+</manifest>

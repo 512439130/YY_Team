@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/id_et_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入用户ID" />
+
+        <Button
+            android:id="@+id/friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="和他/她聊天" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/id_bt_replace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="更换用户头像" />
+
+    <EditText
+        android:id="@+id/id_et_Discussion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:hint="请输入聊天组id" />
+    <EditText
+        android:id="@+id/id_et_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="请输入聊天组昵称" />
+
+    <Button
+        android:id="@+id/id_bt_openDiscussion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="和他/她聊天" />
+
+    <Button
+        android:id="@+id/id_bt_opencontacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="创建讨论组"/>
+    <Button
+        android:id="@+id/id_bt_redpackage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开红包界面"/>
+
+
+</LinearLayout>

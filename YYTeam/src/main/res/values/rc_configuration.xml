@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 设置发送输入状态 -->
+    <bool name="rc_typing_status">true</bool>
+</resources>

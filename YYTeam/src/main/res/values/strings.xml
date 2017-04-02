@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">YY社团</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">查找</string>
+    <string name="action_add">添加</string>
+    <string name="menu_group_chat">发起群聊</string>
+    <string name="menu_feedback">意见反馈</string>
+    <string name="menu_add_friend">添加朋友</string>
+    <string name="menu_scan">扫一扫</string>
+
+    <string name="tab_yyassociation">YY社团2</string>
+    <string name="tab_contact">通讯录</string>
+    <string name="tab_found">发现</string>
+    <string name="tab_me">我</string>
+</resources>

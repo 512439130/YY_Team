@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 设置是否支持消息撤回-->
+    <bool name="rc_enable_message_recall">true</bool>
+    <!-- 消息撤回有效时间（单位：秒）-->
+    <integer name="rc_message_recall_interval">120</integer>
+    <!-- 设置开启@功能-->
+    <bool name="rc_enable_mentioned_message">true</bool>
+</resources>

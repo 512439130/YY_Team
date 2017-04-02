@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '25.0.2'
+    defaultConfig {
+        minSdkVersion 9
+
+        targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile files('libs/alipaySdk-20160516.jar')
+    provided files('../YYTeam/libs/gson-2.2.1.jar')
+    compile files('libs/jrmfry.jar')
+}
+

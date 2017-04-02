@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.somust.yyteam.R;
 import com.somust.yyteam.constant.ConstantUrl;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.yy.http.okhttp.OkHttpUtils;
+import com.yy.http.okhttp.callback.StringCallback;
 
 import okhttp3.Call;
 import okhttp3.MediaType;

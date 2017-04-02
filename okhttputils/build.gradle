@@ -49,7 +49,7 @@ dependencies {
 /*//添加
 publish {
     userOrg = 'hongyangandroid'//bintray.com用户名
-    groupId = 'com.zhy'//jcenter上的路径
+    groupId = 'com.yy'//jcenter上的路径
     artifactId = 'okhttputils'//项目名称
     publishVersion = '2.6.2'//版本号
     desc = 'Oh hi, this is a nice description for a project, right?'

@@ -10,9 +10,9 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.somust.yyteam.context.DemoContext;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.https.HttpsUtils;
-import com.zhy.http.okhttp.log.LoggerInterceptor;
+import com.yy.http.okhttp.OkHttpUtils;
+import com.yy.http.okhttp.https.HttpsUtils;
+import com.yy.http.okhttp.log.LoggerInterceptor;
 
 import java.util.concurrent.TimeUnit;
 

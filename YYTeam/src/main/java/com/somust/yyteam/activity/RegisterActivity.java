@@ -18,9 +18,9 @@ import com.somust.yyteam.R;
 import com.somust.yyteam.activity.okhttptest.TestOkhttpActivity;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
-import com.somust.yyteam.utils.RongCloudMethodUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.somust.yyteam.utils.RongCloud.RongCloudMethodUtil;
+import com.yy.http.okhttp.OkHttpUtils;
+import com.yy.http.okhttp.callback.StringCallback;
 
 import java.io.IOException;
 import java.util.HashMap;

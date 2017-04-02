@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import com.somust.yyteam.R;
 import com.somust.yyteam.bean.Friend;
-import com.somust.yyteam.utils.RongCloudMethodUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.somust.yyteam.utils.RongCloud.RongCloudMethodUtil;
+import com.yy.http.okhttp.OkHttpUtils;
+import com.yy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;

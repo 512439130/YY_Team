@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources >
     <!-- 设置聊天室一次拉取消息数目 -->
     <integer name="rc_chatroom_first_pull_message_count">10</integer>
 

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">YY社团</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -13,4 +13,11 @@
     <string name="tab_contact">通讯录</string>
     <string name="tab_found">发现</string>
     <string name="tab_me">我</string>
+
+    <string name="login_phone_test">手机号验证测试</string>
+    <string name="login_phone_hint">请输入11位手机号</string>
+    <string name="login_code_hint">请输入验证码</string>
+    <string name="login_verification_code">获取验证码</string>
+    <string name="login_verification_button">提交</string>
+    <string name="count_down">%1$d秒后重试</string>
 </resources>

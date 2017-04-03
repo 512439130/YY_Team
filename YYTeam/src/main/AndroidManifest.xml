@@ -80,7 +80,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.yy.rongyuntest"
+                    android:host="com.somust.yyteam"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>

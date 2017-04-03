@@ -20,7 +20,7 @@ public class T
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
-    public static boolean isShow = true;
+    public static boolean isShow = true;   //是否开启日志
 
     /**
      * 短时间显示Toast
@@ -30,8 +30,7 @@ public class T
      */
     public static void showShort(Context context, CharSequence message)
     {
-        if (isShow)
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        if (isShow) Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -42,8 +41,7 @@ public class T
      */
     public static void showShort(Context context, int message)
     {
-        if (isShow)
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        if (isShow) Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -54,8 +52,7 @@ public class T
      */
     public static void showLong(Context context, CharSequence message)
     {
-        if (isShow)
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        if (isShow) Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -66,8 +63,7 @@ public class T
      */
     public static void showLong(Context context, int message)
     {
-        if (isShow)
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        if (isShow) Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -79,8 +75,7 @@ public class T
      */
     public static void show(Context context, CharSequence message, int duration)
     {
-        if (isShow)
-            Toast.makeText(context, message, duration).show();
+        if (isShow) Toast.makeText(context, message, duration).show();
     }
 
     /**
@@ -92,8 +87,29 @@ public class T
      */
     public static void show(Context context, int message, int duration)
     {
-        if (isShow)
-            Toast.makeText(context, message, duration).show();
+        if (isShow) Toast.makeText(context, message, duration).show();
+    }
+
+
+    /**
+     * 测试Toast（短时间）
+     *
+     * @param context
+     * @param message
+     */
+    public static void testShowShort(Context context, String message)
+    {
+        if (isShow) Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+    /**
+     * 测试Toast（长时间）
+     *
+     * @param context
+     * @param message
+     */
+    public static void testShowLong(Context context, String message)
+    {
+        if (isShow) Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
 }

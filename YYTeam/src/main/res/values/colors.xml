@@ -4,5 +4,94 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!-- 主题色 -->
+    <color name="theme">#FF6817</color>
 
+    <!-- Tille_bar颜色 -->
+    <color name="title_bar_text">#FF6817</color>
+
+    <!-- activity的背景色 -->
+    <color name="activity_background">#f5f5f5</color>
+
+    <!-- 页面标题的背景色 -->
+    <color name="title_background">@android:color/white</color>
+
+    <color name="bg_grey">#1a000000</color>
+
+    <!-- 常用按钮的颜色 -->
+
+    <color name="btn_bg_oragne_normal">#ff9304</color>
+    <color name="btn_bg_oragne_pressed">#fe5f03</color>
+    <color name="btn_bg_oragne_unclicked">#a8a8a8</color>
+
+    <color name="btn_bg_red_normal">#FF6F5C</color>
+    <color name="btn_bg_red_pressed">#c94141</color>
+    <color name="btn_bg_red_unclicked">#e3e3e3</color>
+
+    <color name="btn_bg_red_normal2">#e3e3e3</color>
+    <color name="btn_bg_red_pressed2">#f5f5f5</color>
+    <color name="btn_bg_red_unclicked2">#e3e3e3</color>
+
+    <!-- 主要文字颜色 -->
+    <color name="text_color_primary">#000000</color>
+    <!--  辅助文字颜色-->
+    <color name="text_color_second">#7b7b7b</color>
+    <!--  辅助文字颜色带30%透明-->
+    <color name="text_color_second_alpha">#4d7b7b7b</color>
+    <!--  提示性文字颜色-->
+    <color name="text_color_indicative">#b1b1b1</color>
+    <!-- 失效 -->
+    <color name="text_color_disable">#4d0d0d0d</color>
+    <!-- 高亮 -->
+    <color name="text_color_highlight">#F61E1E</color>
+    <!-- 输入框文字颜色 -->
+    <color name="edit_text">@color/white</color>
+    <!-- 输入框预设文字颜色 -->
+    <color name="edit_text_hint_color">#4d0d0d0d</color>
+
+    <color name="tv_prominent">#F39501</color>
+    <color name="tv_main_title">#555555</color>
+    <color name="tv_main_info">#868686</color>
+    <color name="tv_subhead">#868686</color>
+    <color name="tv_normal_info">#a0a0a0</color>
+
+    <color name="text_black">#333333</color>
+    <color name="text_blue">#5897F7</color>
+    <color name="text_grey">#999999</color>
+    <color name="text_yellow">#ff501e</color>
+
+    <color name="btn_frame_red">#ff5858</color>
+    <color name="btn_frame_red_pressed">#A12020</color>
+    <color name="btn_frame_blue">#379AF8</color>
+    <color name="btn_frame_blue_pressed">#1E6AB3</color>
+
+    <color name="white">@android:color/white</color>
+    <color name="white70">#b2ffffff</color>
+    <color name="white50">#7fffffff</color>
+
+    <color name="bg_yellow_dialog">#f9ac5f</color>
+    <color name="version_update_color">#4FA2FF</color>
+    <color name="divider_grey">#dddddd</color>
+    <color name="main_tab_white">#fdfdfd</color>
+
+    <!--insert-->
+    <color name="background_color">#ffffff</color>
+
+    <color name="text_select">#ff9e04</color>
+    <color name="text_unselect">#999999</color>
+
+    <color name="et_hint_color">#999999</color>
+    <color name="et_search_color">#88000000</color>
+    <color name="et_search_hint_color">#CCCCCC</color>
+
+    <color name="btn_text_color">#ffffff</color>
+
+    <color name="icon_search_title">#ff9e04</color>
+
+    <color name="icon_search_text">#666666</color>
+
+    <color name="title_update">#666666</color>
+    <color name="text_update">#666666</color>
+    <color name="text_upgrade">#ffffff</color>
+    <color name="btn_update">#3f9eff</color>
 </resources>

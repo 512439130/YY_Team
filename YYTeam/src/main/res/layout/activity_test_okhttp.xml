@@ -17,11 +17,7 @@
             android:layout_height="wrap_content"
             android:onClick="postLogin"
             android:text="Post 请求"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="Asyncposts"
-            android:text="测试注册请求"/>
+
 
     </com.somust.yyteam.activity.okhttptest.FlowLayout>
     <ProgressBar
@@ -40,11 +36,93 @@
 
     </ScrollView>
 
-
-
-    <ImageView
-        android:id="@+id/id_imageview"
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/login_phone_test"
+        android:textSize="22sp"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_phone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <EditText
+            android:id="@+id/edt_phone"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_stroke_yy"
+            android:hint="@string/phone_hint"
+            android:paddingLeft="40dp"
+            android:textColor="#88000000"
+            android:textColorHint="#CCCCCC"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:maxLength="11"
+            android:inputType="number"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignBottom="@id/edt_phone"
+            android:layout_alignLeft="@id/edt_phone"
+            android:layout_alignTop="@id/edt_phone"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/ic_login_phone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_code"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <EditText
+            android:id="@+id/edt_code"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_stroke_yy"
+            android:hint="@string/login_code_hint"
+            android:paddingLeft="40dp"
+            android:textColor="#88000000"
+            android:textColorHint="#CCCCCC"
+            android:layout_marginLeft="10dp"
+            android:maxLength="8"
+            android:inputType="number"
+            />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignBottom="@id/edt_code"
+            android:layout_alignLeft="@id/edt_code"
+            android:layout_alignTop="@id/edt_code"
+            android:layout_marginLeft="13dp"
+            android:src="@mipmap/ic_login_code" />
+        <Button
+            android:id="@+id/btn_code"
+            android:layout_width="135dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+            android:text="@string/login_verification_code"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/edt_code"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btn_submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_verification_button"
+        android:layout_margin="10dp"
+        android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"/>
 
 </LinearLayout>

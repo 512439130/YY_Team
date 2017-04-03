@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources >
     <string name="rc_action_bar_back">返回</string>
     <string name="rc_action_bar_ok">确定</string>
 

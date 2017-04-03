@@ -56,7 +56,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
     private TextView mTv;
-    private ImageView mImageView;
     private ProgressBar mProgressBar;
 
     @Override
@@ -106,7 +105,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         RongUtil = new RongCloudMethodUtil();
 
         mTv = (TextView) findViewById(R.id.id_textview);
-        mImageView = (ImageView) findViewById(R.id.id_imageview);
         mProgressBar = (ProgressBar) findViewById(R.id.id_progress);
         mProgressBar.setMax(100);
     }

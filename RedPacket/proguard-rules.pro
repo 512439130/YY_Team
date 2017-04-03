@@ -82,7 +82,7 @@
 -keep public class com.android.vending.licensing.ILicensingService
 
 
--keep class com.google.gson.* { *;}
+-keep class com.google.gson.** { *;}
 -keep class com.google.gson.stream.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 -keep class com.uuhelper.Application.** { *; }
@@ -96,19 +96,6 @@
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
-# 解决打包换乱，可参考
--keep class com.alipay.sdk.auth{ public *;}
--keep class com.alipay.sdk.app{ public *;}
--keep class com.alipay.sdk.authjs{ public *;}
--keep class com.alipay.sdk.cons{ public *;}
--keep class com.alipay.sdk.data{ public *;}
--keep class com.alipay.sdk.encrypt{ public *;}
--keep class com.alipay.sdk.net{ public *;}
--keep class com.alipay.sdk.packet{ public *;}
--keep class com.alipay.sdk.protocol{ public *;}
--keep class com.alipay.sdk.sys{ public *;}
--keep class com.alipay.sdk.tid{ public *;}
--keep class com.alipay.sdk.util{ public *;}
--keep class com.alipay.sdk.widget{ public *;}
--keep class com.alipay.sdk{ public *;}
+
+
 

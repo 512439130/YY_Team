@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/shape_rect_bg_grey_with_corner_unclicked" android:state_enabled="false"></item>
+    <item android:drawable="@drawable/shape_rect_bg_oragne_with_corner_pressed" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/corners_bg_button" android:state_enabled="true"></item>
+
+</selector>

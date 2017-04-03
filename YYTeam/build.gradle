@@ -1,8 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            storeFile
+            storePassword
+            keyAlias
+            keyPassword
+        }
+    }
     compileSdkVersion 23
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '25.0.0'
     defaultConfig {
         multiDexEnabled true
         applicationId "com.somust.yyteam"
@@ -10,19 +18,75 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
+            debuggable false
+            //启用代码混淆
+            minifyEnabled true
+            //签名相关
+            signingConfig signingConfigs.release
+            //混淆规则配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+        debug {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
 
+        }
+
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 repositories {
     flatDir {
         dirs 'libs'
+    }
+}
+
+//读取配置文件获取签名
+def output_dir = null
+File propFile = file('../yyteam_signing.properties');
+if (propFile.exists()) {
+    def Properties props = new Properties()
+    props.load(new FileInputStream(propFile))
+    if (props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+            props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+        android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+        android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+        android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+        android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        output_dir = props['OUTPUT_DIR']
+    } else {
+        android.buildTypes.release.signingConfig = null
+    }
+} else {
+    android.buildTypes.release.signingConfig = null
+}
+
+//定制打包apk时的命名和存放位置
+android.applicationVariants.all { variant ->
+    if (!variant.buildType.debuggable) {
+        variant.outputs.each { output ->
+            if (output_dir != null) {
+                output.outputFile = new File(output_dir, "yyteam" + "_" + "V_1.0.0" + "_" + "_release_" + ".apk");
+                println "release版本输出APK位置： " + output.outputFile
+            }
+
+        }
+    } else {
+        variant.outputs.each { output ->
+            if (output_dir != null) {
+                output.outputFile = new File(output_dir, "yyteam" + "_" + "V_1.0.0" + "_" + "_debug_" + ".apk");
+                println "debug版本输出APK位置： " + output.outputFile
+            }
+
+        }
     }
 }
 dependencies {

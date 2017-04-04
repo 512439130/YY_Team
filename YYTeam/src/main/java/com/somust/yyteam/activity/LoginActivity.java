@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
+import com.somust.yyteam.activity.basetest.BaseTestActivity;
 import com.somust.yyteam.bean.Friend;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
@@ -48,6 +49,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private ProgressDialog dialog;
 
     private List<Friend> userIdList;
+    //base
+    private TextView tv_repassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         et_phone = (EditText) findViewById(R.id.id_login_phone);
         et_password = (EditText) findViewById(R.id.id_login_password);
 
+        tv_repassword = (TextView) findViewById(R.id.id_t_repassword);
+
 
     }
 
@@ -76,6 +81,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         tv_testLogin.setOnClickListener(this);
         btn_login.setOnClickListener(this);
         btn_exit.setOnClickListener(this);
+
+        tv_repassword.setOnClickListener(this);
     }
 
     @Override
@@ -99,6 +106,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 L.v(TAG, "退出");
                 finish();
                 break;
+            case R.id.id_t_repassword:
+                startActivity(new Intent(LoginActivity.this,BaseTestActivity.class));
             default:
                 break;
         }

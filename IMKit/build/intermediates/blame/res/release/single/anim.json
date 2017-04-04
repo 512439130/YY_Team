@@ -16,12 +16,12 @@
         "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\anim\\abc_slide_out_top.xml"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_in_top.xml",
-        "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\anim\\abc_slide_in_top.xml"
-    },
-    {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\anim\\abc_grow_fade_in_from_bottom.xml",
         "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_in_top.xml",
+        "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\anim\\abc_slide_in_top.xml"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_in_bottom.xml",

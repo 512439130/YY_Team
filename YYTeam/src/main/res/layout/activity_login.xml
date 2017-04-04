@@ -28,20 +28,22 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/id_et_username"
+            android:id="@+id/id_login_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入用户名..."
+            android:hint="请输入手机号..."
 
-            android:textColorHint="#ffffff" />
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"/>
 
         <EditText
-            android:id="@+id/id_et_password"
+            android:id="@+id/id_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="请输入密码..."
-            android:textColorHint="#ffffff" />
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff"/>
     </LinearLayout>
 
     <LinearLayout

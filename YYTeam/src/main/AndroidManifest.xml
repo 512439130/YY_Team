@@ -162,7 +162,7 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="uwd1c0sxugt21" />
 
-        <activity android:name="com.somust.yyteam.activity.okhttptest.TestOkhttpActivity"/>
+        <activity android:name="com.somust.yyteam.activity.okhttptest.TestSmsActivity"/>
     </application>
 
 </manifest>

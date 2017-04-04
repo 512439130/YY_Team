@@ -15,10 +15,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
-import com.somust.yyteam.activity.okhttptest.TestOkhttpActivity;
+import com.somust.yyteam.activity.okhttptest.TestSmsActivity;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.RongCloud.RongCloudMethodUtil;
+import com.somust.yyteam.utils.log.L;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.StringCallback;
 
@@ -64,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             String token_state = bundle.getString("token");
             if (token_state == "token_success") {
                 //开始执行第二个请求
-                System.out.println("开始执行第二个请求");
+                L.v(TAG, "开始执行第二个请求");
                 tv_message.setText(token);
                 try {
                     SendHttpRegister();
@@ -112,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     private void OkhttpTest() {
         //测试界面
-        Intent intent = new Intent(RegisterActivity.this, TestOkhttpActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, TestSmsActivity.class);
         startActivity(intent);
     }
 
@@ -127,18 +128,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 // 解析注册结果
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     //短信验证
-                    System.out.println("短信验证");
+                    L.v(TAG, "短信验证");
                     @SuppressWarnings("unchecked")
                     HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
                     country = (String) phoneMap.get("country");
                     phone = (String) phoneMap.get("phone");
-                    System.out.println("手机号：" + phone);
-                    System.out.println("国家：" + country);
+                    L.v(TAG, "手机号：" + phone);
+                    L.v(TAG, "国家：" + country);
                     tv_phone.setText(phone);
                 } else if (result == SMSSDK.RESULT_ERROR) {  //验证错误
-                    System.out.println("验证错误");
-                    System.out.println("手机号：" + phone);
-                    System.out.println("国家：" + country);
+                    L.v(TAG, "验证错误");
                 }
             }
         });
@@ -162,7 +161,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         //确认密码
         String confirm_pass = et_confirm_password.getText().toString();
 
-        System.out.println(phone + "/" + pass + "/" + confirm_pass);
+        L.v(TAG, phone + "/" + pass + "/" + confirm_pass);
 
         //先验证填写是否为空
         if (phone == null) {
@@ -201,7 +200,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void run() {
                     token = RongUtil.getToken(phone, nickname, urlPath);  //获取token
-                    System.out.println("RegisterActivity+token:" + token);
+                    L.v(TAG, "RegisterActivity+token:" + token);
                     Message msg = handler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putString("token", "token_success");
@@ -250,7 +249,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .content(userJsonString)
                 .build()
                 .execute(new MyStringCallback());
-        System.out.println("json处理后格式：" + userJsonString);
+        L.v(TAG, "json处理后格式：" + userJsonString);
     }
 
     public class MyStringCallback extends StringCallback {
@@ -267,7 +266,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void onError(Call call, Exception e, int id) {
             e.printStackTrace();
-            System.out.println("请求地址：" + ConstantUrl.userUrl + ConstantUrl.userlogin_interface + userJsonString);
+            L.v(TAG, "请求地址：" + ConstantUrl.userUrl + ConstantUrl.userlogin_interface + userJsonString);
             tv_message.setText("onError:" + e.getMessage());
         }
 
@@ -283,7 +282,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
             Log.e(TAG, "onResponse：complete");
             tv_message.setText("onResponse:" + response);
-            System.out.println("注册成功");
+            L.v(TAG, "注册成功");
             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));  //跳转到登录界面
         }
 

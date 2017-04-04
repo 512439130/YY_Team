@@ -38,4 +38,7 @@ public class Friend {
         this.name = name;
         this.portraitUri = portraitUri;
     }
+    public Friend(){
+
+    }
 }

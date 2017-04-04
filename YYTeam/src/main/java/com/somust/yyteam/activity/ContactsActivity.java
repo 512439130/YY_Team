@@ -22,7 +22,7 @@ import io.rong.imlib.RongIMClient;
 
 /**
  * Created by Bob on 15/8/19.
- * 默认展示了几个好友 ID，展示一下 讨论组的功能
+ * 默认展示了几个好友 ID，展示一下 讨论组的功能  (联系人界面)
  */
 public class ContactsActivity extends Activity{
 

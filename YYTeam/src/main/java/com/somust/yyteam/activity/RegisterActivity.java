@@ -1,5 +1,6 @@
 package com.somust.yyteam.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.RongCloud.RongCloudMethodUtil;
 import com.somust.yyteam.utils.log.L;
+import com.somust.yyteam.utils.log.T;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.StringCallback;
 
@@ -54,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private String userJsonString;
 
-
+    private ProgressDialog dialog;
     private TextView tv_message;
     private static final String TAG = "RegisterActivity";
 
@@ -238,17 +240,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @throws IOException
      */
     private void SendHttpRegister() throws IOException {
-        //添加圆形进度条（封装好，随时可以调用）
+        // 方式四 使用静态方式创建并显示，这种进度条只能是圆形条,这里最后一个参数boolean cancelable 设置是否进度条是可以取消的
+        dialog = ProgressDialog.show(this, "提示", "正在登陆中", true, true);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                userJsonString = new Gson().toJson(new User(phone, user.getNickname(), user.getPassword(), token));
+                //发起注册请求
+                OkHttpUtils
+                        .postString()
+                        .url(ConstantUrl.userUrl + ConstantUrl.userlogin_interface)
+                        .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                        .content(userJsonString)
+                        .build()
+                        .execute(new MyStringCallback());
+            }
+        }, 2000);//3秒后执行Runnable中的run方法
 
-        userJsonString = new Gson().toJson(new User(phone, user.getNickname(), user.getPassword(), token));
-        //发起注册请求
-        OkHttpUtils
-                .postString()
-                .url(ConstantUrl.userUrl + ConstantUrl.userlogin_interface)
-                .mediaType(MediaType.parse("application/json; charset=utf-8"))
-                .content(userJsonString)
-                .build()
-                .execute(new MyStringCallback());
         L.v(TAG, "json处理后格式：" + userJsonString);
     }
 
@@ -265,24 +274,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         public void onError(Call call, Exception e, int id) {
+            dialog.cancel();//关闭圆形进度条
             e.printStackTrace();
-            L.v(TAG, "请求地址：" + ConstantUrl.userUrl + ConstantUrl.userlogin_interface + userJsonString);
+            L.v(TAG, "注册失败");
+            T.testShowShort( RegisterActivity.this,"注册失败");
             tv_message.setText("onError:" + e.getMessage());
         }
 
         @Override
         public void onResponse(String response, int id) {
-            switch (id) {
-                case 100:
-                    Toast.makeText(RegisterActivity.this, "http", Toast.LENGTH_SHORT).show();
-                    break;
-                case 101:
-                    Toast.makeText(RegisterActivity.this, "https", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-            Log.e(TAG, "onResponse：complete");
+            dialog.cancel();//关闭圆形进度条
+            Log.v(TAG, "onResponse：complete");
             tv_message.setText("onResponse:" + response);
             L.v(TAG, "注册成功");
+            T.testShowShort( RegisterActivity.this,"注册成功");
             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));  //跳转到登录界面
         }
 

@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="0.5"
         android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -32,9 +32,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入手机号..."
-
-            android:textColorHint="#ffffff"
-            android:textColor="#ffffff"/>
+            android:text="13160677911"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff" />
 
         <EditText
             android:id="@+id/id_login_password"
@@ -42,14 +42,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="请输入密码..."
-            android:textColorHint="#ffffff"
-            android:textColor="#ffffff"/>
+            android:text="123456"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="0.5"
         android:gravity="center"
         android:orientation="horizontal">
 

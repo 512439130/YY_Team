@@ -7,60 +7,59 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
-    private String phone;
-    private String nickname;
-    private String password;
-    private String token;
+    private String userPhone;
+    private String userNickname;
+    private String userPassword;
+    private String userToken;
 
     public User() {
 
     }
-    public User(String phone, String nickname, String password, String token) {
-        this.phone = phone;
-        this.nickname = nickname;
-        this.password = password;
-        this.token = token;
+    public User(String userPhone, String userNickname, String userPassword, String userToken) {
+        this.userPhone = userPhone;
+        this.userNickname = userNickname;
+        this.userPassword = userPassword;
+        this.userToken = userToken;
+    }
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public String getPhone() {
-        return phone;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public String getNickname() {
-        return nickname;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public String getPassword() {
-        return password;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getUserToken() {
+        return userToken;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "phone='" + phone + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", password='" + password + '\'' +
-                ", token='" + token + '\'' +
+                "userPhone='" + userPhone + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userToken='" + userToken + '\'' +
                 '}';
     }
 }

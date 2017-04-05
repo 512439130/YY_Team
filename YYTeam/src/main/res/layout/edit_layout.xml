@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/edit_bg_shape" >
+
+    <EditText
+        android:id="@+id/dropview_edit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:hint="输入或点击选择手机号..."
+        android:inputType="number"
+        android:background="@null" />
+
+    <ImageView
+        android:id="@+id/dropview_image"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:scaleType="fitXY"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:paddingRight="2dp" />
+
+</LinearLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background"
@@ -27,24 +28,26 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <EditText
+
+
+        <com.somust.yyteam.view.DropEditText
             android:id="@+id/id_login_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入手机号..."
-            android:text="13160677911"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
-
+            yy:drawableRight="@drawable/drop"
+            yy:dropMode="flow_parent">
         <EditText
             android:id="@+id/id_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:hint="请输入密码..."
             android:text="123456"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
+
+
+        </com.somust.yyteam.view.DropEditText>
     </LinearLayout>
 
     <LinearLayout

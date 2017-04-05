@@ -16,8 +16,8 @@ android {
         applicationId "com.somust.yyteam"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 10002
+        versionName "1.0.2"
     }
     buildTypes {
         release {
@@ -74,7 +74,7 @@ android.applicationVariants.all { variant ->
     if (!variant.buildType.debuggable) {
         variant.outputs.each { output ->
             if (output_dir != null) {
-                output.outputFile = new File(output_dir, "yyteam" + "_" + "V_1.0.0" + "_" + "_release_" + ".apk");
+                output.outputFile = new File(output_dir, "yyteam" + "_" + "V_" + android.defaultConfig.versionName + "_release" + ".apk");
                 println "release版本输出APK位置： " + output.outputFile
             }
 
@@ -82,7 +82,7 @@ android.applicationVariants.all { variant ->
     } else {
         variant.outputs.each { output ->
             if (output_dir != null) {
-                output.outputFile = new File(output_dir, "yyteam" + "_" + "V_1.0.0" + "_" + "_debug_" + ".apk");
+                output.outputFile = new File(output_dir, "yyteam" + "_" + "V_" + android.defaultConfig.versionName + "_debug" + ".apk");
                 println "debug版本输出APK位置： " + output.outputFile
             }
 
@@ -99,8 +99,6 @@ dependencies {
     compile files('libs/MobTools-2016.1201.1839.jar')
     compile files('libs/gson-2.2.1.jar')
     compile project(path: ':okhttputils')
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
     compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     compile project(path: ':YYBase')
 }

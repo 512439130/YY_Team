@@ -176,12 +176,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(RegisterActivity.this, "密码和确认密码不同", Toast.LENGTH_SHORT).show();
         } else if (phone != null && !nickname.equals("") && !pass.equals("") && !confirm_pass.equals("") && pass.equals(confirm_pass)) {  //如果为空请重新填写
             user = new User();
-            user.setPhone(phone);
-            user.setNickname(nickname);
-            user.setPassword(pass);
+            user.setUserPhone(phone);
+            user.setUserNickname(nickname);
+            user.setUserPassword(pass);
 
             token = obtainUserToken(phone, nickname, ConstantUrl.imageDefaultUrl);  //获取token
-            user.setToken(token);
+            user.setUserToken(token);
         }
 
     }
@@ -246,7 +246,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                userJsonString = new Gson().toJson(new User(phone, user.getNickname(), user.getPassword(), token));
+                userJsonString = new Gson().toJson(new User(phone, user.getUserNickname(), user.getUserPassword(), token));
                 //发起注册请求
                 OkHttpUtils
                         .postString()

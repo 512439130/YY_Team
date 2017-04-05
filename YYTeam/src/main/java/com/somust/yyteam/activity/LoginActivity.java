@@ -1,5 +1,6 @@
 package com.somust.yyteam.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,8 +11,11 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +27,7 @@ import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
+import com.somust.yyteam.view.DropEditText;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.StringCallback;
 
@@ -43,7 +48,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private Button btn_login;
     private Button btn_exit;
     private Intent intent;
-    private EditText et_phone;
+    private DropEditText et_phone;
     private EditText et_password;
 
     private ProgressDialog dialog;
@@ -60,6 +65,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         initView();
         initEvent();
         setUserInfoProvider();
+
+
     }
 
 
@@ -68,10 +75,48 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         tv_testLogin = (TextView) findViewById(R.id.id_tv_testlogin);
         btn_login = (Button) findViewById(R.id.id_bt_login);
         btn_exit = (Button) findViewById(R.id.id_bt_exit);
-        et_phone = (EditText) findViewById(R.id.id_login_phone);
         et_password = (EditText) findViewById(R.id.id_login_password);
 
         tv_repassword = (TextView) findViewById(R.id.id_t_repassword);
+
+        et_phone = (DropEditText) findViewById(R.id.id_login_phone);
+
+        initDropEditTextAdapter();
+    }
+
+    private void initDropEditTextAdapter() {
+
+        et_phone.setAdapter(new BaseAdapter() {
+            private List<String> mList = new ArrayList<String>() {
+                {
+                    add("13160677911");
+                    add("13192259530");
+                    add("13160671613");
+                }
+            };
+
+            @Override
+            public int getCount() {
+                return mList.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return mList.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView tv = new TextView(LoginActivity.this);
+                tv.setText(mList.get(position));
+                return tv;
+            }
+        });
 
 
     }
@@ -107,7 +152,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.id_t_repassword:
-                startActivity(new Intent(LoginActivity.this,BaseTestActivity.class));
+                startActivity(new Intent(LoginActivity.this, BaseTestActivity.class));
             default:
                 break;
         }
@@ -120,7 +165,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(password)) {
             T.testShowShort(LoginActivity.this, "用户名密码不能为空");
-        }else{
+        } else {
             // 方式四 使用静态方式创建并显示，这种进度条只能是圆形条,这里最后一个参数boolean cancelable 设置是否进度条是可以取消的
             dialog = ProgressDialog.show(this, "提示", "正在登陆中", true, true);
             Handler handler = new Handler();
@@ -130,8 +175,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     OkHttpUtils
                             .post()
                             .url(url)
-                            .addParams("phone", phone)
-                            .addParams("password", password)
+                            .addParams("userPhone", phone)
+                            .addParams("userPassword", password)
                             .build()
                             .execute(new MyStringCallback());
                 }
@@ -155,42 +200,31 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         @Override
         public void onError(Call call, Exception e, int id) {
+            dialog.cancel();
             e.printStackTrace();
             L.e(TAG, "onError:" + e.getMessage());
+            T.testShowShort(LoginActivity.this, "登录失败,服务器正在维护中");
         }
 
         @Override
         public void onResponse(String response, int id) {
-            dialog.cancel();
-            //处理字符串中含引号的情况
-            /*String result = response.replace("\"","");
-            L.v(TAG,"处理前："+response);
-            L.v(TAG,"处理后："+result);
-            if(result.equals("login_error")){
-                T.testShowShort(LoginActivity.this,"登录失败");
-            }else{
-                T.testShowShort(LoginActivity.this, "登录成功");
-                L.v(TAG, "onResponse:" + result);
-                String token = result;
 
-            }*/
-
-
-            if(response.equals("")){
-                T.testShowShort(LoginActivity.this,"登录失败");
-            }else{
+            if (response.equals("")) {
+                dialog.cancel();
+                T.testShowShort(LoginActivity.this, "登录失败");
+            } else {
                 Gson gson = new Gson();
-                User user = gson.fromJson(response,User.class);
+                User user = gson.fromJson(response, User.class);
                 System.out.println(user.toString());
                 T.testShowShort(LoginActivity.this, "登录成功");
                 L.v(TAG, "onResponse:" + response);
 
                 Friend friend = new Friend();
-                friend.setUserId(user.getPhone());
-                friend.setName(user.getNickname());
+                friend.setUserId(user.getUserPhone());
+                friend.setName(user.getUserNickname());
                 friend.setPortraitUri(ConstantUrl.imageDefaultUrl);   //设置默认头像
                 userIdList.add(friend);
-                connectRongServer(user.getToken());
+                connectRongServer(user.getUserToken());
 
             }
 
@@ -200,6 +234,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         public void inProgress(float progress, long total, int id) {
             L.v(TAG, "inProgress:" + progress);
         }
+
     }
 
 
@@ -222,6 +257,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     /**
      * 根据RongCloud的Token登录
+     *
      * @param token
      */
     private void connectRongServer(String token) {
@@ -233,8 +269,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void onSuccess(String userId) {
 
                 if (!userId.equals("")) {
+
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     T.testShowShort(LoginActivity.this, "用户Id：" + userId);
+                    dialog.cancel();
                 } else {
                     T.testShowShort(LoginActivity.this, "连接失败，请检查网络：");
                 }

@@ -50,6 +50,7 @@
         </activity>
         <!-- 登录界面 -->
         <activity
+            android:launchMode="singleTop"
             android:name=".activity.LoginActivity"
             android:windowSoftInputMode="adjustPan" />
         <!-- 短信验证界面 -->

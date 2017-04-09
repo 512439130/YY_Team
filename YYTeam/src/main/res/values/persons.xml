@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listpersons">
+        <item> 马云</item>
+        <item> 马化腾</item>
+        <item> 佩兰</item>
+        <item> 奥巴马</item>
+        <item> 普京</item>
+        <item> 金三胖</item>
+        <item> 暗影军团</item>
+        <item> 141特遣队</item>
+        <item> 冲锋号</item>
+        <item> +胜利号</item>
+        <item> 超级赛亚人</item>
+        <item> 金克拉</item>
+        <item> 亚古兽</item>
+        <item> 数码宝贝大冒险</item>
+        <item> 大胜归来</item>
+        <item> 道士下山</item>
+        <item> A利亚克</item>
+        <item> 胜利冲锋龙卷风</item>
+        <item> 走在冷风中</item>
+        <item> 外面的世界</item>
+        <item> 烦恼歌</item>
+        <item> 如果没有你</item>
+        <item> 四季歌</item>
+        <item> 南山南</item>
+        <item> +胜利号</item>
+        <item> 光能使者</item>
+        <item> 铁甲小宝</item>
+        <item> 皮卡丘</item>
+        <item> 奥特曼</item>
+        <item> 开普勒452b</item>
+        <item> 神舟20号</item>
+        <item> 屌炸天的结尾</item>
+    </string-array>
+</resources>

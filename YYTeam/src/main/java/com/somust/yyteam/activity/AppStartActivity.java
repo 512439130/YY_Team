@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.somust.yyteam.R;
 
@@ -19,6 +21,7 @@ public class AppStartActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_appstart);
 
 		mHandler.postDelayed(new Runnable()

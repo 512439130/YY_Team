@@ -12,9 +12,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +60,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     //base
     private TextView tv_repassword;
 
+    private User user;
+
+    private ImageView mImg_Background;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +71,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         userIdList = new ArrayList<Friend>();
         initView();
         initEvent();
-        setUserInfoProvider();
-
+        //setUserInfoProvider();   //两种获取用户信息方式，只需要实现一种就好
+        //动态背景
+        mImg_Background = (ImageView) findViewById(R.id.de_img_backgroud);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.translate_anim);
+                mImg_Background.startAnimation(animation);
+            }
+        }, 200);
 
     }
 
@@ -91,7 +106,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 {
                     add("13160677911");
                     add("13192259530");
-                    add("13160671613");
+                    add("13750060283");
                 }
             };
 
@@ -180,7 +195,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             .build()
                             .execute(new MyStringCallback());
                 }
-            }, 2000);//3秒后执行Runnable中的run方法
+            }, 1200);//3秒后执行Runnable中的run方法
 
 
         }
@@ -214,7 +229,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 T.testShowShort(LoginActivity.this, "登录失败");
             } else {
                 Gson gson = new Gson();
-                User user = gson.fromJson(response, User.class);
+                user = gson.fromJson(response, User.class);
                 System.out.println(user.toString());
                 T.testShowShort(LoginActivity.this, "登录成功");
                 L.v(TAG, "onResponse:" + response);
@@ -222,10 +237,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 Friend friend = new Friend();
                 friend.setUserId(user.getUserPhone());
                 friend.setName(user.getUserNickname());
-                friend.setPortraitUri(ConstantUrl.imageDefaultUrl);   //设置默认头像
+                friend.setPortraitUri(user.getUserImage());   //设置默认头像(修改为获取用户的头像)
                 userIdList.add(friend);
                 connectRongServer(user.getUserToken());
-
+                RongIM.getInstance().refreshUserInfoCache(new UserInfo(friend.getUserId(), friend.getName(), Uri.parse(friend.getPortraitUri())));
             }
 
         }
@@ -238,6 +253,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
 
+    /**
+     * 提供用户信息
+     */
     private void setUserInfoProvider() {
         RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
             @Override
@@ -269,8 +287,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void onSuccess(String userId) {
 
                 if (!userId.equals("")) {
-
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user",user);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     T.testShowShort(LoginActivity.this, "用户Id：" + userId);
                     dialog.cancel();
                 } else {

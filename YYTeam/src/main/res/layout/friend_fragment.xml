@@ -1,37 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#11ffffff"
     android:orientation="vertical">
+
     <SearchView
         android:id="@+id/id_sv_search"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:queryHint="输入昵称搜索">
 
     </SearchView>
 
-
-
-
-    <ListView
-        android:id="@+id/id_lv_friend"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="20"
-        android:background="@android:color/transparent"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@null"
-        android:drawSelectorOnTop="false"
-        android:fadingEdgeLength="0.0sp"
-        android:footerDividersEnabled="false"
-        android:listSelector="@android:color/transparent"
-        android:scrollbars="vertical"
-        android:scrollingCache="false">
-
-    </ListView>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id_sv_search">
 
 
-</LinearLayout>
+        <ListView
+            android:id="@+id/id_lv_friend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:divider="@null">
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/dialog"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@drawable/rc_bg_toast"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="30dp"
+            android:visibility="invisible" />
+
+
+        <com.somust.yyteam.view.SideBar
+            android:id="@+id/sidebar"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#f5f5f5"
+/>
+    </RelativeLayout>
+</RelativeLayout>

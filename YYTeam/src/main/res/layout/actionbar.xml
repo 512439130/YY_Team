@@ -5,7 +5,7 @@
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#000000">
+        android:background="#302e2e">
 
         <RelativeLayout
             android:id="@+id/back"

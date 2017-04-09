@@ -1,38 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--解决listviewitem点击失效方法-->
-<!--android:descendantFocusability="blocksDescendants"-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical"
-    android:descendantFocusability="blocksDescendants">
+    android:orientation="vertical" >
+    <!-- 这个TextView就是显示字母的 -->
+    <TextView
+        android:id="@+id/tv_lv_item_tag"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#e2e2e2"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="16sp"
+        android:text="Z"
+        android:visibility="visible" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_height="wrap_content" >
+        <View
+            android:id="@+id/view_lv_item_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/btn_bg_oragne_normal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            />
 
         <ImageView
-            android:id="@+id/id_iv_icon"
+            android:id="@+id/iv_lv_item_head"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@mipmap/ic_launcher"
-            android:layout_alignParentLeft="true" />
+            android:adjustViewBounds="true"
+            android:layout_margin="8dp"
+            android:layout_below="@id/view_lv_item_line"
+            android:layout_marginLeft="5dp" />
         <TextView
-            android:id="@+id/id_tv_nickname"
+            android:id="@+id/tv_lv_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="23dp"
-            android:textColor="#252525"
-            android:text="test"
-            android:textSize="20sp"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/id_iv_icon" />
+            android:layout_toRightOf="@id/iv_lv_item_head"
+            android:layout_marginLeft="5dip"
+            android:text="周华健"/>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#55000000" />
 </LinearLayout>

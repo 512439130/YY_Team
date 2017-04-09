@@ -7,20 +7,47 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
+    private String userId;
     private String userPhone;
     private String userNickname;
     private String userPassword;
     private String userToken;
+    private String userImage;
+    private String userSex;
 
     public User() {
 
     }
-    public User(String userPhone, String userNickname, String userPassword, String userToken) {
+
+
+
+    public User(String userPhone, String userNickname, String userPassword, String userToken, String userImage, String userSex) {
         this.userPhone = userPhone;
         this.userNickname = userNickname;
         this.userPassword = userPassword;
         this.userToken = userToken;
+        this.userImage = userImage;
+        this.userSex = userSex;
     }
+
+    public User(String userId, String userPhone, String userNickname, String userPassword, String userToken, String userImage, String userSex) {
+        this.userId = userId;
+        this.userPhone = userPhone;
+        this.userNickname = userNickname;
+        this.userPassword = userPassword;
+        this.userToken = userToken;
+        this.userImage = userImage;
+        this.userSex = userSex;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getUserPhone() {
         return userPhone;
     }
@@ -52,6 +79,21 @@ public class User implements Serializable {
     public void setUserToken(String userToken) {
         this.userToken = userToken;
     }
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
 
     @Override
     public String toString() {
@@ -60,6 +102,8 @@ public class User implements Serializable {
                 ", userNickname='" + userNickname + '\'' +
                 ", userPassword='" + userPassword + '\'' +
                 ", userToken='" + userToken + '\'' +
+                ", userImage='" + userImage + '\'' +
+                ", userSex='" + userSex + '\'' +
                 '}';
     }
 }

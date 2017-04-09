@@ -1,5 +1,6 @@
 package com.somust.yyteam.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,18 +10,33 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 
+import com.somust.yyteam.bean.Friend;
+import com.somust.yyteam.bean.TeamFriend;
+import com.somust.yyteam.bean.User;
+import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.fragment.FriendFragment;
 import com.somust.yyteam.fragment.TestFragment;
 import com.somust.yyteam.fragment.TabFragment;
+import com.somust.yyteam.utils.log.L;
+import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.ChangeColorIconWithText;
+import com.yy.http.okhttp.OkHttpUtils;
+import com.yy.http.okhttp.callback.StringCallback;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.UserInfo;
+import okhttp3.Call;
+import okhttp3.Request;
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
@@ -35,15 +51,24 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     private List<Fragment> mFragment = new ArrayList<>();
 
+    private static final String TAG = "HomeActivity:";
+
+    private User user;    //登录用户的信息
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        initView();
 
+        Intent intent = this.getIntent();
+        user=(User)intent.getSerializableExtra("user");
+
+        initView();
 
         //初始化数据
         initDatas();
+
         mViewPager.setAdapter(mFragmentPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
 
@@ -55,10 +80,13 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         ChangeColorIconWithText one = (ChangeColorIconWithText) findViewById(R.id.id_indicator_one);
         mTabIndicators.add(one);
+
         ChangeColorIconWithText two = (ChangeColorIconWithText) findViewById(R.id.id_indicator_two);
         mTabIndicators.add(two);
+
         ChangeColorIconWithText three = (ChangeColorIconWithText) findViewById(R.id.id_indicator_three);
         mTabIndicators.add(three);
+
         ChangeColorIconWithText four = (ChangeColorIconWithText) findViewById(R.id.id_indicator_four);
         mTabIndicators.add(four);
 
@@ -70,9 +98,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void initDatas() {
-        //获取融云会话列表的对象
-        mConversationList = initConversationList();
+
+        mConversationList = initConversationList();  //获取融云会话列表的对象
         mFragment.add(mConversationList);//加入会话列表（第一页）
+
         mFragment.add(FriendFragment.getInstance());//加入第2页,朋友列表
         mFragment.add(TestFragment.getInstance());//加入第3页 测试功能界面
 
@@ -85,14 +114,16 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             tabFragment.setArguments(bundle);
             mFragment.add(tabFragment);
         }
+
+        //初始化Adapter这里使用FragmentPagerAdapter
         mFragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {  //括号里的参数需要FragmentManager
             @Override
-            public int getCount() {
+            public int getCount() {//getCount()返回的是ViewPager页面的数量
                 return mFragment.size();
             }
 
             @Override
-            public Fragment getItem(int position) {
+            public Fragment getItem(int position) {//getItem()返回的是要显示的fragent对象
                 return mFragment.get(position);
             }
 
@@ -109,21 +140,29 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         resetOtherTabs();
 
         switch (v.getId()) {
-            case R.id.id_indicator_one:
+            case R.id.id_indicator_one:  //会话列表
                 mTabIndicators.get(0).setIconAlpha(1.0f);
                 mViewPager.setCurrentItem(0, false);
+                L.v("TAG","点击会话列表");
                 break;
-            case R.id.id_indicator_two:
+            case R.id.id_indicator_two:  //好友列表
                 mTabIndicators.get(1).setIconAlpha(1.0f);
                 mViewPager.setCurrentItem(1, false);
+
+
+
+
+                L.v("TAG","点击好友列表");
                 break;
-            case R.id.id_indicator_three:
+            case R.id.id_indicator_three:  //社团圈列表
                 mTabIndicators.get(2).setIconAlpha(1.0f);
                 mViewPager.setCurrentItem(2, false);
+                L.v("TAG","点击社团圈列表");
                 break;
-            case R.id.id_indicator_four:
+            case R.id.id_indicator_four:  //我的页列表
                 mTabIndicators.get(3).setIconAlpha(1.0f);
                 mViewPager.setCurrentItem(3, false);
+                L.v("TAG","点击我的页列表");
                 break;
         }
     }
@@ -145,10 +184,18 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             left.setIconAlpha(1 - positionOffset);
             right.setIconAlpha(positionOffset);
         }
+
     }
     @Override
     public void onPageSelected(int position) {
+        //发送网络请求
+        L.v(TAG,""+position);
+
+
+
     }
+
+
 
     @Override
     public void onPageScrollStateChanged(int state) {
@@ -173,4 +220,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             return mConversationFragment;
         }
     }
+
+
 }

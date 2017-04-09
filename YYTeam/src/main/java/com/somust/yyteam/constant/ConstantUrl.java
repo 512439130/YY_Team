@@ -12,8 +12,14 @@ public class ConstantUrl {
     //user
     public static String userUrl = "http://118.89.47.137/renren-security/user/";
 
-    //image
-    public static String imageDefaultUrl = "http://118.89.47.137/image/default_portrait2.png";
+    //friend
+    public static String friendUrl = "http://118.89.47.137/renren-security/friend/";
+
+    //default image
+    //man
+    public static String imageDefaultManUrl = "http://118.89.47.137/image/default_man.png";
+    //woman
+    public static String imageDefaultWomanUrl = "http://118.89.47.137/image/default_woman.png";
 
 
 
@@ -23,4 +29,7 @@ public class ConstantUrl {
 
     //interface name
     public static String userlogin_interface = "yy_register?userJsonString=";
+
+    //interface friend
+    public static String friend_interface = "yy_obtain_friend?";
 }

@@ -24,7 +24,7 @@ import com.somust.yyteam.R;
  */
 
 public class ChangeColorIconWithText extends View {
-    private int mColor = 0xFF45C01A;
+    private int mColor = 0xFF6817;
     private Bitmap mIconBitmap;
     private String mText = "微信";
     private int mTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics());
@@ -70,7 +70,7 @@ public class ChangeColorIconWithText extends View {
                     mIconBitmap = drawable.getBitmap();
                     break;
                 case R.styleable.ChangeColorIconWithText_color_yy:
-                    mColor = a.getColor(attr, 0xFF45C01A);
+                    mColor = a.getColor(attr, 0xFF6817);
                     break;
                 case R.styleable.ChangeColorIconWithText_text_yy:
                     mText = a.getString(attr);

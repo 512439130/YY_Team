@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +12,13 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.okhttptest.TestSmsActivity;
 import com.somust.yyteam.bean.User;
@@ -27,6 +31,7 @@ import com.yy.http.okhttp.callback.StringCallback;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -57,7 +62,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private String userJsonString;
 
     private ProgressDialog dialog;
-    private TextView tv_message;
+
+    private RadioGroup radioGroupSex;
+
+    private String DEFAULT_IMAGE;
+
+
     private static final String TAG = "RegisterActivity";
 
     private Handler handler = new Handler() {
@@ -68,7 +78,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             if (token_state == "token_success") {
                 //开始执行第二个请求
                 L.v(TAG, "开始执行第二个请求");
-                tv_message.setText(token);
                 try {
                     SendHttpRegister();
                 } catch (IOException e) {
@@ -99,7 +108,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         et_password = (EditText) findViewById(R.id.id_et_password);
         et_confirm_password = (EditText) findViewById(R.id.id_et_confirm_password);
 
-        tv_message = (TextView) findViewById(R.id.id_tv_message);
+        radioGroupSex = (RadioGroup)this.findViewById(R.id.id_rg_sex);
+
+        user = new User();
     }
 
     private void initEvent() {
@@ -107,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         id_bt_bind.setOnClickListener(this);
         bt_okhttptest.setOnClickListener(this);
         bt_register.setOnClickListener(this);
-
+        radioGroupSex.setOnCheckedChangeListener(new MyOnCheckedChangeListener());
     }
 
     /**
@@ -175,13 +186,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         } else if (!pass.equals(confirm_pass)) {  //密码和确认密码不同
             Toast.makeText(RegisterActivity.this, "密码和确认密码不同", Toast.LENGTH_SHORT).show();
         } else if (phone != null && !nickname.equals("") && !pass.equals("") && !confirm_pass.equals("") && pass.equals(confirm_pass)) {  //如果为空请重新填写
-            user = new User();
+
             user.setUserPhone(phone);
             user.setUserNickname(nickname);
             user.setUserPassword(pass);
-
-            token = obtainUserToken(phone, nickname, ConstantUrl.imageDefaultUrl);  //获取token
             user.setUserToken(token);
+            user.setUserImage(DEFAULT_IMAGE);
+            token = obtainUserToken(user.getUserPhone(), user.getUserNickname(), user.getUserImage());  //获取token
         }
 
     }
@@ -241,12 +252,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     private void SendHttpRegister() throws IOException {
         // 方式四 使用静态方式创建并显示，这种进度条只能是圆形条,这里最后一个参数boolean cancelable 设置是否进度条是可以取消的
-        dialog = ProgressDialog.show(this, "提示", "正在登陆中", true, true);
+        dialog = ProgressDialog.show(this, "提示", "正在注册中", true, true);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                userJsonString = new Gson().toJson(new User(phone, user.getUserNickname(), user.getUserPassword(), token));
+                userJsonString = new Gson().toJson(new User(phone, user.getUserNickname(), user.getUserPassword(), token,user.getUserImage(),user.getUserSex()));
+
                 //发起注册请求
                 OkHttpUtils
                         .postString()
@@ -256,7 +268,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .build()
                         .execute(new MyStringCallback());
             }
-        }, 2000);//3秒后执行Runnable中的run方法
+        }, 1200);//3秒后执行Runnable中的run方法
 
         L.v(TAG, "json处理后格式：" + userJsonString);
     }
@@ -278,14 +290,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             e.printStackTrace();
             L.v(TAG, "注册失败");
             T.testShowShort( RegisterActivity.this,"注册失败");
-            tv_message.setText("onError:" + e.getMessage());
+            L.v(e.getMessage());
         }
 
         @Override
         public void onResponse(String response, int id) {
             dialog.cancel();//关闭圆形进度条
             Log.v(TAG, "onResponse：complete");
-            tv_message.setText("onResponse:" + response);
+            L.v(response);
             L.v(TAG, "注册成功");
             T.testShowShort( RegisterActivity.this,"注册成功");
             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));  //跳转到登录界面
@@ -294,6 +306,37 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void inProgress(float progress, long total, int id) {
             Log.e(TAG, "inProgress:" + progress);
+        }
+    }
+
+    /**
+     * 性别选择器监听
+     */
+    private class MyOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+            // TODO Auto-generated method stub
+            //获取变更后的选中项的ID
+            int radioButtonId = group.getCheckedRadioButtonId();
+            //根据ID获取RadioButton的实例
+            RadioButton rb = (RadioButton)RegisterActivity.this.findViewById(radioButtonId);
+            String sex = rb.getText().toString();
+            L.v(rb.getText().toString());
+            if(sex != null){
+                L.e("sex不为空,sex:"+sex);
+                user.setUserSex(sex);
+            }else {
+                L.e("sex为空,sex:"+sex);
+            }
+
+
+            //通过判断男女选择器来判断使用默认头像
+            if(sex.equals("男")){
+                DEFAULT_IMAGE = ConstantUrl.imageDefaultManUrl;
+            }else{
+                DEFAULT_IMAGE = ConstantUrl.imageDefaultWomanUrl;
+            }
+
         }
     }
 }

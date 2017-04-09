@@ -1,69 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:yy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/actionbarbase"></include>
+
+    <include layout="@layout/actionbarbase" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/id_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    </android.support.v4.view.ViewPager>
-    <LinearLayout
-        android:background="@drawable/tab_bg"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/id_bottom"
+        android:layout_below="@+id/id_top">
 
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/id_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tab_bg"
         android:orientation="horizontal">
 
-        <com.somust.yyteam.view.ChangeColorIconWithText
-            android:id="@+id/id_indicator_one"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
-            android:paddingLeft="5dp"
-            yy:icon_yy="@mipmap/ic_menu_start_conversation"
-            yy:text_yy="@string/app_name"
-            yy:text_size_yy="12sp"
-            yy:color_yy="#ff45c01a"
 
-            />
-        <com.somust.yyteam.view.ChangeColorIconWithText
-            android:id="@+id/id_indicator_two"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
-            android:paddingLeft="5dp"
-            yy:icon_yy="@mipmap/ic_menu_friendslist"
-            yy:text_yy="@string/tab_contact"
-            yy:text_size_yy="12sp"
-            yy:color_yy="#ff45c01a"
-            />
-        <com.somust.yyteam.view.ChangeColorIconWithText
-            android:id="@+id/id_indicator_three"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
-            android:paddingLeft="5dp"
-            yy:icon_yy="@mipmap/ic_menu_emoticons"
-            yy:text_yy="@string/tab_found"
-            yy:text_size_yy="12sp"
-            yy:color_yy="#ff45c01a"
-            />
-        <com.somust.yyteam.view.ChangeColorIconWithText
-            android:id="@+id/id_indicator_four"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
-            android:paddingLeft="5dp"
-            yy:icon_yy="@mipmap/ic_menu_allfriends"
-            yy:text_yy="@string/tab_me"
-            yy:text_size_yy="12sp"
-            yy:color_yy="#ff45c01a"
-            />
+        <LinearLayout
 
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="-4dp"
+            android:background="#ffffff"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical">
+
+            <com.somust.yyteam.view.ChangeColorIconWithText
+                android:id="@+id/id_indicator_one"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                yy:color_yy="#FF6817"
+                yy:icon_yy="@mipmap/ic_menu_start_conversation"
+                yy:text_size_yy="12sp"
+                yy:text_yy="@string/app_name" />
+
+
+
+            <com.somust.yyteam.view.ChangeColorIconWithText
+                android:id="@+id/id_indicator_two"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                yy:color_yy="#FF6817"
+                yy:icon_yy="@mipmap/ic_menu_friendslist"
+                yy:text_size_yy="12sp"
+                yy:text_yy="@string/tab_contact" />
+
+
+
+            <com.somust.yyteam.view.ChangeColorIconWithText
+                android:id="@+id/id_indicator_three"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                yy:color_yy="#FF6817"
+                yy:icon_yy="@mipmap/ic_menu_emoticons"
+                yy:text_size_yy="12sp"
+                yy:text_yy="@string/tab_found" />
+
+
+
+            <com.somust.yyteam.view.ChangeColorIconWithText
+                android:id="@+id/id_indicator_four"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                yy:color_yy="#FF6817"
+                yy:icon_yy="@mipmap/ic_menu_mine"
+                yy:text_size_yy="12sp"
+                yy:text_yy="@string/tab_me" />
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

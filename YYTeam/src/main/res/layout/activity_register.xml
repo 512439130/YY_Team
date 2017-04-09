@@ -59,24 +59,26 @@
                 android:layout_weight="2"
                 android:text="手机验证" />
         </LinearLayout>
+
         <EditText
             android:id="@+id/id_et_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="昵称..."
+            android:text="yy"
             android:textColor="#ffffff"
-            android:textColorHint="#ffffff"
-            android:text="yy"/>
+            android:textColorHint="#ffffff" />
+
         <EditText
             android:id="@+id/id_et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="密码..."
+            android:text="123"
             android:textColor="#ffffff"
-            android:textColorHint="#ffffff"
-            android:text="123"/>
+            android:textColorHint="#ffffff" />
 
         <EditText
             android:id="@+id/id_et_confirm_password"
@@ -84,24 +86,32 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="确认密码..."
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff"
-            android:text="123"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="注册补充..."
+            android:text="123"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
-        <TextView
-            android:id="@+id/id_tv_message"
+        <RadioGroup
+            android:id="@+id/id_rg_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:hint="测试结果..."/>
+            android:orientation="horizontal"
+            android:contentDescription="性别">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="男"
+                android:textColor="#ffffff"/>
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="女"
+                android:textColor="#ffffff"/>
+        </RadioGroup>
 
     </LinearLayout>
 
@@ -117,6 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="okhttp测试" />
+
         <Button
             android:id="@+id/id_bt_register"
             android:layout_width="wrap_content"

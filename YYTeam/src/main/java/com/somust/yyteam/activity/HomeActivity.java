@@ -105,6 +105,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mFragment.add(FriendFragment.getInstance());//加入第2页,朋友列表
         mFragment.add(TestFragment.getInstance());//加入第3页 测试功能界面
 
+
         for (String title : mTitles) {
             TabFragment tabFragment = new TabFragment();
 
@@ -188,7 +189,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
     @Override
     public void onPageSelected(int position) {
-        //发送网络请求
+        //选择到某个fragment时
         L.v(TAG,""+position);
 
 

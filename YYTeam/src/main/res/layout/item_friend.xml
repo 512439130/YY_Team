@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/tv_lv_item_tag"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="26dp"
         android:background="#e2e2e2"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
@@ -19,12 +19,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
         <View
-            android:id="@+id/view_lv_item_line"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/btn_bg_oragne_normal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
+            android:layout_height="0.1dp"
+            android:background="#ffffff"
+
             />
 
         <ImageView
@@ -34,7 +32,7 @@
             android:src="@mipmap/ic_launcher"
             android:adjustViewBounds="true"
             android:layout_margin="8dp"
-            android:layout_below="@id/view_lv_item_line"
+
             android:layout_marginLeft="5dp" />
         <TextView
             android:id="@+id/tv_lv_item_name"
@@ -44,6 +42,16 @@
             android:layout_toRightOf="@id/iv_lv_item_head"
             android:layout_marginLeft="5dip"
             android:text="周华健"/>
+
+
     </RelativeLayout>
+    <View
+        android:id="@+id/id_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#cccccc"
+        android:layout_above="@id/tv_lv_item_name"
+
+        />
 
 </LinearLayout>

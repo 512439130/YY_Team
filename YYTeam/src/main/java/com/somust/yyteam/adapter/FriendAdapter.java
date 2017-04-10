@@ -1,10 +1,12 @@
 package com.somust.yyteam.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
@@ -55,6 +57,8 @@ public class FriendAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_friend, null);
             viewholder.tv_tag = (TextView) convertView.findViewById(R.id.tv_lv_item_tag);
             viewholder.tv_name = (TextView) convertView.findViewById(R.id.tv_lv_item_name);
+            //viewholder.iv_portrait = (ImageView) convertView.findViewById(R.id.iv_lv_item_head);
+
             convertView.setTag(viewholder);
         } else {
             viewholder = (ViewHolder) convertView.getTag();
@@ -71,6 +75,7 @@ public class FriendAdapter extends BaseAdapter {
 
         }
         viewholder.tv_name.setText(person.getName());
+        //viewholder.iv_portrait.setImageURI(Uri.parse(person.getImageUrl()));
         return convertView;
     }
 
@@ -83,12 +88,12 @@ public class FriendAdapter extends BaseAdapter {
             }
         }
         return -1;
-
     }
 
     class ViewHolder {
         TextView tv_tag;
         TextView tv_name;
+       // ImageView iv_portrait;
     }
 
 }

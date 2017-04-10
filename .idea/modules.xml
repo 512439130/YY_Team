@@ -3,10 +3,16 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IMKit/IMKit.iml" filepath="$PROJECT_DIR$/IMKit/IMKit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IMKit/IMKit.iml" filepath="$PROJECT_DIR$/IMKit/IMKit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RedPacket/RedPacket.iml" filepath="$PROJECT_DIR$/RedPacket/RedPacket.iml" />
       <module fileurl="file://$PROJECT_DIR$/RedPacket/RedPacket.iml" filepath="$PROJECT_DIR$/RedPacket/RedPacket.iml" />
       <module fileurl="file://$PROJECT_DIR$/YYBase/YYBase.iml" filepath="$PROJECT_DIR$/YYBase/YYBase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YYBase/YYBase.iml" filepath="$PROJECT_DIR$/YYBase/YYBase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YYTeam/YYTeam.iml" filepath="$PROJECT_DIR$/YYTeam/YYTeam.iml" />
       <module fileurl="file://$PROJECT_DIR$/YYTeam/YYTeam.iml" filepath="$PROJECT_DIR$/YYTeam/YYTeam.iml" />
       <module fileurl="file://$PROJECT_DIR$/YY_Team.iml" filepath="$PROJECT_DIR$/YY_Team.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YY_Team.iml" filepath="$PROJECT_DIR$/YY_Team.iml" />
+      <module fileurl="file://$PROJECT_DIR$/okhttputils/okhttputils.iml" filepath="$PROJECT_DIR$/okhttputils/okhttputils.iml" />
       <module fileurl="file://$PROJECT_DIR$/okhttputils/okhttputils.iml" filepath="$PROJECT_DIR$/okhttputils/okhttputils.iml" />
     </modules>
   </component>

@@ -5,6 +5,7 @@ public class PersonBean {
 	private String Name;
 	private String PinYin;
 	private String FirstPinYin;
+	private String ImageUrl;
 
 	public String getName() {
 		return Name;
@@ -30,10 +31,21 @@ public class PersonBean {
 		FirstPinYin = firstPinYin;
 	}
 
-	public String toString() {
-		return "姓名：" + getName() + "   拼音：" + getPinYin() + "    首字母："
-				+ getFirstPinYin();
-
+	public String getImageUrl() {
+		return ImageUrl;
 	}
 
+	public void setImageUrl(String imageUrl) {
+		ImageUrl = imageUrl;
+	}
+
+	@Override
+	public String toString() {
+		return "PersonBean{" +
+				"Name='" + Name + '\'' +
+				", PinYin='" + PinYin + '\'' +
+				", FirstPinYin='" + FirstPinYin + '\'' +
+				", ImageUrl='" + ImageUrl + '\'' +
+				'}';
+	}
 }

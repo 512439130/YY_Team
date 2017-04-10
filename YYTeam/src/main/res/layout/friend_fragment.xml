@@ -5,14 +5,7 @@
     android:background="#11ffffff"
     android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/id_sv_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:queryHint="输入昵称搜索">
 
-    </SearchView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,6 +41,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="#f5f5f5"
-/>
+            />
     </RelativeLayout>
 </RelativeLayout>

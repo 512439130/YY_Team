@@ -1,11 +1,16 @@
 package com.somust.yyteam.bean;
 
+import android.graphics.Bitmap;
+
+/**
+ * 用户显示好友列表Item的bean
+ */
 public class PersonBean {
 
 	private String Name;
 	private String PinYin;
 	private String FirstPinYin;
-	private String ImageUrl;
+	private Bitmap Image;
 
 	public String getName() {
 		return Name;
@@ -31,12 +36,12 @@ public class PersonBean {
 		FirstPinYin = firstPinYin;
 	}
 
-	public String getImageUrl() {
-		return ImageUrl;
+	public Bitmap getImage() {
+		return Image;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		ImageUrl = imageUrl;
+	public void setImage(Bitmap image) {
+		Image = image;
 	}
 
 	@Override
@@ -45,7 +50,7 @@ public class PersonBean {
 				"Name='" + Name + '\'' +
 				", PinYin='" + PinYin + '\'' +
 				", FirstPinYin='" + FirstPinYin + '\'' +
-				", ImageUrl='" + ImageUrl + '\'' +
+				", Image=" + Image +
 				'}';
 	}
 }

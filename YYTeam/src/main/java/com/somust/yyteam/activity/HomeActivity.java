@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.view.ViewGroup.LayoutParams;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +23,8 @@ import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.fragment.FriendFragment;
 import com.somust.yyteam.fragment.TestFragment;
 import com.somust.yyteam.fragment.TabFragment;
+import com.somust.yyteam.popwindow.ActionItem;
+import com.somust.yyteam.popwindow.TitlePopup;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.ChangeColorIconWithText;
@@ -55,6 +59,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     private User user;    //登录用户的信息
 
+    private ImageView iv_add;
+    private ImageView iv_search;
+
+    private TitlePopup titlePopup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +71,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_home);
 
         Intent intent = this.getIntent();
-        user=(User)intent.getSerializableExtra("user");
+        user = (User) intent.getSerializableExtra("user");
 
         initView();
 
@@ -72,7 +81,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mViewPager.setAdapter(mFragmentPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
 
-
+        inint();  //初始化titlebar中的popwindow
     }
 
     private void initView() {
@@ -95,6 +104,30 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         three.setOnClickListener(this);
         four.setOnClickListener(this);
         one.setIconAlpha(1.0f);
+
+        iv_add = (ImageView) findViewById(R.id.id_add);
+        iv_search = (ImageView) findViewById(R.id.id_search);
+        iv_add.setOnClickListener(new MyTitleBarOncliclListener());
+        iv_search.setOnClickListener(new MyTitleBarOncliclListener());
+    }
+
+    /**
+     * 实例化标题栏弹窗
+     */
+    private void inint() {
+        // 实例化标题栏弹窗
+        titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
+        titlePopup.setItemOnClickListener(new MyOnItemOnClickListener());
+        // 给标题栏弹窗添加子类
+        titlePopup.addAction(new ActionItem(this, R.string.groupchat,
+                R.mipmap.icon_menu_group));
+        titlePopup.addAction(new ActionItem(this, R.string.addfriend,
+                R.mipmap.icon_menu_addfriend));
+        titlePopup.addAction(new ActionItem(this, R.string.qrcode,
+                R.mipmap.icon_menu_sao));
+        titlePopup.addAction(new ActionItem(this, R.string.money,
+                R.mipmap.abv));
     }
 
     private void initDatas() {
@@ -144,26 +177,24 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             case R.id.id_indicator_one:  //会话列表
                 mTabIndicators.get(0).setIconAlpha(1.0f);
                 mViewPager.setCurrentItem(0, false);
-                L.v("TAG","点击会话列表");
+                L.v("TAG", "点击会话列表");
                 break;
             case R.id.id_indicator_two:  //好友列表
                 mTabIndicators.get(1).setIconAlpha(1.0f);
                 mViewPager.setCurrentItem(1, false);
 
 
-
-
-                L.v("TAG","点击好友列表");
+                L.v("TAG", "点击好友列表");
                 break;
             case R.id.id_indicator_three:  //社团圈列表
                 mTabIndicators.get(2).setIconAlpha(1.0f);
                 mViewPager.setCurrentItem(2, false);
-                L.v("TAG","点击社团圈列表");
+                L.v("TAG", "点击社团圈列表");
                 break;
             case R.id.id_indicator_four:  //我的页列表
                 mTabIndicators.get(3).setIconAlpha(1.0f);
                 mViewPager.setCurrentItem(3, false);
-                L.v("TAG","点击我的页列表");
+                L.v("TAG", "点击我的页列表");
                 break;
         }
     }
@@ -187,15 +218,14 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
 
     }
+
     @Override
     public void onPageSelected(int position) {
         //选择到某个fragment时
-        L.v(TAG,""+position);
-
+        L.v(TAG, "" + position);
 
 
     }
-
 
 
     @Override
@@ -223,4 +253,49 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
 
+    /**
+     * titlebar的监听事件
+     */
+    private class MyTitleBarOncliclListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.id_add:  //打开popwindow
+                    titlePopup.show(findViewById(R.id.id_add));
+                    break;
+                case R.id.id_search: //打开查询页面
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * popwindow中item的点击事件监听
+     */
+    private class MyOnItemOnClickListener implements TitlePopup.OnItemOnClickListener {
+        @Override
+        public void onItemClick(ActionItem item, int position) {
+            // mLoadingDialog.show();
+            switch (position) {
+                case 0:// 发起群聊
+                    T.testShowShort(HomeActivity.this, "发起群聊");
+                    break;
+                case 1:// 添加朋友
+                    T.testShowShort(HomeActivity.this, "添加朋友");
+                    break;
+                case 2:// 扫一扫
+                    T.testShowShort(HomeActivity.this, "扫一扫");
+                    break;
+                case 3:// 收钱
+                    T.testShowShort(HomeActivity.this, "收钱");
+                    break;
+                default:
+                    break;
+
+            }
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.somust.yyteam.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.SideBar;
 import com.yy.http.okhttp.OkHttpUtils;
+import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
 
@@ -73,6 +75,7 @@ public class FriendFragment extends Fragment {
 
     private User user;    //登录用户信息
     private List<TeamFriend> friendlist;   //登录用户的好友信息
+    private Bitmap portraitBitmap;
 
 
     @Nullable
@@ -104,6 +107,9 @@ public class FriendFragment extends Fragment {
 
     }
 
+    /**
+     * 回调
+     */
     public class MyStringCallback extends StringCallback {
         @Override
         public void onBefore(Request request, int id) {
@@ -155,6 +161,40 @@ public class FriendFragment extends Fragment {
         }
 
     }
+
+    /**
+     * 获取网络图片请求，并将网络图片显示到imageview中去
+     */
+    public void obtainImage()
+    {
+        String url = "http://images.csdn.net/20150817/1.jpg";
+        OkHttpUtils
+                .get()
+                .url(url)
+                .tag(this)
+                .build()
+                .connTimeOut(20000)
+                .readTimeOut(20000)
+                .writeTimeOut(20000)
+                .execute(new BitmapCallback()
+                {
+                    @Override
+                    public void onError(Call call, Exception e, int id)
+                    {
+                       L.e("onError:" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Bitmap bitmap, int id)
+                    {
+                        L.v("TAG", "onResponse：complete");
+                        portraitBitmap = bitmap;
+                    }
+                });
+    }
+
+
+
 
     private void initView() {
         HeadPortrait = (ImageView) mView.findViewById(R.id.img1);

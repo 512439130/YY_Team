@@ -75,7 +75,7 @@ public class FriendAdapter extends BaseAdapter {
 
         }
         viewholder.tv_name.setText(person.getName());
-        //viewholder.iv_portrait.setImageURI(Uri.parse(person.getImageUrl()));
+        //viewholder.iv_portrait.setImageBitmap(Uri.parse(person.getImage()));
         return convertView;
     }
 

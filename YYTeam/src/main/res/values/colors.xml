@@ -32,6 +32,9 @@
     <color name="btn_bg_red_pressed2">#f5f5f5</color>
     <color name="btn_bg_red_unclicked2">#e3e3e3</color>
 
+    <color name="btn_image_grey_normal">#e3e3e3</color>
+    <color name="btn_image_grey_pressed">#f5f5f5</color>
+
     <!-- 主要文字颜色 -->
     <color name="text_color_primary">#000000</color>
     <!--  辅助文字颜色-->

@@ -12,20 +12,20 @@
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\bg_search_input.9.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\_bg_from_hongbao.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\_bg_from_hongbao.png"
-    },
-    {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\_btn_red.9.png",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\_btn_red.9.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\_ic_card.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\_ic_card.png"
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\_bg_from_hongbao.png",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\_bg_from_hongbao.png"
     },
     {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\_spinner_16_inner_holo.png",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\_spinner_16_inner_holo.png"
+    },
+    {
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\_ic_card.png",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\_ic_card.png"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\_ic_close.png",

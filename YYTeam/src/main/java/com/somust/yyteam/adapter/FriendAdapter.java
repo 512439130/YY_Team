@@ -7,12 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
+import com.somust.yyteam.activity.HomeActivity;
 import com.somust.yyteam.bean.PersonBean;
+import com.somust.yyteam.utils.log.L;
 
 import java.util.List;
+
+import io.rong.imkit.RongIM;
 
 /**
  * Created by 13160677911 on 2017-4-9.
@@ -22,11 +27,14 @@ public class FriendAdapter extends BaseAdapter {
     private Context context;
     private List<PersonBean> persons;
     private LayoutInflater inflater;
+    private static final String TAG = "FriendAdapter:";
 
     public FriendAdapter(Context context, List<PersonBean> persons) {
         this.context = context;
         this.persons = persons;
         this.inflater = LayoutInflater.from(context);
+
+
 
     }
 
@@ -51,13 +59,13 @@ public class FriendAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewholder = null;
-        PersonBean person = persons.get(position);
+        final PersonBean person = persons.get(position);
         if (convertView == null) {
             viewholder = new ViewHolder();
             convertView = inflater.inflate(R.layout.item_friend, null);
             viewholder.tv_tag = (TextView) convertView.findViewById(R.id.tv_lv_item_tag);
             viewholder.tv_name = (TextView) convertView.findViewById(R.id.tv_lv_item_name);
-            //viewholder.iv_portrait = (ImageView) convertView.findViewById(R.id.iv_lv_item_head);
+            viewholder.iv_portrait = (ImageView) convertView.findViewById(R.id.iv_lv_item_head);
 
             convertView.setTag(viewholder);
         } else {
@@ -75,7 +83,7 @@ public class FriendAdapter extends BaseAdapter {
 
         }
         viewholder.tv_name.setText(person.getName());
-        //viewholder.iv_portrait.setImageBitmap(Uri.parse(person.getImage()));
+        viewholder.iv_portrait.setImageBitmap(person.getImage());
         return convertView;
     }
 
@@ -93,7 +101,8 @@ public class FriendAdapter extends BaseAdapter {
     class ViewHolder {
         TextView tv_tag;
         TextView tv_name;
-       // ImageView iv_portrait;
+        ImageView iv_portrait;
     }
+
 
 }

@@ -3,7 +3,7 @@ package com.somust.yyteam.bean;
 public class TeamFriend {
         private Integer friendId;
         private String userId;
-        private String friendPhone;
+        private User friendPhone;
         private String friendRemark;
        
         
@@ -29,15 +29,13 @@ public class TeamFriend {
         }
 
 
-        public String getFriendPhone() {
+        public User getFriendPhone() {
                 return friendPhone;
         }
 
-
-        public void setFriendPhone(String friendPhone) {
+        public void setFriendPhone(User friendPhone) {
                 this.friendPhone = friendPhone;
         }
-
 
         public String getFriendRemark() {
                 return friendRemark;
@@ -53,9 +51,8 @@ public class TeamFriend {
                 
         }
 
-        public TeamFriend(Integer friendId, String userId, String friendPhone,
-                        String friendRemark) {
-                super();
+
+        public TeamFriend(Integer friendId, String userId, User friendPhone, String friendRemark) {
                 this.friendId = friendId;
                 this.userId = userId;
                 this.friendPhone = friendPhone;
@@ -64,13 +61,11 @@ public class TeamFriend {
 
         @Override
         public String toString() {
-                return "TeamFriend [friendId=" + friendId + ", userId="
-                                + userId + ", friendPhone=" + friendPhone
-                                + ", friendRemark=" + friendRemark + "]";
+                return "TeamFriend{" +
+                        "friendId=" + friendId +
+                        ", userId='" + userId + '\'' +
+                        ", friendPhone=" + friendPhone +
+                        ", friendRemark='" + friendRemark + '\'' +
+                        '}';
         }
-       
-        
-        
-        
-
 }

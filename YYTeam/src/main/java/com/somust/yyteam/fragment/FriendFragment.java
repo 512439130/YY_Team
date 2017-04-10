@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -66,7 +67,7 @@ public class FriendFragment extends Fragment {
 
 
     //SideBar相关
-    private List<PersonBean> data;
+    private List<PersonBean> personBeenList;
     private SideBar sidebar;
     private TextView dialogTextView;
     private FriendAdapter friendAdapter;
@@ -75,7 +76,7 @@ public class FriendFragment extends Fragment {
 
     private User user;    //登录用户信息
     private List<TeamFriend> friendlist;   //登录用户的好友信息
-    private Bitmap portraitBitmap;
+    private Bitmap[] portraitBitmaps;
 
 
     @Nullable
@@ -86,7 +87,6 @@ public class FriendFragment extends Fragment {
         user = (User) intent.getSerializableExtra("user");
         //发送网络请求，获取好友列表
         obtainFriendList(user.getUserPhone());
-
 
 
         return mView;
@@ -146,10 +146,11 @@ public class FriendFragment extends Fragment {
                 for (int i = 0; i < friendlist.size(); i++) {
                     L.v(TAG, "第1个好友信息" + friendlist.get(i));
                 }
+                portraitBitmaps = new Bitmap[friendlist.size()];
+                for (int i = 0; i < friendlist.size(); i++) {
+                    obtainImage(friendlist.get(i).getFriendPhone().getUserImage(), i);
+                }
 
-                //网络请求成功后
-                initView();
-                initEvent();
 
             }
 
@@ -163,11 +164,12 @@ public class FriendFragment extends Fragment {
     }
 
     /**
-     * 获取网络图片请求，并将网络图片显示到imageview中去
+     * 获取网络图片请求，并将网络图片显示到imageview中去(如果是多次请求，需要一个bitmap数组)
+     *
+     * @param url 每次请求的Url
+     * @param i   需要保存在bitmaps的对应位置
      */
-    public void obtainImage()
-    {
-        String url = "http://images.csdn.net/20150817/1.jpg";
+    public void obtainImage(String url, final int i) {
         OkHttpUtils
                 .get()
                 .url(url)
@@ -176,24 +178,22 @@ public class FriendFragment extends Fragment {
                 .connTimeOut(20000)
                 .readTimeOut(20000)
                 .writeTimeOut(20000)
-                .execute(new BitmapCallback()
-                {
+                .execute(new BitmapCallback() {
                     @Override
-                    public void onError(Call call, Exception e, int id)
-                    {
-                       L.e("onError:" + e.getMessage());
+                    public void onError(Call call, Exception e, int id) {
+                        L.e("onError:" + e.getMessage());
                     }
 
                     @Override
-                    public void onResponse(Bitmap bitmap, int id)
-                    {
+                    public void onResponse(Bitmap bitmap, int id) {
                         L.v("TAG", "onResponse：complete");
-                        portraitBitmap = bitmap;
+                        portraitBitmaps[i] = bitmap;
+                        //网络请求成功后
+                        initView();
+                        initEvent();
                     }
                 });
     }
-
-
 
 
     private void initView() {
@@ -204,7 +204,7 @@ public class FriendFragment extends Fragment {
         //insert
         initSidebar();
 
-        friendAdapter = new FriendAdapter(getActivity(), data);
+        friendAdapter = new FriendAdapter(getActivity(), personBeenList);
 
         friendListView.setAdapter(friendAdapter);
 
@@ -214,10 +214,17 @@ public class FriendFragment extends Fragment {
         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "你点击了第" + (position + 1) + "个好友", Toast.LENGTH_SHORT).show();
-                L.v(TAG,friendlist.get(position).getFriendPhone());
 
-                //打开个人信息界面（根据position）
+                //由于字幕排序引起item不对应list(不能使用排序前的friendlist，必须使用排序后的personBeanList)
+                String userId = personBeenList.get(position).getPhone();
+                String userNickname = personBeenList.get(position).getName();
+                L.e(TAG, userId);
+                L.e(TAG, userNickname);
+                //打开个人信息界面（个人信息界面包含发送消息）
+
+                //打开单聊界面（根据position）
+                RongIM.getInstance().startPrivateChat(getActivity(), userId, userNickname);
+
             }
         });
     }
@@ -246,19 +253,18 @@ public class FriendFragment extends Fragment {
         /*String[] itemDatas = getResources().getStringArray(R.array.listpersons);
         data = getData(itemDatas);  //模拟数据  getData是将String转化为List*/
 
-        String[] name = new String[friendlist.size()];
+        String[] names = new String[friendlist.size()];
+        String[] phones = new String[friendlist.size()];
         for (int i = 0; i < friendlist.size(); i++) {
-            name[i] = friendlist.get(i).getFriendRemark();
+            names[i] = friendlist.get(i).getFriendPhone().getUserNickname();
+            phones[i] = friendlist.get(i).getFriendPhone().getUserPhone();
         }
-       /* String[] image = new String [friendlist.size()];
-        for (int i = 0; i < friendlist.size(); i++) {
-            image[i] = friendlist.get(i).getImageUrl;
-        }*/
 
-        data = getData(name);  //真实数据
-        // data = getData(name,image);  //真实数据
+
+        personBeenList = getData(names, phones);  //真实数据
+
         // 数据在放在adapter之前需要排序
-        Collections.sort(data, new PinyinComparator());
+        Collections.sort(personBeenList, new PinyinComparator());
 
 
     }
@@ -272,15 +278,17 @@ public class FriendFragment extends Fragment {
      *
      * @return
      */
-    private List<PersonBean> getData(String[] name) {
+    private List<PersonBean> getData(String[] names, String[] phones) {
         List<PersonBean> listarray = new ArrayList<PersonBean>();
-        for (int i = 0; i < name.length; i++) {
-            String pinyin = PinyinUtils.getPingYin(name[i]);
+        for (int i = 0; i < names.length; i++) {
+            String pinyin = PinyinUtils.getPingYin(names[i]);
             String Fpinyin = pinyin.substring(0, 1).toUpperCase();
 
             PersonBean person = new PersonBean();
-            person.setName(name[i]);
+            person.setName(names[i]);
+            person.setImage(portraitBitmaps[i]);
             person.setPinYin(pinyin);
+            person.setPhone(phones[i]);
             // 正则表达式，判断首字母是否是英文字母
             if (Fpinyin.matches("[A-Z]")) {
                 person.setFirstPinYin(Fpinyin);

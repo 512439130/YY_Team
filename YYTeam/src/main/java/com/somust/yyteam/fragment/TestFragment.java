@@ -53,8 +53,8 @@ public class TestFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        initView(inflater);
+        mView = inflater.inflate(R.layout.text_fragment, null);
+        initView();
 
         mButton_Friend.setOnClickListener(new View.OnClickListener() {  //私聊
             @Override
@@ -78,6 +78,8 @@ public class TestFragment extends Fragment {
                 refreshUserInfo(userId, nickname, urlPath);
             }
         });
+
+        //创建讨论组
         mButton_Contacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,10 +102,10 @@ public class TestFragment extends Fragment {
     /**
      * 初始化数据
      *
-     * @param inflater
+     *
      */
-    private void initView(LayoutInflater inflater) {
-        mView = inflater.inflate(R.layout.text_fragment, null);
+    private void initView() {
+
         mButton_Friend = (Button) mView.findViewById(R.id.friend);
         mButton_Replace = (Button) mView.findViewById(R.id.id_bt_replace);
         mButton_Contacts = (Button) mView.findViewById(R.id.id_bt_opencontacts);

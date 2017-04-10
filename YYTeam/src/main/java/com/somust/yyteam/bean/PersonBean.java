@@ -11,6 +11,7 @@ public class PersonBean {
 	private String PinYin;
 	private String FirstPinYin;
 	private Bitmap Image;
+	private String Phone;
 
 	public String getName() {
 		return Name;
@@ -44,6 +45,14 @@ public class PersonBean {
 		Image = image;
 	}
 
+	public String getPhone() {
+		return Phone;
+	}
+
+	public void setPhone(String phone) {
+		Phone = phone;
+	}
+
 	@Override
 	public String toString() {
 		return "PersonBean{" +
@@ -51,6 +60,7 @@ public class PersonBean {
 				", PinYin='" + PinYin + '\'' +
 				", FirstPinYin='" + FirstPinYin + '\'' +
 				", Image=" + Image +
+				", Phone='" + Phone + '\'' +
 				'}';
 	}
 }

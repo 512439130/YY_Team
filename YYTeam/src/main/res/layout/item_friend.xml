@@ -16,6 +16,7 @@
         android:visibility="visible" />
 
     <RelativeLayout
+        android:id="@+id/id_friend_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
         <View

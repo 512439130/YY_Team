@@ -50,8 +50,8 @@
         </activity>
         <!-- 登录界面 -->
         <activity
-            android:launchMode="singleTop"
             android:name=".activity.LoginActivity"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan" />
         <!-- 短信验证界面 -->
         <activity
@@ -67,7 +67,9 @@
         <activity
             android:name=".activity.MainActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.HomeActivity" />
+        <activity
+            android:name=".activity.HomeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <!-- 会话界面 -->
         <activity
             android:name=".activity.ConversationActivity"
@@ -163,9 +165,9 @@
 
         <activity android:name=".activity.okhttptest.TestSmsActivity" />
         <!--base-->
-        <activity android:name=".activity.basetest.BaseTestActivity"/>
         <activity android:name="com.somust.yy.base.LoginActivity" />
-        <activity android:name="com.somust.yy.base.TabLayoutActivity"/>
+        <activity android:name="com.somust.yy.base.TabLayoutActivity" />
+        <activity android:name=".activity.InformationActivity"/>
     </application>
 
 </manifest>

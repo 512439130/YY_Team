@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 
+import com.somust.yyteam.activity.InformationActivity;
 import com.somust.yyteam.adapter.FriendAdapter;
 import com.somust.yyteam.bean.PersonBean;
 import com.somust.yyteam.bean.TeamFriend;
@@ -222,8 +223,9 @@ public class FriendFragment extends Fragment {
                 L.e(TAG, userNickname);
                 //打开个人信息界面（个人信息界面包含发送消息）
 
+                startActivity(new Intent(getActivity(), InformationActivity.class));
                 //打开单聊界面（根据position）
-                RongIM.getInstance().startPrivateChat(getActivity(), userId, userNickname);
+                //RongIM.getInstance().startPrivateChat(getActivity(), userId, userNickname);
 
             }
         });

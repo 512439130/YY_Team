@@ -8,12 +8,12 @@
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable-xhdpi\\u1f46a.png"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\u1f393.png",
-        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable-xhdpi\\u1f393.png"
-    },
-    {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\rc_cs_admin.png",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable-xhdpi\\rc_cs_admin.png"
+    },
+    {
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\u1f393.png",
+        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable-xhdpi\\u1f393.png"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\rc_ic_def_msg_portrait.png",

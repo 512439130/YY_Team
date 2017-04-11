@@ -1,5 +1,6 @@
 package com.somust.yyteam.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
@@ -40,7 +41,7 @@ import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.Request;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends Activity implements View.OnClickListener {
     private Button id_bt_bind;
     private Button bt_register;
     private Button bt_okhttptest;
@@ -92,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         initView();
         initEvent();
     }

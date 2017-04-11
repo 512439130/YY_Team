@@ -60,12 +60,12 @@
         "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ac_btn_file_download_open_button.xml"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
-        "source": "C:\\Users\\MMZB-YY\\.android\\build-cache\\e7809e8f2feae0a43a6159eab162ca45ebe6f9ac\\output\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
-    },
-    {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_cs_list_divider_style.xml",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_cs_list_divider_style.xml"
+    },
+    {
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
+        "source": "C:\\Users\\MMZB-YY\\.android\\build-cache\\e7809e8f2feae0a43a6159eab162ca45ebe6f9ac\\output\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_cs_admin_selector.xml",

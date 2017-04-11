@@ -40,12 +40,12 @@
         "source": "C:\\Users\\MMZB-YY\\.android\\build-cache\\e7809e8f2feae0a43a6159eab162ca45ebe6f9ac\\output\\res\\drawable\\abc_btn_borderless_material.xml"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\abc_ratingbar_full_material.xml",
-        "source": "C:\\Users\\MMZB-YY\\.android\\build-cache\\e7809e8f2feae0a43a6159eab162ca45ebe6f9ac\\output\\res\\drawable\\abc_ratingbar_full_material.xml"
-    },
-    {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\rc_cs_admin_selector.xml",
         "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable\\rc_cs_admin_selector.xml"
+    },
+    {
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\abc_ratingbar_full_material.xml",
+        "source": "C:\\Users\\MMZB-YY\\.android\\build-cache\\e7809e8f2feae0a43a6159eab162ca45ebe6f9ac\\output\\res\\drawable\\abc_ratingbar_full_material.xml"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\abc_dialog_material_background_light.xml",

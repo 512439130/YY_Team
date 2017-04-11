@@ -1,12 +1,10 @@
 package com.somust.yyteam.activity;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CancellationSignal;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,13 +16,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
-import com.somust.yyteam.activity.basetest.BaseTestActivity;
 import com.somust.yyteam.bean.Friend;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
@@ -71,7 +66,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         userIdList = new ArrayList<Friend>();
         initView();
         initEvent();
-        //setUserInfoProvider();   //两种获取用户信息方式，只需要实现一种就好
+
         //动态背景
         mImg_Background = (ImageView) findViewById(R.id.de_img_backgroud);
         new Handler().postDelayed(new Runnable() {
@@ -167,7 +162,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.id_t_repassword:
-                startActivity(new Intent(LoginActivity.this, BaseTestActivity.class));
+
             default:
                 break;
         }
@@ -240,7 +235,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 friend.setPortraitUri(user.getUserImage());   //设置默认头像(修改为获取用户的头像)
                 userIdList.add(friend);
                 connectRongServer(user.getUserToken());
-                RongIM.getInstance().refreshUserInfoCache(new UserInfo(friend.getUserId(), friend.getName(), Uri.parse(friend.getPortraitUri())));
+
+                setUserInfoProvider();   //两种获取用户信息方式，只需要实现一种就好
             }
 
         }
@@ -260,10 +256,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
             @Override
             public UserInfo getUserInfo(String s) {
-                for (Friend i : userIdList) {
-                    if (i.getUserId().equals(s)) {
-                        Log.e(TAG, i.getPortraitUri());
-                        return new UserInfo(i.getUserId(), i.getName(), Uri.parse(i.getPortraitUri()));
+                for (Friend friend : userIdList) {
+                    if (friend.getUserId().equals(s)) {
+                        Log.e(TAG, friend.getPortraitUri());
+                        return new UserInfo(friend.getUserId(), friend.getName(), Uri.parse(friend.getPortraitUri()));
                     }
                 }
                 Log.e("MainActivity", "UserId is : " + s);

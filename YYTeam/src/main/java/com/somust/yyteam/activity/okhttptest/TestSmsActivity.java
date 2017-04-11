@@ -40,6 +40,7 @@ public class TestSmsActivity extends Activity {
     private EditText edt_phone;
     private EditText edt_code;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

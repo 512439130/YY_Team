@@ -60,8 +60,8 @@ public class ContactsActivity extends Activity{
     private void initView() {
         mListView = (ListView) findViewById(R.id.list);
         mTitle = (TextView) findViewById(R.id.txt1);
-        mBack = (RelativeLayout) findViewById(R.id.back);
-        mSet = (TextView) findViewById(R.id.img3);
+        mBack = (RelativeLayout) findViewById(R.id.id_rl_title_bar);
+        mSet = (TextView) findViewById(R.id.id_title_creategroup);
         mSet.setText("创建讨论组");
 
         mAdapter = new ContactsAdapter(ContactsActivity.this, contacts);
@@ -117,12 +117,12 @@ public class ContactsActivity extends Activity{
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.img3:  //创建聊天组
+                case R.id.id_title_creategroup:  //创建聊天组
                     String contactsName = "群聊test";
                     finish();
                     createContacts(contactsName);
                     break;
-                case R.id.back:  //返回键
+                case R.id.id_rl_title_bar:  //返回键
                     finish();
                     break;
                 default:

@@ -14,6 +14,7 @@ import android.view.ViewGroup.LayoutParams;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 
 import com.somust.yyteam.bean.Friend;
@@ -263,8 +264,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     titlePopup.show(findViewById(R.id.id_add));
                     break;
                 case R.id.id_search: //打开查询页面
-
                     break;
+
                 default:
                     break;
             }
@@ -280,21 +281,44 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             // mLoadingDialog.show();
             switch (position) {
                 case 0:// 发起群聊
-                    T.testShowShort(HomeActivity.this, "发起群聊");
+                    T.testShowShort(HomeActivity.this, "创建讨论组");
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user",user);
+                    intent.putExtras(bundle);
+                    intent.setClass(HomeActivity.this,GroupChatActivity.class);
+                    startActivity(intent);
                     break;
                 case 1:// 添加朋友
-                    T.testShowShort(HomeActivity.this, "添加朋友");
+                    T.testShowShort(HomeActivity.this, "添加好友");
                     break;
                 case 2:// 扫一扫
                     T.testShowShort(HomeActivity.this, "扫一扫");
+
                     break;
                 case 3:// 收钱
-                    T.testShowShort(HomeActivity.this, "收钱");
+                    T.testShowShort(HomeActivity.this, "我的钱包");
+                    //打开红包界面
+                    JrmfClient.intentWallet(HomeActivity.this);
                     break;
                 default:
                     break;
 
             }
         }
+    }
+
+
+    /**
+     * 刷新用户缓存数据
+     * 测试更换头像http://img.woyaogexing.com/2016/10/04/5da81cd8b7bc3f79!200x200.jpg
+     *
+     * @param userid   需要更换的用户Id
+     * @param nickname 用户昵称
+     * @param urlPath  头像图片地址
+     *                 userInfo 需要更新的用户缓存数据。
+     */
+    public void refreshUserInfo(String userid, String nickname, String urlPath) {
+        RongIM.getInstance().refreshUserInfoCache(new UserInfo(userid, nickname, Uri.parse(urlPath)));
     }
 }

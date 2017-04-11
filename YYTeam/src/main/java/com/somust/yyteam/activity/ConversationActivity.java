@@ -101,8 +101,8 @@ public class ConversationActivity extends FragmentActivity {
 
 
     private void initView() {
-        mTitle = (TextView) findViewById(R.id.name);
-        mBack = (RelativeLayout) findViewById(R.id.back);
+        mTitle = (TextView) findViewById(R.id.id_title_name);
+        mBack = (RelativeLayout) findViewById(R.id.id_rl_title_bar);
 
     }
     private void getIntentDate(Intent intent) {

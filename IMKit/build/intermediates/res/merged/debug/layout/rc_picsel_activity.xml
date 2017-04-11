@@ -12,7 +12,7 @@
         android:background="@color/rc_picsel_toolbar">
 
         <ImageButton
-            android:id="@+id/back"
+            android:id="@+id/id_rl_title_bar"
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="1dp"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/back"
+            android:layout_toRightOf="@id/id_rl_title_bar"
             android:gravity="center_vertical"
             android:text="@string/rc_picsel_toolbar"
             android:textColor="@android:color/white"

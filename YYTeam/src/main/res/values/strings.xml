@@ -25,8 +25,8 @@
 
 
     <!--title_bar_popwindow-->
-    <string name="groupchat">发起群聊</string>
-    <string name="addfriend">添加朋友</string>
+    <string name="groupchat">创建讨论组</string>
+    <string name="addfriend">添加好友</string>
     <string name="qrcode">扫一扫</string>
-    <string name="money">微信支付</string>
+    <string name="money">我的钱包</string>
 </resources>

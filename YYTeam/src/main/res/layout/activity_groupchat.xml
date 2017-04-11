@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/actionbar" />
+
+    <SearchView
+        android:id="@+id/id_sv_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="输入昵称搜索"
+        android:layout_below="@id/title_bar"
+        >
+
+    </SearchView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id_sv_search">
+
+
+        <ListView
+            android:id="@+id/id_lv_friend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:divider="@null">
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/dialog"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@drawable/rc_bg_toast"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="30dp"
+            android:visibility="invisible" />
+
+
+        <com.somust.yyteam.view.SideBar
+            android:id="@+id/sidebar"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#f5f5f5"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

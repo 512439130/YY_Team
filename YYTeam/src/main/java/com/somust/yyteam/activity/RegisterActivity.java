@@ -3,11 +3,13 @@ package com.somust.yyteam.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +35,8 @@ import com.yy.http.okhttp.callback.StringCallback;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -42,13 +46,9 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
-    private Button id_bt_bind;
     private Button bt_register;
-    private Button bt_okhttptest;
 
-    private TextView tv_phone;
-    private String phone;
-    private String country;
+
 
     //添加
     private EditText et_nickname;
@@ -69,11 +69,29 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private String DEFAULT_IMAGE;
 
 
+    private Button mBtnCode;
+    private EditText edt_phone;
+    private EditText edt_code;
+    private int mTime;
+    private Timer mTimer;
+
     private static final String TAG = "RegisterActivity";
 
-    private Handler handler = new Handler() {
+    private Handler mCountDownHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
+            //发送短信计时器
+            if (mTime > 0) {
+                mBtnCode.setEnabled(false);
+                mBtnCode.setText(getString(R.string.count_down, mTime));
+            } else {
+                mTimer.cancel();
+                mBtnCode.setEnabled(true);
+                mBtnCode.setText(R.string.login_verification_code);
+            }
+
+
             Bundle bundle = msg.getData();
             String token_state = bundle.getString("token");
             if (token_state == "token_success") {
@@ -86,7 +104,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
-    };
+    };;
+
+
+
+
 
 
     @Override
@@ -96,15 +118,14 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
         initView();
         initEvent();
+        initSms();
     }
 
 
     private void initView() {
-        id_bt_bind = (Button) findViewById(R.id.id_bt_bind);
+
 
         bt_register = (Button) findViewById(R.id.id_bt_register);
-        bt_okhttptest = (Button) findViewById(R.id.id_bt_okhttptest);
-        tv_phone = (TextView) findViewById(R.id.id_et_phone);
 
         et_nickname = (EditText) findViewById(R.id.id_et_nickname);
         et_password = (EditText) findViewById(R.id.id_et_password);
@@ -112,52 +133,34 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
         radioGroupSex = (RadioGroup)this.findViewById(R.id.id_rg_sex);
 
+        mBtnCode = (Button) findViewById(R.id.btn_code);
+        edt_phone = (EditText) findViewById(R.id.edt_phone);
+        edt_code = (EditText) findViewById(R.id.edt_code);
+
+
+
         user = new User();
     }
 
     private void initEvent() {
 
-        id_bt_bind.setOnClickListener(this);
-        bt_okhttptest.setOnClickListener(this);
+
         bt_register.setOnClickListener(this);
         radioGroupSex.setOnCheckedChangeListener(new MyOnCheckedChangeListener());
-    }
 
-    /**
-     * okhttp接口测试
-     */
-    private void OkhttpTest() {
-        //测试界面
-        Intent intent = new Intent(RegisterActivity.this, TestSmsActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * 绑定手机号
-     */
-    private void BindPhone() {
-        //打开注册页面
-        RegisterPage registerPage = new RegisterPage();
-        registerPage.setRegisterCallback(new EventHandler() {
-            public void afterEvent(int event, int result, Object data) {
-                // 解析注册结果
-                if (result == SMSSDK.RESULT_COMPLETE) {
-                    //短信验证
-                    L.v(TAG, "短信验证");
-                    @SuppressWarnings("unchecked")
-                    HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
-                    country = (String) phoneMap.get("country");
-                    phone = (String) phoneMap.get("phone");
-                    L.v(TAG, "手机号：" + phone);
-                    L.v(TAG, "国家：" + country);
-                    tv_phone.setText(phone);
-                } else if (result == SMSSDK.RESULT_ERROR) {  //验证错误
-                    L.v(TAG, "验证错误");
-                }
+        mBtnCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendSMS();
+                edt_phone.setFocusable(false);
+                edt_phone.setTextColor(Color.RED);
             }
         });
-        registerPage.show(RegisterActivity.this);
     }
+
+
+
+
 
 
     /**
@@ -165,7 +168,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
      *
      * @return
      */
-    public void obtainUserRegisterInfo() {
+    public void obtainUserRegisterInfo(String phone) {
 
         //获取用户输入的值
         //昵称
@@ -175,19 +178,21 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
         //确认密码
         String confirm_pass = et_confirm_password.getText().toString();
-
+        String code = edt_code.getText().toString().trim();
         L.v(TAG, phone + "/" + pass + "/" + confirm_pass);
 
         //先验证填写是否为空
-        if (phone == null) {
+        if (TextUtils.isEmpty(phone)){
             Toast.makeText(RegisterActivity.this, "需要先进行手机验证", Toast.LENGTH_SHORT).show();
-        } else if (nickname.equals("")) {
+        } else if (TextUtils.isEmpty(code)) {
+            T.testShowShort(RegisterActivity.this, "请输入验证码");
+        } else if (TextUtils.isEmpty(nickname)) {
             Toast.makeText(RegisterActivity.this, "昵称不能为空", Toast.LENGTH_SHORT).show();
-        } else if (pass.equals("") || confirm_pass.equals("") || (pass.equals("") && confirm_pass.equals(""))) {  //密码和确认密码不同
+        } else if (TextUtils.isEmpty(pass) || TextUtils.isEmpty(confirm_pass) || (TextUtils.isEmpty(pass) && TextUtils.isEmpty(confirm_pass))) {  //密码和确认密码不同
             Toast.makeText(RegisterActivity.this, "密码和确认密码不能为空", Toast.LENGTH_SHORT).show();
         } else if (!pass.equals(confirm_pass)) {  //密码和确认密码不同
             Toast.makeText(RegisterActivity.this, "密码和确认密码不同", Toast.LENGTH_SHORT).show();
-        } else if (phone != null && !nickname.equals("") && !pass.equals("") && !confirm_pass.equals("") && pass.equals(confirm_pass)) {  //如果为空请重新填写
+        } else if (!phone.equals("") && !nickname.equals("") && !pass.equals("") && !confirm_pass.equals("") && pass.equals(confirm_pass)) {  //如果为空请重新填写
 
             user.setUserPhone(phone);
             user.setUserNickname(nickname);
@@ -197,6 +202,85 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             token = obtainUserToken(user.getUserPhone(), user.getUserNickname(), user.getUserImage());  //获取token
         }
 
+    }
+
+
+    private void initSms() {
+
+        //注册短信回调
+        //EventHandler 在这个handler中可以查看到短信验证的结果
+        SMSSDK.initSDK(this, "1998b3d482ecc", "ce951c6979aa06187bed08d9b8b167f2");
+        SMSSDK.registerEventHandler(new EventHandler() {
+            @Override
+            public void afterEvent(int event, int result, Object data) {
+
+
+                switch (event) {
+
+                    case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
+                        if (result == SMSSDK.RESULT_COMPLETE) {
+                            HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
+                            String country = (String) phoneMap.get("country");
+                            String phone = (String) phoneMap.get("phone");
+                            L.v(TAG, "手机号验证成功");
+                            L.v(TAG, "手机号：" + phone);
+                            L.v(TAG, "国家：" + country);
+                            obtainUserRegisterInfo(phone);
+                        } else {
+                            L.v(TAG, "手机号验证失败，验证码输入有误");
+                            T.testShowShort(RegisterActivity.this, "手机号验证失败，验证码输入有误");
+                        }
+                        break;
+                    case SMSSDK.EVENT_GET_VERIFICATION_CODE:
+                        if (result == SMSSDK.RESULT_COMPLETE) {
+                            boolean smart = (Boolean) data;
+                            if (smart) {
+                                //通过智能验证
+                                L.v(TAG, "获取验证成功,通过智能验证");
+                            } else {
+                                //依然走短信验证
+                                L.v(TAG, "获取验证成功,依然走短信验证");
+                            }
+                        } else {
+                            L.v(TAG, "获取验证失败，请输入正确的手机号");
+                            T.testShowShort(RegisterActivity.this, "获取验证失败，请输入正确的手机号");
+                        }
+                        break;
+                }
+            }
+        });
+    }
+
+
+
+
+    private void sendSMS() {
+        String phone = edt_phone.getText().toString().trim();
+        if (TextUtils.isEmpty(phone)) {
+            T.testShowShort(RegisterActivity.this, "请输入手机号");
+        } else if (phone.length() != 11) {
+            T.testShowShort(RegisterActivity.this, "请输入11位手机号");
+        } else {
+            // count down
+            mTimer = new Timer();
+            mTime = 60;
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    mTime--;
+                    Message msg = mCountDownHandler.obtainMessage();
+                    mCountDownHandler.sendMessage(msg);
+                }
+            };
+            mTimer.schedule(task, 100, 1000);
+
+
+            doSendSMS(phone);
+        }
+    }
+
+    private void doSendSMS(String phone) {
+        SMSSDK.getVerificationCode("86", phone);//发送短信验证码到手机号  86表示的是中国
     }
 
 
@@ -216,11 +300,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 public void run() {
                     token = RongUtil.getToken(phone, nickname, urlPath);  //获取token
                     L.v(TAG, "RegisterActivity+token:" + token);
-                    Message msg = handler.obtainMessage();
+                    Message msg = mCountDownHandler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putString("token", "token_success");
                     msg.setData(bundle);
-                    handler.sendMessage(msg);
+                    mCountDownHandler.sendMessage(msg);
                 }
             };
             thread.start();
@@ -231,16 +315,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.id_bt_bind:  //手机绑定
-                BindPhone();
-                break;
-            case R.id.id_bt_okhttptest:
-                OkhttpTest();
-                break;
+
             case R.id.id_bt_register:
-                obtainUserRegisterInfo();
 
-
+                String phone = edt_phone.getText().toString().trim();
+                String code = edt_code.getText().toString().trim();
+                SMSSDK.submitVerificationCode("86", phone, code);//提交验证码  在eventHandler里面查看验证结果
                 break;
             default:
                 break;
@@ -255,6 +335,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private void SendHttpRegister() throws IOException {
         // 方式四 使用静态方式创建并显示，这种进度条只能是圆形条,这里最后一个参数boolean cancelable 设置是否进度条是可以取消的
         dialog = ProgressDialog.show(this, "提示", "正在注册中", true, true);
+        final String phone = edt_phone.getText().toString().trim();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

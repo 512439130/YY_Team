@@ -933,7 +933,6 @@ int id action_mode_close_button 0x7f0d0061
 int id activity_chooser_view_content 0x7f0d0062
 int id alertTitle 0x7f0d006e
 int id always 0x7f0d0055
-int id back 0x7f0d0127
 int id beginning 0x7f0d0052
 int id buttonPanel 0x7f0d0069
 int id camera_mask 0x7f0d0139
@@ -965,6 +964,8 @@ int id gridlist 0x7f0d012d
 int id home 0x7f0d0004
 int id homeAsUp 0x7f0d0044
 int id icon 0x7f0d0067
+int id id_rl_title_bar 0x7f0d0127
+int id id_title_name 0x7f0d00f8
 int id ifRoom 0x7f0d0057
 int id image 0x7f0d0064
 int id image_layout 0x7f0d0135
@@ -986,7 +987,6 @@ int id media_actions 0x7f0d0091
 int id memberItem 0x7f0d0120
 int id middle 0x7f0d0054
 int id multiply 0x7f0d004d
-int id name 0x7f0d00f8
 int id never 0x7f0d0058
 int id none 0x7f0d0045
 int id normal 0x7f0d0041

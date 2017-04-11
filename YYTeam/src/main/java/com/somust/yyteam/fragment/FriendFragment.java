@@ -1,10 +1,8 @@
 package com.somust.yyteam.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.rong.imkit.RongIM;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -198,8 +194,8 @@ public class FriendFragment extends Fragment {
 
 
     private void initView() {
-        HeadPortrait = (ImageView) mView.findViewById(R.id.img1);
-        name = (TextView) mView.findViewById(R.id.name);
+        HeadPortrait = (ImageView) mView.findViewById(R.id.id_title_back);
+        name = (TextView) mView.findViewById(R.id.id_title_name);
         friendListView = (ListView) mView.findViewById(R.id.id_lv_friend);
 
         //insert
@@ -222,8 +218,11 @@ public class FriendFragment extends Fragment {
                 L.e(TAG, userId);
                 L.e(TAG, userNickname);
                 //打开个人信息界面（个人信息界面包含发送消息）
+                Intent intent = new Intent(getActivity(), InformationActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("userNickname", userNickname);
+                startActivity(intent);
 
-                startActivity(new Intent(getActivity(), InformationActivity.class));
                 //打开单聊界面（根据position）
                 //RongIM.getInstance().startPrivateChat(getActivity(), userId, userNickname);
 
@@ -252,8 +251,7 @@ public class FriendFragment extends Fragment {
                 }
             }
         });
-        /*String[] itemDatas = getResources().getStringArray(R.array.listpersons);
-        data = getData(itemDatas);  //模拟数据  getData是将String转化为List*/
+
 
         String[] names = new String[friendlist.size()];
         String[] phones = new String[friendlist.size()];
@@ -303,4 +301,7 @@ public class FriendFragment extends Fragment {
         return listarray;
 
     }
+
+
+
 }

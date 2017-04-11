@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_ic_phone_selector.xml",
-        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable\\rc_ic_phone_selector.xml"
-    },
-    {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_bg_sidebar.xml",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable\\rc_bg_sidebar.xml"
+    },
+    {
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_ic_phone_selector.xml",
+        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable\\rc_ic_phone_selector.xml"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
@@ -16,16 +16,16 @@
         "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable\\rc_btn_public_service_enter_selector.xml"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_light.xml",
-        "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\drawable\\abc_dialog_material_background_light.xml"
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_ext_plugin_image_selector.xml",
+        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable\\rc_ext_plugin_image_selector.xml"
     },
     {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_menu_background_selector.xml",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable\\rc_menu_background_selector.xml"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\rc_ext_plugin_image_selector.xml",
-        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\src\\main\\res\\drawable\\rc_ext_plugin_image_selector.xml"
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_light.xml",
+        "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\drawable\\abc_dialog_material_background_light.xml"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_dark.xml",

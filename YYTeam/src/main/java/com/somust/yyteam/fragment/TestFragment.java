@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.ContactsActivity;
 
@@ -32,7 +33,7 @@ public class TestFragment extends Fragment {
     private View mView;
     private Button mButton_Friend;
     private Button mButton_Replace;
-    private Button mButton_Contacts;
+
     private Button mButton_RedPackage;
 
     private EditText et_nickname;
@@ -79,19 +80,13 @@ public class TestFragment extends Fragment {
             }
         });
 
-        //创建讨论组
-        mButton_Contacts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ContactsActivity.class));
-            }
-        });
+
 
         mButton_RedPackage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //打开红包界面
-                //JrmfClient.intentWallet(ContactsActivity);
+                JrmfClient.intentWallet(getActivity());
             }
         });
 
@@ -108,7 +103,6 @@ public class TestFragment extends Fragment {
 
         mButton_Friend = (Button) mView.findViewById(R.id.friend);
         mButton_Replace = (Button) mView.findViewById(R.id.id_bt_replace);
-        mButton_Contacts = (Button) mView.findViewById(R.id.id_bt_opencontacts);
         et_nickname = (EditText) mView.findViewById(R.id.id_et_nickname);
         mButton_RedPackage = (Button) mView.findViewById(R.id.id_bt_redpackage);
     }

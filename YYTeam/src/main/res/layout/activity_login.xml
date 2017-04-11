@@ -103,15 +103,7 @@
             android:textSize="18sp"
             android:textColor="#ffffff" />
 
-        <TextView
-            android:id="@+id/id_tv_testlogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="测试登录"
-            android:textSize="18sp"
-            android:textColor="#ffffff" />
+
 
 
         <TextView

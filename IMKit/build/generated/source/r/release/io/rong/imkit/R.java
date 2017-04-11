@@ -2149,7 +2149,6 @@ containing a value of this type.
         public static int activity_chooser_view_content=0x7f0d0062;
         public static int alertTitle=0x7f0d006e;
         public static int always=0x7f0d0055;
-        public static int back=0x7f0d0127;
         public static int beginning=0x7f0d0052;
         public static int buttonPanel=0x7f0d0069;
         public static int camera_mask=0x7f0d0139;
@@ -2181,6 +2180,8 @@ containing a value of this type.
         public static int home=0x7f0d0004;
         public static int homeAsUp=0x7f0d0044;
         public static int icon=0x7f0d0067;
+        public static int id_rl_title_bar=0x7f0d0127;
+        public static int id_title_name=0x7f0d00f8;
         public static int ifRoom=0x7f0d0057;
         public static int image=0x7f0d0064;
         public static int image_layout=0x7f0d0135;
@@ -2202,7 +2203,6 @@ containing a value of this type.
         public static int memberItem=0x7f0d0120;
         public static int middle=0x7f0d0054;
         public static int multiply=0x7f0d004d;
-        public static int name=0x7f0d00f8;
         public static int never=0x7f0d0058;
         public static int none=0x7f0d0045;
         public static int normal=0x7f0d0041;

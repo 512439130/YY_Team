@@ -99,7 +99,8 @@ dependencies {
     compile files('libs/MobTools-2016.1201.1839.jar')
     compile files('libs/gson-2.2.1.jar')
     compile project(path: ':okhttputils')
-    compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     compile project(path: ':YYBase')
     compile files('libs/pinyin4j-2.5.0.jar')
+    compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
 }

@@ -28,16 +28,6 @@
         android:layout_height="wrap_content"
         android:text="更换用户头像" />
 
-
-
-
-
-
-    <Button
-        android:id="@+id/id_bt_opencontacts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="创建讨论组"/>
     <Button
         android:id="@+id/id_bt_redpackage"
         android:layout_width="match_parent"

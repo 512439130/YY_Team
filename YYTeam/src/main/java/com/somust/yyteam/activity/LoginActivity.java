@@ -42,7 +42,6 @@ import okhttp3.Request;
 public class LoginActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
     private TextView tv_register;
-    private TextView tv_testLogin;
     private Button btn_login;
     private Button btn_exit;
     private Intent intent;
@@ -82,7 +81,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private void initView() {
         tv_register = (TextView) findViewById(R.id.id_tv_register);
-        tv_testLogin = (TextView) findViewById(R.id.id_tv_testlogin);
+
         btn_login = (Button) findViewById(R.id.id_bt_login);
         btn_exit = (Button) findViewById(R.id.id_bt_exit);
         et_password = (EditText) findViewById(R.id.id_login_password);
@@ -133,7 +132,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private void initEvent() {
         tv_register.setOnClickListener(this);
-        tv_testLogin.setOnClickListener(this);
         btn_login.setOnClickListener(this);
         btn_exit.setOnClickListener(this);
 
@@ -148,11 +146,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 intent.setClass(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.id_tv_testlogin:
-                intent = new Intent();
-                intent.setClass(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                break;
+
             case R.id.id_bt_login:
                 L.v(TAG, "登录");
                 Login();
@@ -162,7 +156,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.id_t_repassword:
-
+                intent = new Intent();
+                intent.setClass(LoginActivity.this, RePassActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

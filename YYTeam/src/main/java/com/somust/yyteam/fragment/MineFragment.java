@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.ContactsActivity;
 
@@ -37,6 +39,9 @@ public class MineFragment extends Fragment {
 
     private View mView;
 
+    private RelativeLayout mTeam;
+
+    private RelativeLayout mMoney;
 
 
     @Override
@@ -55,7 +60,27 @@ public class MineFragment extends Fragment {
      *
      */
     private void initView() {
-
+        mTeam = (RelativeLayout) mView.findViewById(R.id.id_mine_team);
+        mMoney = (RelativeLayout) mView.findViewById(R.id.id_mine_money);
+        mTeam.setOnClickListener(new MyOnClickListener());
+        mMoney.setOnClickListener(new MyOnClickListener());
     }
 
+    private class MyOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()){
+                case R.id.id_mine_team:
+                    //打开大学社团主页面
+                    break;
+                case R.id.id_mine_money:
+                    //打开我的钱包页面
+                    //打开红包界面
+                    JrmfClient.intentWallet(getActivity());
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

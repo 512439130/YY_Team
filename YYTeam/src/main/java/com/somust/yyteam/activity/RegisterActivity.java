@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
@@ -70,6 +71,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
 
     private Button mBtnCode;
+    private Button mBtnSubmit;
     private EditText edt_phone;
     private EditText edt_code;
     private int mTime;
@@ -77,11 +79,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "RegisterActivity";
 
+
     private Handler mCountDownHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
 
-            //发送短信计时器
+            //handler更新UI
             if (mTime > 0) {
                 mBtnCode.setEnabled(false);
                 mBtnCode.setText(getString(R.string.count_down, mTime));
@@ -102,9 +105,16 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
+            String button_state = bundle.getString("button_state");
+            if(button_state == "submit_success"){
+                bt_register.setEnabled(true);  //设置注册按钮为可点击
+                mBtnSubmit.setEnabled(false);  //设置验证手机号按钮为不可点击
+            }
+
         }
-    };;
+    };
 
 
 
@@ -136,7 +146,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mBtnCode = (Button) findViewById(R.id.btn_code);
         edt_phone = (EditText) findViewById(R.id.edt_phone);
         edt_code = (EditText) findViewById(R.id.edt_code);
-
+        mBtnSubmit = (Button) findViewById(R.id.btn_submit_button);
 
 
         user = new User();
@@ -144,7 +154,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     private void initEvent() {
 
-
+        mBtnSubmit.setOnClickListener(this);
         bt_register.setOnClickListener(this);
         radioGroupSex.setOnCheckedChangeListener(new MyOnCheckedChangeListener());
 
@@ -183,16 +193,17 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
         //先验证填写是否为空
         if (TextUtils.isEmpty(phone)){
-            Toast.makeText(RegisterActivity.this, "需要先进行手机验证", Toast.LENGTH_SHORT).show();
+            T.testShowShort(RegisterActivity.this, "需要先进行手机验证");
         } else if (TextUtils.isEmpty(code)) {
             T.testShowShort(RegisterActivity.this, "请输入验证码");
         } else if (TextUtils.isEmpty(nickname)) {
-            Toast.makeText(RegisterActivity.this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+            T.testShowShort(RegisterActivity.this, "昵称不能为空");
         } else if (TextUtils.isEmpty(pass) || TextUtils.isEmpty(confirm_pass) || (TextUtils.isEmpty(pass) && TextUtils.isEmpty(confirm_pass))) {  //密码和确认密码不同
-            Toast.makeText(RegisterActivity.this, "密码和确认密码不能为空", Toast.LENGTH_SHORT).show();
-        } else if (!pass.equals(confirm_pass)) {  //密码和确认密码不同
-            Toast.makeText(RegisterActivity.this, "密码和确认密码不同", Toast.LENGTH_SHORT).show();
+            T.testShowShort(RegisterActivity.this, "密码和确认密码不能为空");
+        } else if (!pass.equals(confirm_pass)) {
+            T.testShowShort(RegisterActivity.this, "密码和确认密码不同");
         } else if (!phone.equals("") && !nickname.equals("") && !pass.equals("") && !confirm_pass.equals("") && pass.equals(confirm_pass)) {  //如果为空请重新填写
+            //注册无响应
 
             user.setUserPhone(phone);
             user.setUserNickname(nickname);
@@ -225,10 +236,15 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             L.v(TAG, "手机号验证成功");
                             L.v(TAG, "手机号：" + phone);
                             L.v(TAG, "国家：" + country);
-                            obtainUserRegisterInfo(phone);
+                            Message msg = mCountDownHandler.obtainMessage();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("button_state", "submit_success");
+                            msg.setData(bundle);
+                            mCountDownHandler.sendMessage(msg);
                         } else {
                             L.v(TAG, "手机号验证失败，验证码输入有误");
-                            T.testShowShort(RegisterActivity.this, "手机号验证失败，验证码输入有误");
+
+
                         }
                         break;
                     case SMSSDK.EVENT_GET_VERIFICATION_CODE:
@@ -243,7 +259,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             }
                         } else {
                             L.v(TAG, "获取验证失败，请输入正确的手机号");
-                            T.testShowShort(RegisterActivity.this, "获取验证失败，请输入正确的手机号");
+
                         }
                         break;
                 }
@@ -315,12 +331,15 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-            case R.id.id_bt_register:
-
+            case R.id.btn_submit_button:   //验证手机号
                 String phone = edt_phone.getText().toString().trim();
                 String code = edt_code.getText().toString().trim();
                 SMSSDK.submitVerificationCode("86", phone, code);//提交验证码  在eventHandler里面查看验证结果
+                break;
+
+            case R.id.id_bt_register:  //注册
+                phone = edt_phone.getText().toString().trim();
+                obtainUserRegisterInfo(phone);
                 break;
             default:
                 break;

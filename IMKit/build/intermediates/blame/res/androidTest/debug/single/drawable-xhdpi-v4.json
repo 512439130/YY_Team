@@ -36,12 +36,12 @@
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ac_text_file_icon.png"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_star_hover.png",
-        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_star_hover.png"
-    },
-    {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u2600.png",
         "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u2600.png"
+    },
+    {
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_star_hover.png",
+        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_star_hover.png"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_volume_3.png",
@@ -52,32 +52,32 @@
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f61f.png"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_praise_hover.png",
-        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_praise_hover.png"
-    },
-    {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f623.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f623.png"
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f3b5.png",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f3b5.png"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\abc_list_divider_mtrl_alpha.9.png",
         "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\drawable-xhdpi-v4\\abc_list_divider_mtrl_alpha.9.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f3b5.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f3b5.png"
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f623.png",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f623.png"
+    },
+    {
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_praise_hover.png",
+        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_praise_hover.png"
     },
     {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_voice_input_toggle_hover.9.png",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_voice_input_toggle_hover.9.png"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_icon_rt_message_right.png",
-        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_icon_rt_message_right.png"
-    },
-    {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_files_pressed.png",
         "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_files_pressed.png"
+    },
+    {
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_icon_rt_message_right.png",
+        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_icon_rt_message_right.png"
     },
     {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f35a.png",
@@ -88,16 +88,16 @@
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f649.png"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f48a.png",
-        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f48a.png"
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f437.png",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f437.png"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f62c.png",
         "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f62c.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f437.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f437.png"
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f48a.png",
+        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f48a.png"
     },
     {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_files_pressed.png",
@@ -108,20 +108,20 @@
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_conversation_newmsg.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_loading.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_loading.png"
-    },
-    {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\abc_ic_go_search_api_mtrl_alpha.png",
         "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\drawable-xhdpi-v4\\abc_ic_go_search_api_mtrl_alpha.png"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_picsel_empty_pic.png",
-        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_picsel_empty_pic.png"
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_loading.png",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_loading.png"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png",
         "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\drawable-xhdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_picsel_empty_pic.png",
+        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_picsel_empty_pic.png"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\abc_scrubber_control_to_pressed_mtrl_000.png",

@@ -9,16 +9,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="55dp"
         android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="YY社团"
+            android:text="YYTeam"
             android:textColor="#ffffff"
-            android:textSize="45sp" />
+            android:textSize="45dp" />
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/rl_phone"
@@ -66,7 +65,7 @@
             android:background="@drawable/bg_stroke_yy"
             android:hint="@string/login_code_hint"
             android:paddingLeft="40dp"
-            android:textColor="##FFFFFF"
+            android:textColor="#FFFFFF"
             android:textColorHint="#CCCCCC"
             android:layout_marginLeft="10dp"
             android:maxLength="8"
@@ -95,6 +94,15 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_verification_button"
+        android:layout_margin="10dp"
+        android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+        android:textColor="#ffffff"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -173,7 +181,10 @@
             android:id="@+id/id_bt_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注册" />
+            android:text="注册"
+            android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+            android:enabled="false"
+            android:textColor="#ffffff"/>
 
 
     </LinearLayout>

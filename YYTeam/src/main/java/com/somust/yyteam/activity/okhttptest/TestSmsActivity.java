@@ -66,7 +66,6 @@ public class TestSmsActivity extends Activity {
             @Override
             public void afterEvent(int event, int result, Object data) {
 
-
                 switch (event) {
 
                     case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:

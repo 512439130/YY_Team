@@ -16,20 +16,20 @@
         "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_wi_block_popup.xml"
     },
     {
-        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_ext_indicator.xml",
-        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_ext_indicator.xml"
-    },
-    {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_activity_chooser_view_list_item.xml",
         "source": "C:\\Users\\MMZB-YY\\.android\\build-cache\\e7809e8f2feae0a43a6159eab162ca45ebe6f9ac\\output\\res\\layout\\abc_activity_chooser_view_list_item.xml"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_cs_single_choice_layout.xml",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_cs_single_choice_layout.xml"
+        "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_ext_indicator.xml",
+        "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_ext_indicator.xml"
     },
     {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_ac_webview.xml",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_ac_webview.xml"
+    },
+    {
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_cs_single_choice_layout.xml",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_cs_single_choice_layout.xml"
     },
     {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_ext_emoji_item.xml",
@@ -44,12 +44,12 @@
         "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\layout\\notification_template_part_chronometer.xml"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_item_public_service_multi_rich_content_message.xml",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_item_public_service_multi_rich_content_message.xml"
-    },
-    {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_base_activity_layout.xml",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_base_activity_layout.xml"
+    },
+    {
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_item_public_service_multi_rich_content_message.xml",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_item_public_service_multi_rich_content_message.xml"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_camera.xml",
@@ -80,12 +80,12 @@
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_item_rich_content_message.xml"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_dialog_popup_prompt_warning.xml",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_dialog_popup_prompt_warning.xml"
-    },
-    {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\select_dialog_multichoice_material.xml",
         "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\layout\\select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_dialog_popup_prompt_warning.xml",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_dialog_popup_prompt_warning.xml"
     },
     {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_item_text_message_evaluate.xml",
@@ -200,12 +200,12 @@
         "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_plugin_location_activity.xml",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_plugin_location_activity.xml"
-    },
-    {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_icon_rt_location_marker.xml",
         "source": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_icon_rt_location_marker.xml"
+    },
+    {
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_plugin_location_activity.xml",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_plugin_location_activity.xml"
     },
     {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_fr_messagelist.xml",
@@ -248,12 +248,12 @@
         "source": "C:\\Users\\13160677911\\.android\\build-cache\\d12f05dfa61f9733500d74375060fc02e5714702\\output\\res\\layout\\abc_screen_content_include.xml"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_fr_public_service_search.xml",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_fr_public_service_search.xml"
-    },
-    {
         "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_item_discussion_conversation.xml",
         "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_item_discussion_conversation.xml"
+    },
+    {
+        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_fr_public_service_search.xml",
+        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_fr_public_service_search.xml"
     },
     {
         "merged": "C:\\work\\software\\AS_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_input_pager_layout.xml",

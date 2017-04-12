@@ -210,6 +210,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             user.setUserPassword(pass);
             user.setUserToken(token);
             user.setUserImage(DEFAULT_IMAGE);
+            System.out.println("开始请求token");
             token = obtainUserToken(user.getUserPhone(), user.getUserNickname(), user.getUserImage());  //获取token
         }
 

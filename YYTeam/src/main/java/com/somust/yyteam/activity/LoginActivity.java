@@ -40,13 +40,13 @@ import okhttp3.Request;
 
 
 public class LoginActivity extends Activity implements View.OnClickListener {
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "LoginActivity:";
     private TextView tv_register;
 
     private Button btn_login;
     private Button btn_exit;
     private Intent intent;
-    private DropEditText et_phone;
+    private EditText et_phone;
     private EditText et_password;
 
     private ProgressDialog dialog;
@@ -89,12 +89,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         tv_repassword = (TextView) findViewById(R.id.id_t_repassword);
 
-        et_phone = (DropEditText) findViewById(R.id.id_login_phone);
+        et_phone = (EditText) findViewById(R.id.id_login_phone);
 
-        initDropEditTextAdapter();
+        //initDropEditTextAdapter();
     }
-
-    private void initDropEditTextAdapter() {
+    //测试调用
+    /*private void initDropEditTextAdapter() {
 
         et_phone.setAdapter(new BaseAdapter() {
             private List<String> mList = new ArrayList<String>() {
@@ -130,7 +130,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         });
 
 
-    }
+    }*/
 
     private void initEvent() {
         tv_register.setOnClickListener(this);

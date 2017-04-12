@@ -6,6 +6,6 @@
    <solid android:color="@color/btn_bg_red_unclicked" ></solid>
 
    <!-- 矩形的圆角半径 -->
-   <corners android:radius="3dp" />
+   <corners android:radius="6dp" />
 
 </shape>

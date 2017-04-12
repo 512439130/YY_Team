@@ -6,10 +6,10 @@
     <attr name="text_size_yy" format="dimension"></attr>
 
     <declare-styleable name="ChangeColorIconWithText">
-        <attr name="icon_yy" ></attr>
-        <attr name="color_yy" ></attr>
-        <attr name="text_yy" ></attr>
-        <attr name="text_size_yy" ></attr>
+        <attr name="icon_yy"></attr>
+        <attr name="color_yy"></attr>
+        <attr name="text_yy"></attr>
+        <attr name="text_size_yy"></attr>
     </declare-styleable>
 
     <declare-styleable name="DropEditText">
@@ -19,5 +19,14 @@
             <enum name="wrap_content" value="1" />
         </attr>
         <attr name="hint" format="string" />
+    </declare-styleable>
+
+
+    <attr name="borderColor" format="color" />
+    <attr name="borderWidth" format="dimension" />
+
+    <declare-styleable name="ImageViewPlus">
+        <attr name="borderColor" />
+        <attr name="borderWidth" />
     </declare-styleable>
 </resources>

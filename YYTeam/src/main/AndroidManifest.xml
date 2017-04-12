@@ -63,10 +63,7 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:windowSoftInputMode="adjustPan" />
-        <!-- 测试登录界面 -->
-        <activity
-            android:name=".activity.MainActivity"
-            android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".activity.HomeActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -159,7 +156,6 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="uwd1c0sxugt21" />
 
-        <activity android:name=".activity.okhttptest.TestSmsActivity" />
         <!-- base -->
         <activity android:name="com.somust.yy.base.LoginActivity" />
         <activity android:name="com.somust.yy.base.TabLayoutActivity" />

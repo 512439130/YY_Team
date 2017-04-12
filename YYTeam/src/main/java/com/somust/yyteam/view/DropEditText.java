@@ -106,7 +106,7 @@ public class DropEditText extends FrameLayout implements View.OnClickListener, O
 				return;
 			}
 			
-			mPopup.showAsDropDown(this, 0, -200);  //和位置相关
+			mPopup.showAsDropDown(this, 0, 0);  //和位置相关
 		}
 	}
 

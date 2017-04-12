@@ -23,68 +23,138 @@
 
 
 
+    <com.somust.yyteam.view.ImageViewPlus
+        android:id="@+id/id_logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        yy:borderColor="#f5f5f5"
+        yy:borderWidth="2dp"
+        />
+
     <LinearLayout
         android:id="@+id/id_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/id_logo">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="YY社团"
+            android:text="YYTeam"
             android:textColor="#ffffff"
-            android:textSize="45sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/id_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:gravity="center"
-        android:orientation="vertical">
+
+        android:layout_below="@id/id_title"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
 
 
 
-        <com.somust.yyteam.view.DropEditText
+        <!--<com.somust.yyteam.view.DropEditText
             android:id="@+id/id_login_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             yy:drawableRight="@drawable/drop"
-            yy:dropMode="flow_parent">
-        <EditText
-            android:id="@+id/id_login_password"
+            yy:dropMode="flow_parent"/>-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/icon_user"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/ic_user"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"/>
+            <EditText
+                android:id="@+id/id_login_phone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_stroke_yy"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="30dp"
+                android:hint="请输入手机号..."
+                android:inputType="number"
+                android:maxLength="11"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:hint="请输入密码..."
-            android:text="123456"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
+            android:layout_marginTop="20dp">
+            <ImageView
+                android:id="@+id/icon_pass"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/ic_pass"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"/>
+            <EditText
+                android:id="@+id/id_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_stroke_yy"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="30dp"
+                android:hint="请输入密码..."
+                android:inputType="textPassword"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+        </RelativeLayout>
 
 
-        </com.somust.yyteam.view.DropEditText>
+
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="300dp"
+        android:layout_below="@id/id_edit"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/id_bt_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
             android:text="登录" />
+
+
 
         <Button
             android:id="@+id/id_bt_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
+            android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
             android:text="退出" />
     </LinearLayout>
 
@@ -101,6 +171,8 @@
             android:layout_alignParentLeft="true"
             android:text="忘记密码"
             android:textSize="18sp"
+            android:padding="8dp"
+            android:layout_margin="5dp"
             android:textColor="#ffffff" />
 
 
@@ -115,6 +187,8 @@
             android:layout_alignParentRight="true"
             android:text="注册"
             android:textSize="18sp"
+            android:padding="8dp"
+            android:layout_margin="5dp"
             android:textColor="#ffffff" />
 
 

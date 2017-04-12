@@ -13,9 +13,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -78,8 +81,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private int mTime;
     private Timer mTimer;
 
-    private static final String TAG = "RegisterActivity";
-
+    private static final String TAG = "RegisterActivity:";
+    private ImageView mImg_Background;
 
     private Handler mCountDownHandler = new Handler() {
         @Override
@@ -138,6 +141,16 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         initView();
         initEvent();
         initSms();
+
+        //动态背景
+        mImg_Background = (ImageView) findViewById(R.id.de_img_backgroud);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(RegisterActivity.this, R.anim.translate_anim);
+                mImg_Background.startAnimation(animation);
+            }
+        }, 200);
     }
 
 

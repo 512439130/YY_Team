@@ -63,6 +63,7 @@ public class InformationActivity extends Activity {
                 case R.id.btn_send_message:  //发消息
                     //打开单聊界面（根据position）
                     RongIM.getInstance().startPrivateChat(InformationActivity.this, userId, userNickname);
+                    finish();
                     break;
                 case R.id.id_title_back:
                     finish();

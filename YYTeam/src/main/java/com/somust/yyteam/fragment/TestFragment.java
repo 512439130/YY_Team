@@ -1,7 +1,6 @@
 package com.somust.yyteam.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
-import com.somust.yyteam.activity.ContactsActivity;
 
 
 import java.util.List;
@@ -73,9 +71,9 @@ public class TestFragment extends Fragment {
         mButton_Replace.setOnClickListener(new View.OnClickListener() {  //更换头像
             @Override
             public void onClick(View v) {
-                String userId = "zhong";
-                String nickname = "钟良洁";
-                String urlPath = "http://img.woyaogexing.com/2016/10/04/5da81cd8b7bc3f79!200x200.jpg";
+                String userId = "13750060283";
+                String nickname = "卢桂安";
+                String urlPath = "http://118.89.47.137/image/default_man.png";
                 refreshUserInfo(userId, nickname, urlPath);
             }
         });

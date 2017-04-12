@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/id_title_back"
+                android:layout_toRightOf="@id/id_title_back"
                 android:textColor="#e4e4e4" />
         </RelativeLayout>
 

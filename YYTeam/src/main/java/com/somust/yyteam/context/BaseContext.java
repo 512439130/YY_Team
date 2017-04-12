@@ -7,26 +7,26 @@ import android.preference.PreferenceManager;
 /**
  * Created by Bob on 15/8/21.
  */
-public class DemoContext {
+public class BaseContext {
 
-    private static DemoContext mDemoContext;
+    private static BaseContext mBaseContext;
     public Context mContext;
     private SharedPreferences mPreferences;
 
-    public static DemoContext getInstance() {
+    public static BaseContext getInstance() {
 
-        if (mDemoContext == null) {
-            mDemoContext = new DemoContext();
+        if (mBaseContext == null) {
+            mBaseContext = new BaseContext();
         }
-        return mDemoContext;
+        return mBaseContext;
     }
 
-    private DemoContext() {
+    private BaseContext() {
     }
 
-    private DemoContext(Context context) {
+    private BaseContext(Context context) {
         mContext = context;
-        mDemoContext = this;
+        mBaseContext = this;
         //http初始化 用于登录、注册使用
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -34,7 +34,7 @@ public class DemoContext {
 
 
     public static void init(Context context) {
-        mDemoContext = new DemoContext(context);
+        mBaseContext = new BaseContext(context);
     }
 
     public SharedPreferences getSharedPreferences() {

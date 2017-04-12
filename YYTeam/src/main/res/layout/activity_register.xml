@@ -119,7 +119,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="昵称..."
-            android:text="yy"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
@@ -129,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="密码..."
-            android:text="123"
+            android:text="123456"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
@@ -139,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="确认密码..."
-            android:text="123"
+            android:text="123456"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
@@ -151,7 +150,7 @@
             android:contentDescription="性别">
 
             <RadioButton
-                android:id="@+id/radioMale"
+                android:id="@+id/id_rb_man"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
@@ -159,7 +158,7 @@
                 android:textColor="#ffffff"/>
 
             <RadioButton
-                android:id="@+id/radioFemale"
+                android:id="@+id/id_rb_woman"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="女"

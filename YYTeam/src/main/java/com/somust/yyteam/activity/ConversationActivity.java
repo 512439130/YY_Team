@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.somust.yyteam.R;
 import com.somust.yyteam.application.YYApplication;
-import com.somust.yyteam.context.DemoContext;
+import com.somust.yyteam.context.BaseContext;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -159,9 +159,9 @@ public class ConversationActivity extends FragmentActivity {
 
         String token = null;
 
-        if (DemoContext.getInstance() != null) {
+        if (BaseContext.getInstance() != null) {
 
-            token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
+            token = BaseContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
             System.out.println("TOKEN:"+token);
         }
 

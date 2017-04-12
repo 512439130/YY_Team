@@ -18,13 +18,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 import com.somust.yyteam.R;
-import com.somust.yyteam.activity.okhttptest.TestSmsActivity;
+
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.RongCloud.RongCloudMethodUtil;
@@ -35,20 +34,19 @@ import com.yy.http.okhttp.callback.StringCallback;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
-import cn.smssdk.gui.RegisterPage;
+
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.Request;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
     private Button bt_register;
-
 
 
     //添加
@@ -67,13 +65,16 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     private RadioGroup radioGroupSex;
 
-    private String DEFAULT_IMAGE;
+    private String DEFAULT_IMAGE = ConstantUrl.imageDefaultManUrl;
 
 
     private Button mBtnCode;
     private Button mBtnSubmit;
     private EditText edt_phone;
     private EditText edt_code;
+
+    private String sex = "男";
+
     private int mTime;
     private Timer mTimer;
 
@@ -83,8 +84,38 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private Handler mCountDownHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            Bundle bundle = msg.getData();
 
-            //handler更新UI
+            if (bundle.getString("token") == "token_success") {
+                L.v(TAG, "开始执行第二个请求");
+                try {
+                    SendHttpRegister();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (bundle.getString("sms_verification") == ("verification_success")) {  //手机号验证成功
+                bt_register.setEnabled(true);  //设置注册按钮为可点击
+                mBtnSubmit.setEnabled(false);  //设置验证手机号按钮为不可点击
+                T.testShowShort(RegisterActivity.this, "手机号验证成功");
+            }
+            if (bundle.getString("sms_verification") == ("verification_error")) {  //手机号验证失败
+                T.testShowShort(RegisterActivity.this, "手机号验证失败，请输入正确的验证码");
+            }
+            if (bundle.getString("code_obtain") == ("obtain_success")) {  //验证码获取成功
+                T.testShowShort(RegisterActivity.this, "验证码获取成功");
+
+                edt_phone.setFocusable(false);
+                edt_phone.setTextColor(Color.GREEN);
+
+            }
+
+            if (bundle.getString("code_obtain") == ("obtain_error")) {    //验证码获取失败
+                T.testShowLong(RegisterActivity.this, "验证码获取失败，请60秒后重新输入正确的手机号");
+            }
+
+            //handler更新获取验证码按钮UI动态时间
             if (mTime > 0) {
                 mBtnCode.setEnabled(false);
                 mBtnCode.setText(getString(R.string.count_down, mTime));
@@ -95,30 +126,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             }
 
 
-            Bundle bundle = msg.getData();
-            String token_state = bundle.getString("token");
-            if (token_state == "token_success") {
-                //开始执行第二个请求
-                L.v(TAG, "开始执行第二个请求");
-                try {
-                    SendHttpRegister();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            String button_state = bundle.getString("button_state");
-            if(button_state == "submit_success"){
-                bt_register.setEnabled(true);  //设置注册按钮为可点击
-                mBtnSubmit.setEnabled(false);  //设置验证手机号按钮为不可点击
-            }
-
         }
     };
-
-
-
-
 
 
     @Override
@@ -141,7 +150,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         et_password = (EditText) findViewById(R.id.id_et_password);
         et_confirm_password = (EditText) findViewById(R.id.id_et_confirm_password);
 
-        radioGroupSex = (RadioGroup)this.findViewById(R.id.id_rg_sex);
+        radioGroupSex = (RadioGroup) this.findViewById(R.id.id_rg_sex);
 
         mBtnCode = (Button) findViewById(R.id.btn_code);
         edt_phone = (EditText) findViewById(R.id.edt_phone);
@@ -161,16 +170,13 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mBtnCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 sendSMS();
-                edt_phone.setFocusable(false);
-                edt_phone.setTextColor(Color.RED);
+
+
             }
         });
     }
-
-
-
-
 
 
     /**
@@ -192,7 +198,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         L.v(TAG, phone + "/" + pass + "/" + confirm_pass);
 
         //先验证填写是否为空
-        if (TextUtils.isEmpty(phone)){
+        if (TextUtils.isEmpty(phone)) {
             T.testShowShort(RegisterActivity.this, "需要先进行手机验证");
         } else if (TextUtils.isEmpty(code)) {
             T.testShowShort(RegisterActivity.this, "请输入验证码");
@@ -208,10 +214,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             user.setUserPhone(phone);
             user.setUserNickname(nickname);
             user.setUserPassword(pass);
-            user.setUserToken(token);
+            user.setUserSex(sex);
             user.setUserImage(DEFAULT_IMAGE);
-            System.out.println("开始请求token");
+
             token = obtainUserToken(user.getUserPhone(), user.getUserNickname(), user.getUserImage());  //获取token
+            user.setUserToken(token);
+            System.out.println(user.toString());
         }
 
     }
@@ -237,14 +245,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             L.v(TAG, "手机号验证成功");
                             L.v(TAG, "手机号：" + phone);
                             L.v(TAG, "国家：" + country);
-                            Message msg = mCountDownHandler.obtainMessage();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("button_state", "submit_success");
-                            msg.setData(bundle);
-                            mCountDownHandler.sendMessage(msg);
+
+                            UpdateUiAndToast(mCountDownHandler, "sms_verification", "verification_success");
                         } else {
                             L.v(TAG, "手机号验证失败，验证码输入有误");
 
+                            UpdateUiAndToast(mCountDownHandler, "sms_verification", "verification_error");
 
                         }
                         break;
@@ -257,9 +263,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             } else {
                                 //依然走短信验证
                                 L.v(TAG, "获取验证成功,依然走短信验证");
+                                UpdateUiAndToast(mCountDownHandler, "code_obtain", "obtain_success");
                             }
                         } else {
                             L.v(TAG, "获取验证失败，请输入正确的手机号");
+
+                            UpdateUiAndToast(mCountDownHandler, "code_obtain", "obtain_error");
 
                         }
                         break;
@@ -267,8 +276,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             }
         });
     }
-
-
 
 
     private void sendSMS() {
@@ -310,18 +317,14 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
      * @return
      */
     private String obtainUserToken(final String phone, final String nickname, final String urlPath) {
-
         if (phone != null && nickname != null && urlPath != null) {
             Thread thread = new Thread() {
                 @Override
                 public void run() {
                     token = RongUtil.getToken(phone, nickname, urlPath);  //获取token
                     L.v(TAG, "RegisterActivity+token:" + token);
-                    Message msg = mCountDownHandler.obtainMessage();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("token", "token_success");
-                    msg.setData(bundle);
-                    mCountDownHandler.sendMessage(msg);
+
+                    UpdateUiAndToast(mCountDownHandler, "token", "token_success");
                 }
             };
             thread.start();
@@ -360,7 +363,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                userJsonString = new Gson().toJson(new User(phone, user.getUserNickname(), user.getUserPassword(), token,user.getUserImage(),user.getUserSex()));
+                userJsonString = new Gson().toJson(new User(phone, user.getUserNickname(), user.getUserPassword(), token, user.getUserImage(), user.getUserSex()));
 
                 //发起注册请求
                 OkHttpUtils
@@ -392,7 +395,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             dialog.cancel();//关闭圆形进度条
             e.printStackTrace();
             L.v(TAG, "注册失败");
-            T.testShowShort( RegisterActivity.this,"注册失败");
+            T.testShowShort(RegisterActivity.this, "注册失败");
             L.v(e.getMessage());
         }
 
@@ -402,7 +405,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             Log.v(TAG, "onResponse：complete");
             L.v(response);
             L.v(TAG, "注册成功");
-            T.testShowShort( RegisterActivity.this,"注册成功");
+            T.testShowShort(RegisterActivity.this, "注册成功");
             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));  //跳转到登录界面
         }
 
@@ -422,24 +425,39 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             //获取变更后的选中项的ID
             int radioButtonId = group.getCheckedRadioButtonId();
             //根据ID获取RadioButton的实例
-            RadioButton rb = (RadioButton)RegisterActivity.this.findViewById(radioButtonId);
-            String sex = rb.getText().toString();
-            L.v(rb.getText().toString());
-            if(sex != null){
-                L.e("sex不为空,sex:"+sex);
+            RadioButton sexRadioButton = (RadioButton) RegisterActivity.this.findViewById(radioButtonId);
+            String sex = sexRadioButton.getText().toString();
+            L.v(sexRadioButton.getText().toString());
+            if (sex != null) {
+                L.e("sex不为空,sex:" + sex);
                 user.setUserSex(sex);
-            }else {
-                L.e("sex为空,sex:"+sex);
+            } else {
+                L.e("sex为空,sex:" + sex);
             }
 
 
             //通过判断男女选择器来判断使用默认头像
-            if(sex.equals("男")){
+            if (sex.equals("男")) {
                 DEFAULT_IMAGE = ConstantUrl.imageDefaultManUrl;
-            }else{
+            } else {
                 DEFAULT_IMAGE = ConstantUrl.imageDefaultWomanUrl;
             }
 
         }
+    }
+
+    /**
+     * 更新UI和控制子线程弹出Toast
+     *
+     * @param handler
+     * @param key
+     * @param value
+     */
+    private void UpdateUiAndToast(Handler handler, String key, String value) {
+        Message msg = handler.obtainMessage();
+        Bundle bundle = new Bundle();
+        bundle.putString(key, value);
+        msg.setData(bundle);
+        handler.sendMessage(msg);
     }
 }

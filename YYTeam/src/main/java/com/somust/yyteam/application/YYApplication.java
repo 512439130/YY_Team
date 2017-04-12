@@ -9,7 +9,7 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-import com.somust.yyteam.context.DemoContext;
+import com.somust.yyteam.context.BaseContext;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.https.HttpsUtils;
 import com.yy.http.okhttp.log.LoggerInterceptor;
@@ -67,7 +67,7 @@ public class YYApplication extends Application {
 
             if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
 
-                DemoContext.init(this);
+                BaseContext.init(this);
             }
         }
         //初始化短信验证

@@ -89,10 +89,6 @@
         <!-- 联系人页面 -->
         <!-- 软键盘弹出时不会顶上去 -->
         <!-- android:windowSoftInputMode="adjustPan|stateHidden" -->
-        <activity
-            android:name=".activity.ContactsActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
         <!-- 自定义的 broadcastReceiver -->
         <receiver
             android:name=".receiver.DemoNotificationReceiver"

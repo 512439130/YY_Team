@@ -8,9 +8,9 @@
 
 
     <RelativeLayout
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/id_sv_search">
+        android:layout_height="wrap_content">
 
 
         <ListView
@@ -21,6 +21,35 @@
             android:divider="@null">
 
         </ListView>
+        <RelativeLayout
+            android:id="@+id/id_rl_add_friend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+
+
+            <Button
+                android:id="@+id/id_add_friend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加好友"
+                android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+                android:layout_centerInParent="true"
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您暂时还没有好友，请添加..."
+                android:layout_marginTop="100dp"
+                android:textSize="20sp"
+                android:textColor="#ff5100"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"/>
+
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/dialog"

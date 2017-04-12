@@ -74,6 +74,7 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groupchat);
+        initView();
 
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -122,7 +123,7 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
         @Override
         public void onResponse(String response, int id) {
 
-            if (response.equals("")) {
+            if (response.equals("[]")) {
 
                 T.testShowShort(GroupChatActivity.this, "您当前无好友");
             } else {
@@ -179,7 +180,8 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
                         L.v("TAG", "onResponse：complete");
                         portraitBitmaps[i] = bitmap;
                         //网络请求成功后
-                        initView();
+
+                        initSidebar();
                         initEvent();
                     }
                 });
@@ -192,16 +194,18 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
 
         back = (ImageView) findViewById(R.id.id_title_back);
         createGroup = (TextView) findViewById(R.id.id_title_creategroup);
+
+        createGroup.setText("创建讨论组");
+        sidebar = (SideBar) findViewById(R.id.sidebar);
+        dialogTextView = (TextView) findViewById(R.id.dialog);
+        sidebar.setTextView(dialogTextView);
+
         back.setOnClickListener(this);
         createGroup.setOnClickListener(this);
-        createGroup.setText("创建讨论组");
 
-        //insert
-        initSidebar();
 
-        friendAdapter = new GroupChatAdapter(GroupChatActivity.this, personBeenList);
 
-        friendListView.setAdapter(friendAdapter);
+
 
     }
 
@@ -297,9 +301,7 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
 
     private void initSidebar() {
         //insert
-        sidebar = (SideBar) findViewById(R.id.sidebar);
-        dialogTextView = (TextView) findViewById(R.id.dialog);
-        sidebar.setTextView(dialogTextView);
+
 
         // 设置字母导航触摸监听
         sidebar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
@@ -330,7 +332,9 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
         // 数据在放在adapter之前需要排序
         Collections.sort(personBeenList, new PinyinComparator());
 
+        friendAdapter = new GroupChatAdapter(GroupChatActivity.this, personBeenList);
 
+        friendListView.setAdapter(friendAdapter);
     }
 
 

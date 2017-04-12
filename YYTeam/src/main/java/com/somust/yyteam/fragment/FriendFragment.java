@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -57,8 +59,6 @@ public class FriendFragment extends Fragment {
     }
 
     private View mView;
-    private ImageView HeadPortrait;  //头像
-    private TextView name;  //昵称
 
     private ListView friendListView;
 
@@ -75,11 +75,14 @@ public class FriendFragment extends Fragment {
     private List<TeamFriend> friendlist;   //登录用户的好友信息
     private Bitmap[] portraitBitmaps;
 
+    private RelativeLayout addRelativeLayout;  //界面无好友，显示添加好友界面
+    private Button addButton;
+
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.friend_fragment, null);
-
+        initView();
         Intent intent = getActivity().getIntent();
         user = (User) intent.getSerializableExtra("user");
         //发送网络请求，获取好友列表
@@ -87,6 +90,28 @@ public class FriendFragment extends Fragment {
 
 
         return mView;
+    }
+
+    private void initView() {
+
+
+        addRelativeLayout = (RelativeLayout) mView.findViewById(R.id.id_rl_add_friend);
+
+        friendListView = (ListView) mView.findViewById(R.id.id_lv_friend);
+        sidebar = (SideBar) mView.findViewById(R.id.sidebar);
+        dialogTextView = (TextView) mView.findViewById(R.id.dialog);
+        sidebar.setTextView(dialogTextView);
+        addButton = (Button) mView.findViewById(R.id.id_add_friend);
+        addButton.setOnClickListener(new View.OnClickListener() {  //添加好友按钮
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+
+
     }
 
     /**
@@ -129,9 +154,11 @@ public class FriendFragment extends Fragment {
         @Override
         public void onResponse(String response, int id) {
 
-            if (response.equals("")) {
+            if (response.equals("[]")) {
 
                 T.testShowShort(getActivity(), "您当前无好友");
+                friendListView.setVisibility(View.INVISIBLE);
+                addRelativeLayout.setVisibility(View.VISIBLE);
             } else {
 
                 T.testShowShort(getActivity(), "好友获取成功");
@@ -186,26 +213,14 @@ public class FriendFragment extends Fragment {
                         L.v("TAG", "onResponse：complete");
                         portraitBitmaps[i] = bitmap;
                         //网络请求成功后
-                        initView();
+                        initSidebarAndView();
                         initEvent();
                     }
                 });
     }
 
 
-    private void initView() {
-        HeadPortrait = (ImageView) mView.findViewById(R.id.id_title_back);
-        name = (TextView) mView.findViewById(R.id.id_title_name);
-        friendListView = (ListView) mView.findViewById(R.id.id_lv_friend);
 
-        //insert
-        initSidebar();
-
-        friendAdapter = new FriendAdapter(getActivity(), personBeenList);
-
-        friendListView.setAdapter(friendAdapter);
-
-    }
 
     private void initEvent() {
         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -231,11 +246,7 @@ public class FriendFragment extends Fragment {
     }
 
 
-    private void initSidebar() {
-        //insert
-        sidebar = (SideBar) mView.findViewById(R.id.sidebar);
-        dialogTextView = (TextView) mView.findViewById(R.id.dialog);
-        sidebar.setTextView(dialogTextView);
+    private void initSidebarAndView() {
 
         // 设置字母导航触摸监听
         sidebar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
@@ -266,7 +277,9 @@ public class FriendFragment extends Fragment {
         // 数据在放在adapter之前需要排序
         Collections.sort(personBeenList, new PinyinComparator());
 
+        friendAdapter = new FriendAdapter(getActivity(), personBeenList);
 
+        friendListView.setAdapter(friendAdapter);
     }
 
 

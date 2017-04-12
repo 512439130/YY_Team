@@ -42,6 +42,7 @@ import okhttp3.Request;
 public class LoginActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
     private TextView tv_register;
+
     private Button btn_login;
     private Button btn_exit;
     private Intent intent;
@@ -101,6 +102,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     add("13160677911");
                     add("13192259530");
                     add("13750060283");
+                    add("13631220247");
                 }
             };
 

@@ -12,28 +12,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.view.ViewGroup.LayoutParams;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 
-import com.somust.yyteam.bean.Friend;
-import com.somust.yyteam.bean.TeamFriend;
 import com.somust.yyteam.bean.User;
-import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.fragment.FriendFragment;
 import com.somust.yyteam.fragment.MineFragment;
 import com.somust.yyteam.fragment.TestFragment;
-import com.somust.yyteam.fragment.TabFragment;
 import com.somust.yyteam.popwindow.ActionItem;
 import com.somust.yyteam.popwindow.TitlePopup;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.ChangeColorIconWithText;
-import com.yy.http.okhttp.OkHttpUtils;
-import com.yy.http.okhttp.callback.StringCallback;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +32,6 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
-import okhttp3.Call;
-import okhttp3.Request;
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
@@ -133,21 +122,12 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void initDatas() {
-      mConversationList = initConversationList();  //获取融云会话列表的对象
+        mConversationList = initConversationList();  //获取融云会话列表的对象
         mFragment.add(mConversationList);//加入会话列表（第一页）
         mFragment.add(FriendFragment.getInstance());//加入第2页,朋友列表
         mFragment.add(TestFragment.getInstance());//加入第3页 测试功能界面
         mFragment.add(MineFragment.getInstance());//加入第4页，我的页
 
-        for (String title : mTitles) {
-            TabFragment tabFragment = new TabFragment();
-
-            //Bundle为Fragment传递参数
-            Bundle bundle = new Bundle();
-            bundle.putString(TabFragment.TITLE, title);
-            tabFragment.setArguments(bundle);
-            mFragment.add(tabFragment);
-        }
 
         //初始化Adapter这里使用FragmentPagerAdapter
         mFragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {  //括号里的参数需要FragmentManager
@@ -210,11 +190,16 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        L.v("position" + position);  //滑动结束后的页面位置
+        L.v("positionOffset" + positionOffset);  //为精确滑动的值
         if (positionOffset > 0) {
+
             ChangeColorIconWithText left = mTabIndicators.get(position);
             ChangeColorIconWithText right = mTabIndicators.get(position + 1);
             left.setIconAlpha(1 - positionOffset);
             right.setIconAlpha(positionOffset);
+
+
         }
 
     }
@@ -284,9 +269,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     T.testShowShort(HomeActivity.this, "创建讨论组");
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("user",user);
+                    bundle.putSerializable("user", user);
                     intent.putExtras(bundle);
-                    intent.setClass(HomeActivity.this,GroupChatActivity.class);
+                    intent.setClass(HomeActivity.this, GroupChatActivity.class);
                     startActivity(intent);
                     break;
                 case 1:// 添加朋友

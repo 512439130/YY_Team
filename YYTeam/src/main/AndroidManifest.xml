@@ -48,25 +48,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- 登录界面 -->
-        <activity
-            android:name=".activity.LoginActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan" />
+
         <!-- 短信验证界面 -->
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!-- 注册界面 -->
-        <activity
-            android:name=".activity.RegisterActivity"
-            android:windowSoftInputMode="adjustPan" />
 
-        <activity
-            android:name=".activity.HomeActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
         <!-- 会话界面 -->
         <activity
             android:name=".activity.ConversationActivity"
@@ -159,12 +148,37 @@
         <!-- base -->
         <activity android:name="com.somust.yy.base.LoginActivity" />
         <activity android:name="com.somust.yy.base.TabLayoutActivity" />
+
+        <!-- 注册界面 -->
+        <activity
+            android:launchMode="singleTop"
+            android:name=".activity.RegisterActivity"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- 修改密码界面 -->
+        <activity android:name=".activity.RePassActivity"
+            android:launchMode="singleTop"/>
+        <!-- 登录界面 -->
+        <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 主界面 -->
+        <activity
+            android:name=".activity.HomeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <!-- 个人信息界面 -->
         <activity android:name=".activity.InformationActivity" />
+        <!-- 联系人界面 -->
         <activity
             android:name=".activity.GroupChatActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
-        <activity android:name=".activity.RePassActivity"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+
+
+
+
+
     </application>
 
 </manifest>

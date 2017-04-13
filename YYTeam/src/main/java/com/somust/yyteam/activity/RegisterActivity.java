@@ -5,10 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.IdRes;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +26,7 @@ import com.google.gson.Gson;
 import com.somust.yyteam.R;
 
 import com.somust.yyteam.bean.User;
+import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.RongCloud.RongCloudMethodUtil;
 import com.somust.yyteam.utils.log.L;
@@ -312,13 +311,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             mTimer.schedule(task, 100, 1000);
 
 
-            doSendSMS(phone);
+            SMSSDK.getVerificationCode("86", phone);//发送短信验证码到手机号  86表示的是中国
         }
     }
 
-    private void doSendSMS(String phone) {
-        SMSSDK.getVerificationCode("86", phone);//发送短信验证码到手机号  86表示的是中国
-    }
+
 
 
     /**
@@ -370,7 +367,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
      */
     private void SendHttpRegister() throws IOException {
         // 方式四 使用静态方式创建并显示，这种进度条只能是圆形条,这里最后一个参数boolean cancelable 设置是否进度条是可以取消的
-        dialog = ProgressDialog.show(this, "提示", "正在注册中", true, true);
+        dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_success, true, true);
         final String phone = edt_phone.getText().toString().trim();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -381,7 +378,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 //发起注册请求
                 OkHttpUtils
                         .postString()
-                        .url(ConstantUrl.userUrl + ConstantUrl.userlogin_interface)
+                        .url(ConstantUrl.userUrl + ConstantUrl.userRegister_interface)
                         .mediaType(MediaType.parse("application/json; charset=utf-8"))
                         .content(userJsonString)
                         .build()
@@ -408,7 +405,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             dialog.cancel();//关闭圆形进度条
             e.printStackTrace();
             L.v(TAG, "注册失败");
-            T.testShowShort(RegisterActivity.this, "注册失败");
+            T.testShowShort(RegisterActivity.this, Constant.mProgressDialog_error);
             L.v(e.getMessage());
         }
 
@@ -418,7 +415,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             Log.v(TAG, "onResponse：complete");
             L.v(response);
             L.v(TAG, "注册成功");
-            T.testShowShort(RegisterActivity.this, "注册成功");
+            T.testShowShort(RegisterActivity.this, Constant.mMessage_success);
             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));  //跳转到登录界面
         }
 

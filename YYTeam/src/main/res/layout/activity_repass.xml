@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/id_title"
         android:orientation="vertical"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="20dp">
 
         <RelativeLayout
             android:id="@+id/rl_phone"
@@ -157,7 +157,8 @@
         <RelativeLayout
             android:id="@+id/rl_pass"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp">
 
 
             <ImageView
@@ -234,7 +235,7 @@
             android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
             android:layout_gravity="center_horizontal"
             android:enabled="false"
-            android:text="注册"
+            android:text="完成"
             android:textColor="#ffffff" />
 
 

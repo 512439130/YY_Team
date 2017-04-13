@@ -22,10 +22,11 @@
             android:layout_margin="10dp">
 
             <com.somust.yyteam.view.ImageViewPlus
+                android:id="@+id/id_head_portrait"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher"
-                android:layout_marginRight="20dp" />
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,16 +38,15 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
                     <TextView
+                        android:id="@+id/id_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="杨阳"
                         android:textSize="17sp"
                         android:textColor="#000000"/>
                     <ImageView
                         android:id="@+id/iv_sex"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@mipmap/icon_man"
                         android:layout_marginLeft="10dp"/>
 
                 </LinearLayout>
@@ -60,14 +60,13 @@
                         android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="YYteam："
                         android:textColor="#666666"
                         android:textSize="16sp"/>
 
                     <TextView
+                        android:id="@+id/id_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="13160677911"
                         android:textColor="#666666"
                         android:textSize="14sp"/>
 
@@ -106,10 +105,10 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/id_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text="男"
                 android:textColor="#666666"
                 android:textSize="14sp" />
 

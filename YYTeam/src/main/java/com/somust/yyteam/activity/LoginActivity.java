@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.somust.yyteam.R;
 import com.somust.yyteam.bean.Friend;
 import com.somust.yyteam.bean.User;
+import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
@@ -167,7 +168,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void Login() {
-        final String url = ConstantUrl.userUrl + "yy_login?";
+        final String url = ConstantUrl.userUrl + ConstantUrl.userLogin_interface;
         final String phone = et_phone.getText().toString().trim();
         final String password = et_password.getText().toString().trim();
 
@@ -175,7 +176,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             T.testShowShort(LoginActivity.this, "用户名密码不能为空");
         } else {
             // 方式四 使用静态方式创建并显示，这种进度条只能是圆形条,这里最后一个参数boolean cancelable 设置是否进度条是可以取消的
-            dialog = ProgressDialog.show(this, "提示", "正在登陆中", true, true);
+            dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_success, true, true);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -198,7 +199,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public class MyStringCallback extends StringCallback {
         @Override
         public void onBefore(Request request, int id) {
-            setTitle("正在登录,请稍后...");
+
         }
 
         @Override
@@ -211,20 +212,21 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             dialog.cancel();
             e.printStackTrace();
             L.e(TAG, "onError:" + e.getMessage());
-            T.testShowShort(LoginActivity.this, "登录失败,服务器正在维护中");
+            T.testShowShort(LoginActivity.this, Constant.mProgressDialog_error);
         }
 
         @Override
         public void onResponse(String response, int id) {
-
+            dialog.cancel();
             if (response.equals("")) {
-                dialog.cancel();
-                T.testShowShort(LoginActivity.this, "登录失败");
+
+                T.testShowShort(LoginActivity.this, Constant.mMessage_error);
             } else {
+
                 Gson gson = new Gson();
                 user = gson.fromJson(response, User.class);
                 System.out.println(user.toString());
-                T.testShowShort(LoginActivity.this, "登录成功");
+                T.testShowShort(LoginActivity.this, Constant.mMessage_success);
                 L.v(TAG, "onResponse:" + response);
 
                 Friend friend = new Friend();

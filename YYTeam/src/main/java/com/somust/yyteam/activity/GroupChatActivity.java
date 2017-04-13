@@ -230,7 +230,7 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
     private void showMyDialog() {
         // get prompts.xml view
         LayoutInflater li = LayoutInflater.from(this);
-        View promptsView = li.inflate(R.layout.alertdialog_prompts, null);
+        View promptsView = li.inflate(R.layout.dialog_group, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 

@@ -30,11 +30,16 @@ public class ConstantUrl {
 
 
 
-    //interface name
-    public static final String userlogin_interface = "yy_register?userJsonString=";
+    //interface user
+    public static final String userRegister_interface = "yy_register?userJsonString=";  //注册
+    public static final String userLogin_interface = "yy_login?";  //登录
+    public static final String userUpdatePass_interface = "yy_update_pass?";  //修改密码
+    public static final String getUserInfo_interface = "yy_get_userinfo?";  //登录
 
     //interface friend
     public static final String friend_interface = "yy_obtain_friend?";
+
+
 
 
 }

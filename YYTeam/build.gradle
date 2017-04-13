@@ -16,8 +16,8 @@ android {
         applicationId "com.somust.yyteam"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 10002
-        versionName "1.0.2"
+        versionCode 10003
+        versionName "1.0.3"
     }
     buildTypes {
         release {
@@ -102,5 +102,4 @@ dependencies {
     compile project(path: ':YYBase')
     compile files('libs/pinyin4j-2.5.0.jar')
     compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
 }

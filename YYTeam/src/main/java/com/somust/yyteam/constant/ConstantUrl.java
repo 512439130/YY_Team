@@ -20,9 +20,9 @@ public class ConstantUrl {
 
     //default image
     //man
-    public static final String imageDefaultManUrl = "http://118.89.47.137/image/default_man.png";
+    public static final String imageDefaultManUrl = "http://118.89.47.137/image/man_default.png";
     //woman
-    public static final String imageDefaultWomanUrl = "http://118.89.47.137/image/default_woman.png";
+    public static final String imageDefaultWomanUrl = "http://118.89.47.137/image/woman_default.png";
 
 
 

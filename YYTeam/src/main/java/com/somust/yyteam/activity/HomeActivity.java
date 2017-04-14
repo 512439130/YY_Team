@@ -21,6 +21,7 @@ import com.somust.yyteam.fragment.MineFragment;
 import com.somust.yyteam.fragment.TestFragment;
 import com.somust.yyteam.popwindow.ActionItem;
 import com.somust.yyteam.popwindow.TitlePopup;
+
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.ChangeColorIconWithText;
@@ -32,6 +33,7 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
+import io.rong.push.notification.PushNotificationMessage;
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
@@ -122,6 +124,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void initDatas() {
+
         mConversationList = initConversationList();  //获取融云会话列表的对象
         mFragment.add(mConversationList);//加入会话列表（第一页）
         mFragment.add(FriendFragment.getInstance());//加入第2页,朋友列表
@@ -305,5 +308,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
      */
     public void refreshUserInfo(String userid, String nickname, String urlPath) {
         RongIM.getInstance().refreshUserInfoCache(new UserInfo(userid, nickname, Uri.parse(urlPath)));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 }

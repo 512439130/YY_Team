@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
+import com.somust.yyteam.activity.LoginActivity;
 import com.somust.yyteam.activity.RePassActivity;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.utils.log.L;
@@ -50,7 +51,7 @@ public class MineFragment extends Fragment {
     private User user;
 
 
-    private Intent intent;
+
 
 
     //data
@@ -58,7 +59,7 @@ public class MineFragment extends Fragment {
     private TextView id_name;
     private TextView id_phone;
     private Bitmap portraitBitmap;
-
+    private static final String TAG = "MineFragment:";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_mine, null);
@@ -110,12 +111,14 @@ public class MineFragment extends Fragment {
                 case R.id.id_mine_repass:
                     //弹出确认退出框
                     T.testShowShort(getActivity(), "修改密码");
-                    intent = new Intent();
+                    Intent intent = new Intent();
                     intent.setClass(getActivity(), RePassActivity.class);
                     startActivity(intent);
+                    break;
                 case R.id.id_mine_sign_out:
                     //弹出确认退出框
                     showMyDialog(getActivity());
+                    break;
                 default:
                     break;
             }
@@ -162,6 +165,7 @@ public class MineFragment extends Fragment {
      */
     private void showMyDialog(Context context) {
         // get prompts.xml view
+        L.v(TAG,"调用dialog");
         LayoutInflater li = LayoutInflater.from(context);
         View promptsView = li.inflate(R.layout.dialog_signout, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -172,7 +176,7 @@ public class MineFragment extends Fragment {
                 .setNegativeButton("确定",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                getActivity().finish();
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
                             }
                         })
                 .setPositiveButton("取消",

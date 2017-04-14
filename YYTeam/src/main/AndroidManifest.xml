@@ -84,6 +84,7 @@
                 <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED" />
                 <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
                 <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
+
             </intent-filter>
         </receiver>
 
@@ -157,7 +158,8 @@
 
         <!-- 修改密码界面 -->
         <activity android:name=".activity.RePassActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 登录界面 -->
         <activity
             android:name=".activity.LoginActivity"

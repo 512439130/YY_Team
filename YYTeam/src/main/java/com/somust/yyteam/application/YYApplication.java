@@ -75,6 +75,9 @@ public class YYApplication extends Application {
 
         SaveCookie();
 
+        //设置会话列表用户头像点击事件
+
+
     }
 
     /**

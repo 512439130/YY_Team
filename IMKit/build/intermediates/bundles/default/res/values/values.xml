@@ -367,7 +367,7 @@
         <item>.dot</item>
         <item>.docx</item>
     </array>
-    <bool name="rc_enable_mentioned_message">false</bool>
+    <bool name="rc_enable_mentioned_message">true</bool>
     <bool name="rc_enable_message_recall">false</bool>
     <bool name="rc_enable_sync_read_status">false</bool>
     <bool name="rc_is_show_warning_notification">true</bool>

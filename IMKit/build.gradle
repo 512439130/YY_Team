@@ -36,4 +36,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile files('src/main/libs/Rong_IMKit.jar')
     compile files('src/main/libs/Rong_IMLib.jar')
+    compile files('src/main/libs/AMap_2DMap_V2.9.0_20160525.jar')
+    compile files('src/main/libs/AMap_Channel_Location_V1.4.0_20160708.jar')
+    compile files('src/main/libs/AMap_Search_V3.4.0_20160811.jar')
 }

@@ -72,7 +72,21 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name="io.rong.imkit.activity.FileManagerActivity" />
         <activity android:name="io.rong.imkit.activity.FileListActivity" />
-        <activity android:name="io.rong.imkit.activity.FilePreviewActivity" />
+        <activity android:name="io.rong.imkit.activity.FilePreviewActivity" /> <!-- 此部分代码需要移植到您的 app 下的 manifest，并且 authorities 指定您的包名。例如：com.android.FileProvider -->
+        <!-- 否则使用拍照功能时，会崩溃 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.somust.yyteam.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rc_file_path" />
+        </provider>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="63ed9e3f5ba5aaa16de01a599107fd00" />
     </application>
 
 </manifest>

@@ -18,6 +18,7 @@ import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.LoginActivity;
 import com.somust.yyteam.activity.RePassActivity;
+import com.somust.yyteam.activity.SubConversationListActivtiy;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
@@ -101,6 +102,7 @@ public class MineFragment extends Fragment {
             switch (v.getId()) {
                 case R.id.id_mine_team:
                     //打开大学社团主页面
+                    startActivity(new Intent(getActivity(), SubConversationListActivtiy.class));
                     break;
                 case R.id.id_mine_money:
                     //打开我的钱包页面

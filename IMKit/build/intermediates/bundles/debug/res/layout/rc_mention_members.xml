@@ -49,6 +49,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ListView
+            android:id="@id/rc_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:divider="@null">
+        </ListView>
+
         <TextView
             android:id="@+id/rc_popup_bg"
             android:layout_width="80.0dip"

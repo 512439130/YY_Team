@@ -1,6 +1,7 @@
 package com.somust.yyteam.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,9 +15,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.LocationSource;
 import com.somust.yyteam.R;
 import com.somust.yyteam.application.YYApplication;
 import com.somust.yyteam.context.BaseContext;
+import com.somust.yyteam.utils.log.L;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -28,6 +32,7 @@ import io.rong.imlib.MessageTag;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.TypingMessage.TypingStatus;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.UserInfo;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
 
@@ -37,7 +42,8 @@ import io.rong.message.VoiceMessage;
  * 会话界面
  */
 
-public class ConversationActivity extends FragmentActivity {
+
+public class ConversationActivity extends FragmentActivity implements RongIM.LocationProvider,RongIM.ConversationBehaviorListener{
     private TextView mTitle;
     private RelativeLayout mBack;
 
@@ -96,6 +102,8 @@ public class ConversationActivity extends FragmentActivity {
         getIntentDate(intent);
         //输入状态的监听
         setTypingStatusListener();
+
+        initLocation();
     }
 
 
@@ -241,4 +249,84 @@ public class ConversationActivity extends FragmentActivity {
             }
         });
     }
+
+
+    private void initLocation() {
+        //设置地理位置监听事件
+        RongIM.setLocationProvider(this);
+        RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
+    }
+
+    /**
+     * 位置信息提供者:LocationProvider 的回调方法，打开第三方地图页面。
+     *
+     * @param context  上下文
+     * @param locationCallback 回调
+     */
+    @Override
+    public void onStartLocation(Context context, LocationCallback locationCallback) {
+        L.v("点击地图功能");
+    }
+
+
+    /**
+     * 头像点击事件
+     * @param context
+     * @param conversationType
+     * @param userInfo
+     * @return
+     */
+    @Override
+    public boolean onUserPortraitClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
+        L.v("头像点击事件");
+        return false;
+    }
+
+    /**
+     * 头像长点击事件
+     * @param context
+     * @param conversationType
+     * @param userInfo
+     * @return
+     */
+    @Override
+    public boolean onUserPortraitLongClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
+        L.v("头像长点击事件");
+        return false;
+    }
+
+
+    /**
+     * 消息点击事件
+     * @param context
+     * @param view
+     * @param message
+     * @return
+     */
+    @Override
+    public boolean onMessageClick(Context context, View view, io.rong.imlib.model.Message message) {
+        L.v("消息点击事件");
+        return false;
+    }
+
+
+    @Override
+    public boolean onMessageLinkClick(Context context, String s) {
+        return false;
+    }
+
+    /**
+     * 消息长按事件
+     * @param context
+     * @param view
+     * @param message
+     * @return
+     */
+    @Override
+    public boolean onMessageLongClick(Context context, View view, io.rong.imlib.model.Message message) {
+        L.v("消息长按事件");
+        return false;
+    }
+
+
 }

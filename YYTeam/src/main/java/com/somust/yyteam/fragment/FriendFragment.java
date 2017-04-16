@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -81,7 +80,7 @@ public class FriendFragment extends Fragment {
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.friend_fragment, null);
+        mView = inflater.inflate(R.layout.fragment_friend, null);
         initView();
         Intent intent = getActivity().getIntent();
         user = (User) intent.getSerializableExtra("user");

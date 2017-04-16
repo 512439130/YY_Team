@@ -16,6 +16,7 @@ import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 
 import com.somust.yyteam.bean.User;
+import com.somust.yyteam.fragment.CommunityFragment;
 import com.somust.yyteam.fragment.FriendFragment;
 import com.somust.yyteam.fragment.MineFragment;
 import com.somust.yyteam.fragment.TestFragment;
@@ -65,7 +66,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         Intent intent = this.getIntent();
         user = (User) intent.getSerializableExtra("user");
-
         initView();
 
         //初始化数据
@@ -128,7 +128,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mConversationList = initConversationList();  //获取融云会话列表的对象
         mFragment.add(mConversationList);//加入会话列表（第一页）
         mFragment.add(FriendFragment.getInstance());//加入第2页,朋友列表
-        mFragment.add(TestFragment.getInstance());//加入第3页 测试功能界面
+       // mFragment.add(TestFragment.getInstance());//加入第3页 测试功能界面
+        mFragment.add(CommunityFragment.getInstance());
         mFragment.add(MineFragment.getInstance());//加入第4页，我的页
 
 
@@ -229,9 +230,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
                     .appendPath("conversation")
                     .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false")//设置私聊会话是否聚合显示
-                    .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")
-                    .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置私聊会话是否聚合显示
-                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置私聊会是否聚合显示
+                    .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//仅仅显示私聊和群组类型
+                    .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")
+                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")
                     .build();
             listFragment.setUri(uri);
             return listFragment;

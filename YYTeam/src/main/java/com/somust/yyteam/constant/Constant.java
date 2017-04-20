@@ -12,4 +12,8 @@ public class Constant {
     public static final String mMessage_success = "操作成功!";
     public static final String mMessage_error = "操作失败!";
 
+
+    //formatType
+    public static final String formatType = "yyyy-MM-dd HH:mm:ss!";
+
 }

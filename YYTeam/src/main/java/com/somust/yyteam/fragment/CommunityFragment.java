@@ -37,6 +37,9 @@ import okhttp3.Call;
 /**
  * Created by DELL on 2016/3/14.
  */
+/**
+ * 社团圈
+ */
 public class CommunityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener {
     public static CommunityFragment instance = null;//单例模式
 

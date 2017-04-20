@@ -189,7 +189,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             .build()
                             .execute(new MyStringCallback());
                 }
-            }, 1200);//3秒后执行Runnable中的run方法
+            }, 1200);//1.2秒后执行Runnable中的run方法
 
 
         }
@@ -285,7 +285,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 if (!userId.equals("")) {
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("user",user);
+                    bundle.putSerializable("user", user);
                     intent.putExtras(bundle);
                     startActivity(intent);
                     T.testShowShort(LoginActivity.this, "用户Id：" + userId);

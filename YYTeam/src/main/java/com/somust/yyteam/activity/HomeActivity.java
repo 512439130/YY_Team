@@ -19,6 +19,7 @@ import com.somust.yyteam.bean.User;
 import com.somust.yyteam.fragment.CommunityFragment;
 import com.somust.yyteam.fragment.FriendFragment;
 import com.somust.yyteam.fragment.MineFragment;
+import com.somust.yyteam.fragment.TeamNewsFragment;
 import com.somust.yyteam.fragment.TestFragment;
 import com.somust.yyteam.popwindow.ActionItem;
 import com.somust.yyteam.popwindow.TitlePopup;
@@ -129,7 +130,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mFragment.add(mConversationList);//加入会话列表（第一页）
         mFragment.add(FriendFragment.getInstance());//加入第2页,朋友列表
        // mFragment.add(TestFragment.getInstance());//加入第3页 测试功能界面
-        mFragment.add(CommunityFragment.getInstance());
+       // mFragment.add(CommunityFragment.getInstance());  //社团圈改变位置
+        mFragment.add(TeamNewsFragment.getInstance());  //社团新闻页
         mFragment.add(MineFragment.getInstance());//加入第4页，我的页
 
 

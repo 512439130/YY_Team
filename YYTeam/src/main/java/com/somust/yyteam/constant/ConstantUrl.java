@@ -15,6 +15,10 @@ public class ConstantUrl {
     //friend
     public static final String friendUrl = "http://118.89.47.137/renren-security/friend/";
 
+
+    //team
+    public static final String TeamUrl = "http://118.89.47.137/renren-security/team/";
+
     //save _friend_image(上传图片时使用)
     public static final String save_friend_image = "http://118.89.47.137/renren-security/friend/";
 
@@ -35,9 +39,15 @@ public class ConstantUrl {
     public static final String userLogin_interface = "yy_login?";  //登录
     public static final String userUpdatePass_interface = "yy_update_pass?";  //修改密码
     public static final String getUserInfo_interface = "yy_get_userinfo?";  //登录
-
     //interface friend
     public static final String friend_interface = "yy_obtain_friend?";
+
+    public static final String getTeamNews_interface = "yy_obtain_team_news"; //社团新闻
+
+
+
+
+
 
 
 

@@ -246,7 +246,6 @@ public class FriendFragment extends Fragment {
 
 
     private void initSidebarAndView() {
-
         // 设置字母导航触摸监听
         sidebar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
 

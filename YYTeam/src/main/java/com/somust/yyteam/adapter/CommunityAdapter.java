@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.somust.yyteam.R;
 
+/**
+ * 社团圈
+ */
 public class CommunityAdapter extends BaseAdapter {
     public ArrayList<HashMap<String, String>> list;
     public Context context;

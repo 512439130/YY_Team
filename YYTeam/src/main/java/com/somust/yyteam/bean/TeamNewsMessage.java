@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * Created by 13160677911 on 2017-4-21.
+ * 用户保存社团新闻申请后的数据
  */
 
 public class TeamNewsMessage {

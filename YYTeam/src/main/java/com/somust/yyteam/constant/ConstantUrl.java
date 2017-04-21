@@ -44,6 +44,8 @@ public class ConstantUrl {
 
     public static final String getTeamNews_interface = "yy_obtain_team_news"; //社团新闻
 
+    public static final String getAllUserInfo_interface = "yy_get_alluserinfo"; //社团新闻
+
 
 
 

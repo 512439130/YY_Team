@@ -43,7 +43,7 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 public class GroupChatActivity extends Activity implements View.OnClickListener {
-    private ImageView HeadPortrait;  //头像
+    private ImageView returnView;  //头像
     private TextView name;  //昵称
 
     private ListView friendListView;
@@ -188,7 +188,7 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
     }
 
     private void initView() {
-        HeadPortrait = (ImageView) findViewById(R.id.id_title_back);
+        returnView = (ImageView) findViewById(R.id.id_title_back);
         name = (TextView) findViewById(R.id.id_title_name);
         friendListView = (ListView) findViewById(R.id.id_lv_friend);
 

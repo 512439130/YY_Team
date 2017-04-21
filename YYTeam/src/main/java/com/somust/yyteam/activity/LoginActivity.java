@@ -19,8 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 import com.somust.yyteam.bean.Friend;
+import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
@@ -30,6 +32,7 @@ import com.somust.yyteam.view.DropEditText;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.StringCallback;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +61,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private User user;
 
+    private List<User> allUser;
+
     private ImageView mImg_Background;
 
     @Override
@@ -65,6 +70,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         userIdList = new ArrayList<Friend>();
+        allUser = new ArrayList<User>();
         initView();
         initEvent();
 
@@ -94,44 +100,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         //initDropEditTextAdapter();
     }
-    //测试调用
-    /*private void initDropEditTextAdapter() {
-
-        et_phone.setAdapter(new BaseAdapter() {
-            private List<String> mList = new ArrayList<String>() {
-                {
-                    add("13160677911");
-                    add("13192259530");
-                    add("13750060283");
-                    add("13631220247");
-                }
-            };
-
-            @Override
-            public int getCount() {
-                return mList.size();
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return mList.get(position);
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                TextView tv = new TextView(LoginActivity.this);
-                tv.setText(mList.get(position));
-                return tv;
-            }
-        });
 
 
-    }*/
 
     private void initEvent() {
         tv_register.setOnClickListener(this);
@@ -187,7 +157,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             .addParams("userPhone", phone)
                             .addParams("userPassword", password)
                             .build()
-                            .execute(new MyStringCallback());
+                            .execute(new MyLoginCallback());
                 }
             }, 1200);//1.2秒后执行Runnable中的run方法
 
@@ -196,16 +166,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     }
 
-    public class MyStringCallback extends StringCallback {
-        @Override
-        public void onBefore(Request request, int id) {
+    public class MyLoginCallback extends StringCallback {
 
-        }
-
-        @Override
-        public void onAfter(int id) {
-            setTitle("okHttp");
-        }
 
         @Override
         public void onError(Call call, Exception e, int id) {
@@ -234,17 +196,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 friend.setName(user.getUserNickname());
                 friend.setPortraitUri(user.getUserImage());   //设置默认头像(修改为获取用户的头像)
                 userIdList.add(friend);
-                connectRongServer(user.getUserToken());
-
                 setUserInfoProvider();   //两种获取用户信息方式，只需要实现一种就好
+
+                obtainAllUserInfo();
             }
 
         }
 
-        @Override
-        public void inProgress(float progress, long total, int id) {
-            L.v(TAG, "inProgress:" + progress);
-        }
+
 
     }
 
@@ -286,6 +245,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("user", user);
+                    bundle.putSerializable("allUser", (Serializable) allUser);
                     intent.putExtras(bundle);
                     startActivity(intent);
                     T.testShowShort(LoginActivity.this, "用户Id：" + userId);
@@ -308,5 +268,38 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             }
         });
 
+    }
+    public void obtainAllUserInfo(){
+        final String url = ConstantUrl.userUrl + ConstantUrl.getAllUserInfo_interface;
+        OkHttpUtils
+                .post()
+                .url(url)
+                .build()
+                .execute(new MyAllUserInfoCallback());
+    }
+
+    public class MyAllUserInfoCallback extends StringCallback {
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+            L.e(TAG, "onError:" + e.getMessage());
+            T.testShowShort(LoginActivity.this,"所有用户获取失败");
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            dialog.cancel();
+            if (response.equals("")) {
+                T.testShowShort(LoginActivity.this,"所有用户为空");
+            } else {
+                L.v(TAG, "onResponse:" + response);
+                Gson gson = new Gson();
+                allUser = gson.fromJson(response, new TypeToken<List<User>>() {
+                }.getType());
+                L.v(TAG,allUser.toString());
+
+                connectRongServer(user.getUserToken());
+            }
+        }
     }
 }

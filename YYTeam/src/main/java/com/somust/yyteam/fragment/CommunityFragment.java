@@ -1,38 +1,19 @@
 package com.somust.yyteam.fragment;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
-import com.somust.yyteam.activity.LoginActivity;
-import com.somust.yyteam.activity.RePassActivity;
-import com.somust.yyteam.activity.SubConversationListActivtiy;
 import com.somust.yyteam.adapter.CommunityAdapter;
-import com.somust.yyteam.bean.User;
-import com.somust.yyteam.utils.log.L;
-import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.refreshview.RefreshLayout;
-import com.yy.http.okhttp.OkHttpUtils;
-import com.yy.http.okhttp.callback.BitmapCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import okhttp3.Call;
 
 /**
  * Created by DELL on 2016/3/14.
@@ -79,7 +60,7 @@ public class CommunityFragment extends Fragment implements SwipeRefreshLayout.On
      * 初始化数据
      */
     private void initView() {
-        header = getActivity().getLayoutInflater().inflate(R.layout.refresh_header, null);
+        header = getActivity().getLayoutInflater().inflate(R.layout.team_news_header, null);
         swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources(R.color.color_bule2,R.color.color_bule,R.color.color_bule2,R.color.color_bule3);
     }

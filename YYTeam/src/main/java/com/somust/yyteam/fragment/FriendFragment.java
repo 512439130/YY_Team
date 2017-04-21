@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 
-import com.somust.yyteam.activity.InformationActivity;
+import com.somust.yyteam.activity.PersionInformationActivity;
 import com.somust.yyteam.adapter.FriendAdapter;
 import com.somust.yyteam.bean.PersonBean;
 import com.somust.yyteam.bean.TeamFriend;
@@ -29,6 +30,7 @@ import com.somust.yyteam.utils.SideBar.PinyinUtils;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.SideBar;
+import com.somust.yyteam.view.refreshview.RefreshLayout;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
@@ -39,13 +41,12 @@ import java.util.Collections;
 import java.util.List;
 
 import okhttp3.Call;
-import okhttp3.Request;
 
 /**
  * Created by 13160677911 on 2016-12-4.
  */
 
-public class FriendFragment extends Fragment {
+public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRefreshListener{
     //首先查询当前用户id的好友表中的好友id，通过融云及时获取用户信息(昵称，id)
 
     public static FriendFragment instance = null;//单例模式
@@ -78,15 +79,18 @@ public class FriendFragment extends Fragment {
     private Button addButton;
 
 
+    private RefreshLayout swipeLayout;
+    private View header;
+
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_friend, null);
         initView();
         Intent intent = getActivity().getIntent();
         user = (User) intent.getSerializableExtra("user");
+
         //发送网络请求，获取好友列表
         obtainFriendList(user.getUserPhone());
-
 
         return mView;
     }
@@ -101,12 +105,17 @@ public class FriendFragment extends Fragment {
         dialogTextView = (TextView) mView.findViewById(R.id.dialog);
         sidebar.setTextView(dialogTextView);
         addButton = (Button) mView.findViewById(R.id.id_add_friend);
-        addButton.setOnClickListener(new View.OnClickListener() {  //添加好友按钮
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+
+
+        //头部布局
+        header = getActivity().getLayoutInflater().inflate(R.layout.friend_header, null);
+        friendListView.addHeaderView(header);
+
+
+        //初始化刷新
+        swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
+        swipeLayout.setColorSchemeResources(R.color.color_bule2,R.color.color_bule,R.color.color_bule2,R.color.color_bule3);
 
 
 
@@ -128,20 +137,12 @@ public class FriendFragment extends Fragment {
 
     }
 
+
+
     /**
      * 回调
      */
     public class MyStringCallback extends StringCallback {
-        @Override
-        public void onBefore(Request request, int id) {
-
-        }
-
-        @Override
-        public void onAfter(int id) {
-
-        }
-
         @Override
         public void onError(Call call, Exception e, int id) {
 
@@ -173,17 +174,8 @@ public class FriendFragment extends Fragment {
                 for (int i = 0; i < friendlist.size(); i++) {
                     obtainImage(friendlist.get(i).getFriendPhone().getUserImage(), i);
                 }
-
-
             }
-
         }
-
-        @Override
-        public void inProgress(float progress, long total, int id) {
-            L.v(TAG, "inProgress:" + progress);
-        }
-
     }
 
     /**
@@ -227,21 +219,31 @@ public class FriendFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //由于字幕排序引起item不对应list(不能使用排序前的friendlist，必须使用排序后的personBeanList)
-                String userId = personBeenList.get(position).getPhone();
-                String userNickname = personBeenList.get(position).getName();
+                String userId = personBeenList.get(position-1).getPhone();
+                String userNickname = personBeenList.get(position-1).getName();
                 L.e(TAG, userId);
                 L.e(TAG, userNickname);
                 //打开个人信息界面（个人信息界面包含发送消息）
-                Intent intent = new Intent(getActivity(), InformationActivity.class);
+                Intent intent = new Intent(getActivity(), PersionInformationActivity.class);
                 intent.putExtra("userId", userId);
                 intent.putExtra("userNickname", userNickname);
+                intent.putExtra("openState","friend");  //好友
                 startActivity(intent);
-
-                //打开单聊界面（根据position）
-                //RongIM.getInstance().startPrivateChat(getActivity(), userId, userNickname);
 
             }
         });
+
+
+         //设置刷新监听
+        swipeLayout.setOnRefreshListener(this);
+
+        addButton.setOnClickListener(new View.OnClickListener() {  //添加好友按钮
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 
@@ -268,8 +270,6 @@ public class FriendFragment extends Fragment {
             names[i] = friendlist.get(i).getFriendPhone().getUserNickname();
             phones[i] = friendlist.get(i).getFriendPhone().getUserPhone();
         }
-
-
         personBeenList = getData(names, phones);  //真实数据
 
         // 数据在放在adapter之前需要排序
@@ -312,6 +312,28 @@ public class FriendFragment extends Fragment {
         return listarray;
 
     }
+
+
+    /**
+     * 上拉刷新
+     */
+    @Override
+    public void onRefresh() {
+        swipeLayout.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                // 更新数据  更新完后调用该方法结束刷新
+                personBeenList.clear();
+                obtainFriendList(user.getUserPhone());
+                //请求是否有更新（在这个时间段后）
+                swipeLayout.setRefreshing(false);
+            }
+        }, 1500);
+    }
+
+
+
 
 
 

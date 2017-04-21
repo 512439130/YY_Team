@@ -6,70 +6,69 @@
     android:orientation="vertical">
 
 
-
-    <RelativeLayout
-
+    <com.somust.yyteam.view.refreshview.RefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/id_lv_friend"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:divider="@null">
+
+            </ListView>
+
+            <RelativeLayout
+                android:id="@+id/id_rl_add_friend"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible">
 
 
-        <ListView
-            android:id="@+id/id_lv_friend"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+                <Button
+                    android:id="@+id/id_add_friend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+                    android:text="添加好友"
+                    android:textColor="#ffffff" />
 
-            android:divider="@null">
-
-        </ListView>
-        <RelativeLayout
-            android:id="@+id/id_rl_add_friend"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible">
-
-
-
-            <Button
-                android:id="@+id/id_add_friend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="添加好友"
-                android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
-                android:layout_centerInParent="true"
-                android:textColor="#ffffff"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="您暂时还没有好友，请添加..."
-                android:layout_marginTop="100dp"
-                android:textSize="20sp"
-                android:textColor="#ff5100"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:text="您暂时还没有好友，请添加..."
+                    android:textColor="#ff5100"
+                    android:textSize="20sp" />
 
 
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/dialog"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:background="@drawable/rc_bg_toast"
-            android:gravity="center"
-            android:textColor="#ffffffff"
-            android:textSize="30dp"
-            android:visibility="invisible" />
+            </RelativeLayout>
 
 
-        <com.somust.yyteam.view.SideBar
-            android:id="@+id/sidebar"
-            android:layout_width="15dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="#f5f5f5"
-            />
-    </RelativeLayout>
+
+    </com.somust.yyteam.view.refreshview.RefreshLayout>
+    <TextView
+        android:id="@+id/dialog"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="@drawable/rc_bg_toast"
+        android:gravity="center"
+        android:textColor="#ffffffff"
+        android:textSize="30dp"
+        android:visibility="invisible" />
+
+
+    <com.somust.yyteam.view.SideBar
+        android:id="@+id/sidebar"
+        android:layout_width="12dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="#ffffff" />
 </RelativeLayout>

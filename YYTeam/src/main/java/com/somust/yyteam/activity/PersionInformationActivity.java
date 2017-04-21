@@ -1,25 +1,19 @@
 package com.somust.yyteam.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
-import com.somust.yyteam.bean.Friend;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
@@ -31,23 +25,26 @@ import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
 import io.rong.imkit.RongIM;
-import io.rong.imlib.model.UserInfo;
 import okhttp3.Call;
 import okhttp3.Request;
 
 /**
  * Created by MMZB-YY on 2017/4/11.
+ * 个人信息页
  */
 
-public class InformationActivity extends Activity {
-    private static final String TAG = "InformationActivity:";
+public class PersionInformationActivity extends Activity {
+    private static final String TAG = "PersionInformationActivity:";
     private ImageView iv_reutrn;
+    private TextView titleName;
+
     private Button btn_add;
     private Button btn_send;
 
     private String userPhone;
-
     private String userNickname;
+    private String openState;
+
 
     private ImageViewPlus iv_headPortrait;
     private TextView id_name;
@@ -63,19 +60,20 @@ public class InformationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_information);
+        setContentView(R.layout.activity_information_persion);
         initView();
         //获取intent传值
         Intent intent = getIntent();
         userPhone = intent.getStringExtra("userId");
         userNickname = intent.getStringExtra("userNickname");
-
+        openState = intent.getStringExtra("openState");
         //通过网络请求获取用户信息
         getUserInfo(userPhone);
     }
 
     private void initView() {
         iv_reutrn = (ImageView) findViewById(R.id.id_title_back);
+        titleName  = (TextView) findViewById(R.id.actionbar_name);
         btn_add = (Button) findViewById(R.id.btn_add_friend);
         btn_send = (Button) findViewById(R.id.btn_send_message);
 
@@ -99,7 +97,7 @@ public class InformationActivity extends Activity {
     private void getUserInfo(final String userPhone) {
         final String url = ConstantUrl.userUrl + ConstantUrl.getUserInfo_interface;
         if (TextUtils.isEmpty(userPhone)) {
-            T.testShowShort(InformationActivity.this, "用户名密码不能为空");
+            T.testShowShort(PersionInformationActivity.this, "用户名密码不能为空");
         } else {
             dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_message, true, true);
 
@@ -136,18 +134,18 @@ public class InformationActivity extends Activity {
         public void onError(Call call, Exception e, int id) {
             e.printStackTrace();
             L.e(TAG, "onError:" + e.getMessage());
-            T.testShowShort(InformationActivity.this, Constant.mProgressDialog_error);
+            T.testShowShort(PersionInformationActivity.this, Constant.mProgressDialog_error);
         }
 
         @Override
         public void onResponse(String response, int id) {
             if (response.equals("")) {
-                T.testShowShort(InformationActivity.this, Constant.mMessage_error);
+                T.testShowShort(PersionInformationActivity.this, Constant.mMessage_error);
             } else {
                 Gson gson = new Gson();
                 user = gson.fromJson(response, User.class);
                 System.out.println(user.toString());
-                T.testShowShort(InformationActivity.this, Constant.mMessage_success);
+                T.testShowShort(PersionInformationActivity.this, Constant.mMessage_success);
                 L.v(TAG, "onResponse:" + response);
 
                 //通过用户信息获取个人信息中的头像
@@ -200,6 +198,14 @@ public class InformationActivity extends Activity {
 
 
     private void initDatas() {
+        titleName.setText("个人信息");
+        if(openState.equals("friend")){
+            btn_send.setVisibility(View.VISIBLE);
+        }else if(openState.equals("stranger")){
+            btn_add.setVisibility(View.VISIBLE);
+            btn_send.setText("匿名消息");
+            btn_send.setVisibility(View.VISIBLE);
+        }
         iv_headPortrait.setImageBitmap(portraitBitmap); //设置用户头像
         id_name.setText(user.getUserNickname());
         id_phone.setText(user.getUserPhone());
@@ -222,7 +228,7 @@ public class InformationActivity extends Activity {
                     break;
                 case R.id.btn_send_message:  //发消息
                     //打开单聊界面（根据position）
-                    RongIM.getInstance().startPrivateChat(InformationActivity.this, userPhone, userNickname);
+                    RongIM.getInstance().startPrivateChat(PersionInformationActivity.this, userPhone, userNickname);
                     finish();
                     break;
                 case R.id.id_title_back:

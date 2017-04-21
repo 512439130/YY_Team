@@ -1,8 +1,12 @@
 package com.somust.yyteam.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class TeamNews {
+public class TeamNews implements Serializable{
        
         private Integer newsId;
         private Team teamId;
@@ -10,6 +14,11 @@ public class TeamNews {
         private String newsTime;
         private String newsContent;
         private String newsImage;
+
+
+
+
+
         public Integer getNewsId() {
                 return newsId;
         }
@@ -47,7 +56,19 @@ public class TeamNews {
         public void setNewsImage(String newsImage) {
                 this.newsImage = newsImage;
         }
-        
-        
-        
+
+
+
+
+        @Override
+        public String toString() {
+                return "TeamNews{" +
+                        "newsId=" + newsId +
+                        ", teamId=" + teamId.toString() +
+                        ", newsTitle='" + newsTitle + '\'' +
+                        ", newsTime='" + newsTime + '\'' +
+                        ", newsContent='" + newsContent + '\'' +
+                        ", newsImage='" + newsImage + '\'' +
+                        '}';
+        }
 }

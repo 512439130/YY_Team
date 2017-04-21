@@ -19,6 +19,7 @@ import com.somust.yyteam.R;
 import com.somust.yyteam.activity.LoginActivity;
 import com.somust.yyteam.activity.RePassActivity;
 import com.somust.yyteam.activity.SubConversationListActivtiy;
+import com.somust.yyteam.activity.UserManagerActivity;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
@@ -44,10 +45,11 @@ public class MineFragment extends Fragment {
     private View mView;
 
     //Tab_Button
+    private RelativeLayout mUser;
     private RelativeLayout mTeam;
     private RelativeLayout mMoney;
     private RelativeLayout mSignout;
-    private RelativeLayout mRepass;
+
 
     private User user;
 
@@ -84,11 +86,11 @@ public class MineFragment extends Fragment {
         mTeam = (RelativeLayout) mView.findViewById(R.id.id_mine_team);
         mMoney = (RelativeLayout) mView.findViewById(R.id.id_mine_money);
         mSignout = (RelativeLayout) mView.findViewById(R.id.id_mine_sign_out);
-        mRepass = (RelativeLayout) mView.findViewById(R.id.id_mine_repass);
+        mUser = (RelativeLayout) mView.findViewById(R.id.id_mine_user);
         mTeam.setOnClickListener(new MyOnClickListener());
         mMoney.setOnClickListener(new MyOnClickListener());
         mSignout.setOnClickListener(new MyOnClickListener());
-        mRepass.setOnClickListener(new MyOnClickListener());
+        mUser.setOnClickListener(new MyOnClickListener());
 
 
         iv_headPortrait = (ImageView) mView.findViewById(R.id.id_head_portrait);
@@ -100,26 +102,20 @@ public class MineFragment extends Fragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.id_mine_team:
-                    //打开大学社团主页面
-                    startActivity(new Intent(getActivity(), SubConversationListActivtiy.class));
-                    break;
-                case R.id.id_mine_money:
-                    //打开我的钱包页面
-                    //打开红包界面
-                    JrmfClient.intentWallet(getActivity());
-                    break;
-
-                case R.id.id_mine_repass:
-                    //弹出确认退出框
-                    T.testShowShort(getActivity(), "修改密码");
-                    Intent intent = new Intent();
-                    intent.setClass(getActivity(), RePassActivity.class);
+                case R.id.id_mine_user:   //用户管理
+                    Intent intent = new Intent(getActivity(), UserManagerActivity.class);
+                    intent.putExtra("user", user);
                     startActivity(intent);
                     break;
-                case R.id.id_mine_sign_out:
-                    //弹出确认退出框
+                case R.id.id_mine_team://社团管理
+                    startActivity(new Intent(getActivity(), SubConversationListActivtiy.class));
+                    break;
+                case R.id.id_mine_money://打开我的钱包页面
+                    JrmfClient.intentWallet(getActivity());
+                    break;
+                case R.id.id_mine_sign_out:  //弹出确认退出框
                     showMyDialog(getActivity());
+
                     break;
                 default:
                     break;

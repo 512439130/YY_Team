@@ -58,7 +58,6 @@ public class TeamNewsAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             view = layoutInflater.inflate(R.layout.item_teamnews, null);
-            holder.team_new_background = (LinearLayout) view.findViewById(R.id.team_new_background);
 
             holder.news_title = (TextView) view.findViewById(R.id.news_title);
             holder.news_content = (TextView) view.findViewById(R.id.news_content);
@@ -82,17 +81,12 @@ public class TeamNewsAdapter extends BaseAdapter {
         holder.team_name.setText(teamNewsMessages.get(position).getTeamName());
         holder.team_image.setImageBitmap(teamNewsMessages.get(position).getTeamImage());
 
-        if(position == 0){
-            holder.team_new_background.setVisibility(View.VISIBLE);
-        }else{
-            holder.team_new_background.setVisibility(View.GONE);
-        }
+
 
         return view;
     }
 
     static class ViewHolder {
-        LinearLayout team_new_background;  //社团新闻顶部背景
 
         TextView news_title;     //新闻标题
         TextView news_content;  //新闻内容

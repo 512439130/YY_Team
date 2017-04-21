@@ -1,5 +1,6 @@
 package com.somust.yyteam.utils;
 
+import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.TeamNewsMessage;
 import com.somust.yyteam.constant.Constant;
 
@@ -55,11 +56,11 @@ public class DateUtil {
      * @param list
      */
 
-    public static void sortDate(List<TeamNewsMessage> list){
+    public static void sortDate(List<TeamNews> list){
 
         System.out.println("排序前："+list);
 
-        Collections.sort(list, new Comparator<TeamNewsMessage>(){
+        Collections.sort(list, new Comparator<TeamNews>(){
 
             /*
              * int compare(Student o1, Student o2) 返回一个基本类型的整型，
@@ -67,7 +68,7 @@ public class DateUtil {
              * 返回0 表示：o1和o2相等，
              * 返回正数表示：o1大于o2。
              */
-            public int compare(TeamNewsMessage o1, TeamNewsMessage o2) {
+            public int compare(TeamNews o1, TeamNews o2) {
 
 
                 try {

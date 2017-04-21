@@ -22,7 +22,7 @@
     <string name="count_down">%1$d秒后重试</string>
     <string name="login_add_friend">添加好友</string>
     <string name="login_send_message">发消息</string>
-
+    <string name="login_add_team">申请加入</string>
 
     <!--title_bar_popwindow-->
     <string name="groupchat">创建讨论组</string>

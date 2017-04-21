@@ -28,6 +28,7 @@ import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.ChangeColorIconWithText;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private static final String TAG = "HomeActivity:";
 
     private User user;    //登录用户的信息
+    private List<User> allUser;
 
     private ImageView iv_add;
     private ImageView iv_search;
@@ -67,6 +69,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         Intent intent = this.getIntent();
         user = (User) intent.getSerializableExtra("user");
+        allUser = (List<User>) intent.getSerializableExtra("allUser");
         initView();
 
         //初始化数据
@@ -74,6 +77,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         mViewPager.setAdapter(mFragmentPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
+        mViewPager.setOffscreenPageLimit(4);  //设置缓存的页面个数
 
         inint();  //初始化titlebar中的popwindow
     }
@@ -255,6 +259,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     titlePopup.show(findViewById(R.id.id_add));
                     break;
                 case R.id.id_search: //打开查询页面
+                    Intent intent = new Intent(HomeActivity.this,SearchUserActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("allUser", (Serializable) allUser);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     break;
 
                 default:
@@ -282,6 +291,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     break;
                 case 1:// 添加朋友
                     T.testShowShort(HomeActivity.this, "添加好友");
+                    Intent intent2 = new Intent(HomeActivity.this,SearchUserActivity.class);
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putSerializable("allUser", (Serializable) allUser);
+                    intent2.putExtras(bundle2);
+                    startActivity(intent2);
                     break;
                 case 2:// 扫一扫
                     T.testShowShort(HomeActivity.this, "扫一扫");

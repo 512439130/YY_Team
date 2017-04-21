@@ -1,8 +1,9 @@
 package com.somust.yyteam.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Team { 
+public class Team implements Serializable{
         private Integer teamId;
         private String teamName;
         private String teamType;
@@ -51,7 +52,18 @@ public class Team {
         }
         public void setTeamIntroduce(String teamIntroduce) {
                 this.teamIntroduce = teamIntroduce;
-        }       
-        
-        
+        }
+
+        @Override
+        public String toString() {
+                return "Team{" +
+                        "teamId=" + teamId +
+                        ", teamName='" + teamName + '\'' +
+                        ", teamType='" + teamType + '\'' +
+                        ", teamPresident=" + teamPresident.toString() +
+                        ", teamTime='" + teamTime + '\'' +
+                        ", teamImage='" + teamImage + '\'' +
+                        ", teamIntroduce='" + teamIntroduce + '\'' +
+                        '}';
+        }
 }

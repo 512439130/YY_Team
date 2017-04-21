@@ -1,5 +1,6 @@
 package com.somust.yyteam.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Message;
@@ -8,18 +9,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
-import com.somust.yyteam.adapter.CommunityAdapter;
+import com.somust.yyteam.activity.TeamNewsActivity;
 import com.somust.yyteam.adapter.TeamNewsAdapter;
-import com.somust.yyteam.bean.TeamFriend;
 import com.somust.yyteam.bean.TeamNews;
-import com.somust.yyteam.bean.TeamNewsImage;
 import com.somust.yyteam.bean.TeamNewsMessage;
-import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.DateUtil;
 import com.somust.yyteam.utils.log.L;
@@ -30,13 +29,11 @@ import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Call;
-import okhttp3.Request;
+
 import android.os.Handler;
-import android.widget.Toast;
 /**
  * Created by DELL on 2016/3/14.
  */
@@ -46,7 +43,6 @@ import android.widget.Toast;
  */
 public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener {
     public static TeamNewsFragment instance = null;//单例模式
-
     public static TeamNewsFragment getInstance() {
         if (instance == null) {
             instance = new TeamNewsFragment();
@@ -56,16 +52,15 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     private View mView;
-
-
     private RefreshLayout swipeLayout;
-    private ListView listView;
-    private TeamNewsAdapter teamNewsAdapter;
+    private View header;
 
+    private ListView teamNewsListView;
+    private TeamNewsAdapter teamNewsAdapter;
 
     public List<TeamNews> teamNewsList = new ArrayList<>();   //存放网络接受的数据
     public List<TeamNewsMessage> teamNewsMessages = new ArrayList<>();   //将网络接收的数据装换为相应bean
-    private View header;
+
 
     private Bitmap[] newsBitmaps;
     private Bitmap[] teamBitmaps;
@@ -77,24 +72,15 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
     private boolean presidentFlag = false;
 
 
-
-
-
     private static final String TAG = "TeamNewsFragment:";
 
-
-
-
+    public List<TeamNews> intentDatas;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_teamnews, null);
         initView();
-
         requestData();
-
         initListener();
-
-
         return mView;
 
     }
@@ -103,9 +89,13 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
      * 初始化数据
      */
     private void initView() {
-        header = getActivity().getLayoutInflater().inflate(R.layout.refresh_header, null);
+        //头部
+        header = getActivity().getLayoutInflater().inflate(R.layout.team_news_header, null);
+
         swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources(R.color.color_bule2,R.color.color_bule,R.color.color_bule2,R.color.color_bule3);
+        teamNewsListView = (ListView) mView.findViewById(R.id.list);
+        teamNewsListView.addHeaderView(header);
     }
 
 
@@ -126,14 +116,12 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 }
                 teamFlag = true;
             }
-            if (bundle.getString("president_success") == "president_success") {  //社团创建人图片成功获取
-                for(int i = 0;i<teamNewsList.size();i++){
-                    teamNewsMessages.get(i).setUserImage(presidentBitmaps[i]);
-                }
-                presidentFlag = true;
-            }
-            if(newsFlag&&teamFlag&&presidentFlag){   //三张图片都请求成功时
-                DateUtil.sortDate(teamNewsMessages);
+
+            if(newsFlag&&teamFlag){   //三张图片都请求成功时
+
+                //请求是否有更新（在这个时间段后）
+                teamNewsAdapter.notifyDataSetChanged();
+
             }
 
         }
@@ -144,13 +132,34 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
      */
     private void initDatas() {
 
-        listView = (ListView) mView.findViewById(R.id.list);
-        listView.addHeaderView(header);
-
         teamNewsAdapter = new TeamNewsAdapter(getActivity(), teamNewsMessages);
-        listView.setAdapter(teamNewsAdapter);
+        teamNewsListView.setAdapter(teamNewsAdapter);
     }
+    /**
+     * 设置监听
+     */
+    private void initListener() {
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setOnLoadListener(this);
 
+        teamNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //新闻item的点击事件
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(intentDatas != null ){
+                    L.v(TAG,"数据获取完成");
+
+                    //intent传递新闻id
+                    TeamNews teamNews = intentDatas.get(position-1);  //获取当前item的bean
+
+                    Intent intent = new Intent(getActivity(), TeamNewsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("teamNews",teamNews);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
 
 
     /**
@@ -164,23 +173,10 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 .execute(new MyStringCallback());
     }
 
-
-
-
     /**
-     * 回调
+     * 请求回调
      */
     public class MyStringCallback extends StringCallback {
-        @Override
-        public void onBefore(Request request, int id) {
-
-        }
-
-        @Override
-        public void onAfter(int id) {
-
-        }
-
         @Override
         public void onError(Call call, Exception e, int id) {
 
@@ -201,6 +197,9 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 Gson gson = new Gson();
                 teamNewsList = gson.fromJson(response, new TypeToken<List<TeamNews>>() {
                 }.getType());
+                DateUtil.sortDate(teamNewsList);   //对结果排序
+                intentDatas = teamNewsList;
+
 
                 newsBitmaps= new Bitmap[teamNewsList.size()];
                 teamBitmaps= new Bitmap[teamNewsList.size()];
@@ -218,36 +217,30 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                     message.setTeamIntroduce(teamNewsList.get(i).getTeamId().getTeamIntroduce());
                     message.setTeamType(teamNewsList.get(i).getTeamId().getTeamType());
 
-
                     message.setUserPhone(teamNewsList.get(i).getTeamId().getTeamPresident().getUserPhone());
                     message.setUserNickname(teamNewsList.get(i).getTeamId().getTeamPresident().getUserNickname());
                     message.setUserSex(teamNewsList.get(i).getTeamId().getTeamPresident().getUserSex());
 
-
-
                     //通过网络请求获取图片
                     obtainNewImage(teamNewsList.get(i).getNewsImage(), i);
                     obtainTeamImage(teamNewsList.get(i).getTeamId().getTeamImage(), i);
-                    obtainPresidentImage(teamNewsList.get(i).getTeamId().getTeamPresident().getUserImage(), i);
+                    //obtainPresidentImage(teamNewsList.get(i).getTeamId().getTeamPresident().getUserImage(), i);
                     teamNewsMessages.add(message);
 
                 }
 
-
-
                 initDatas();
-
-
             }
 
         }
-
-
-
     }
 
 
-
+    /**
+     * 请求新闻图片
+     * @param url
+     * @param i
+     */
     public void obtainNewImage(String url, final int i) {
         OkHttpUtils
                 .get()
@@ -271,6 +264,12 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 });
 
     }
+
+    /**
+     * 请求社团logo
+     * @param url
+     * @param i
+     */
     public void obtainTeamImage(String url, final int i) {
         OkHttpUtils
                 .get()
@@ -294,6 +293,12 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 });
 
     }
+
+    /**
+     * 请求社团创始人头像
+     * @param url
+     * @param i
+     */
     public void obtainPresidentImage(String url, final int i) {
         OkHttpUtils
                 .get()
@@ -315,17 +320,9 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                         UpdateUi(imageHandler, "president_success", "president_success");
                     }
                 });
-
     }
 
 
-    /**
-     * 设置监听
-     */
-    private void initListener() {
-        swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setOnLoadListener(this);
-    }
 
 
 
@@ -342,8 +339,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 // 更新数据  更新完后调用该方法结束刷新
                 teamNewsMessages.clear();
                 requestData();
-                //请求是否有更新（在这个时间段后）
-                // teamNewsAdapter.notifyDataSetChanged();
+
                 swipeLayout.setRefreshing(false);
             }
         }, 1500);
@@ -360,7 +356,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
                 swipeLayout.setLoading(false);
-                teamNewsAdapter.notifyDataSetChanged();
+                //teamNewsAdapter.notifyDataSetChanged();
             }
         }, 1500);
     }
@@ -380,5 +376,6 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
         msg.setData(bundle);
         handler.sendMessage(msg);
     }
+
 
 }

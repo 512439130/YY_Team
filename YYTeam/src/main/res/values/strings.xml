@@ -29,4 +29,9 @@
     <string name="addfriend">添加好友</string>
     <string name="qrcode">扫一扫</string>
     <string name="money">我的钱包</string>
+
+
+    <!--friend request-->
+    <string name="request_agree">通过</string>
+    <string name="request_refuse">拒绝</string>
 </resources>

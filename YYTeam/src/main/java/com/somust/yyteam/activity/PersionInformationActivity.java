@@ -1,12 +1,17 @@
 package com.somust.yyteam.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
+import com.somust.yyteam.bean.FriendRequest;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
@@ -26,6 +32,7 @@ import com.yy.http.okhttp.callback.StringCallback;
 
 import io.rong.imkit.RongIM;
 import okhttp3.Call;
+import okhttp3.MediaType;
 import okhttp3.Request;
 
 /**
@@ -57,16 +64,27 @@ public class PersionInformationActivity extends Activity {
 
     private User user;
 
+    /**
+     * 保存登录用户的手机号
+     * @param savedInstanceState
+     */
+    private String Own_Phone;  //自己的手机号
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information_persion);
+
+
         initView();
         //获取intent传值
         Intent intent = getIntent();
         userPhone = intent.getStringExtra("userId");
         userNickname = intent.getStringExtra("userNickname");
         openState = intent.getStringExtra("openState");
+        Own_Phone = intent.getStringExtra("Own_id");
+
+
         //通过网络请求获取用户信息
         getUserInfo(userPhone);
     }
@@ -97,7 +115,7 @@ public class PersionInformationActivity extends Activity {
     private void getUserInfo(final String userPhone) {
         final String url = ConstantUrl.userUrl + ConstantUrl.getUserInfo_interface;
         if (TextUtils.isEmpty(userPhone)) {
-            T.testShowShort(PersionInformationActivity.this, "用户名密码不能为空");
+            T.testShowShort(PersionInformationActivity.this, "手机号不能为空");
         } else {
             dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_message, true, true);
 
@@ -152,11 +170,6 @@ public class PersionInformationActivity extends Activity {
                 obtainImage(user.getUserImage());
             }
 
-        }
-
-        @Override
-        public void inProgress(float progress, long total, int id) {
-            L.v(TAG, "inProgress:" + progress);
         }
 
     }
@@ -224,7 +237,8 @@ public class PersionInformationActivity extends Activity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_add_friend:  //添加好友
-
+                    //发送添加好友请求
+                    showMyDialog(PersionInformationActivity.this);  //弹出确认框
                     break;
                 case R.id.btn_send_message:  //发消息
                     //打开单聊界面（根据position）
@@ -239,7 +253,96 @@ public class PersionInformationActivity extends Activity {
         }
     }
 
+    /**
+     * 弹出确认框
+     */
+    private void showMyDialog(final Context context) {
+        // get prompts.xml view
+        L.v(TAG,"调用dialog");
+        LayoutInflater li = LayoutInflater.from(context);
+        View promptsView = li.inflate(R.layout.dialog_signout, null);
+        TextView community_content = (TextView)promptsView.findViewById(R.id.community_content);
+        community_content.setText("是否添加好友");
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setView(promptsView);
 
+        alertDialogBuilder
+                .setCancelable(false)
+                .setNegativeButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                //startActivity(new Intent(context, HomeActivity.class));
+                                requestAddFriend();
+                                //finish();
+                            }
+                        })
+                .setPositiveButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+    private String jsonString;
+    /**
+     * 添加好友的网络请求
+     */
+    private void requestAddFriend() {
+        L.v(TAG,"添加好友");
+        L.v(TAG,Own_Phone);
+        L.v(TAG,userPhone);
+        dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_success, true, true);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                jsonString = new Gson().toJson(new FriendRequest(Own_Phone,userPhone,"insert"));
+
+                //发起添加请求
+                OkHttpUtils
+                        .postString()
+                        .url(ConstantUrl.friendUrl + ConstantUrl.addFriendRequest_interface)
+                        .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                        .content(jsonString)
+                        .build()
+                        .execute(new MyRequestAddFriendCallback());
+            }
+        }, 2000);//2秒后执行Runnable中的run方法
+
+        L.v(TAG, "json处理后格式：" + jsonString);
+
+
+
+    }
+
+    public class MyRequestAddFriendCallback extends StringCallback {
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            dialog.cancel();//关闭圆形进度条
+            e.printStackTrace();
+            L.v(TAG, "请求失败");
+            T.testShowShort(PersionInformationActivity.this, Constant.mProgressDialog_error);
+            L.v(e.getMessage());
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            dialog.cancel();//关闭圆形进度条
+            L.v(response);
+            L.v(TAG, "请求成功");
+            T.testShowShort(PersionInformationActivity.this, Constant.mMessage_success);
+           // startActivity(new Intent(PersionInformationActivity.this, HomeActivity.class));  //跳转回主页面
+            finish();
+            //保持HomeActivity数据
+        }
+    }
 
 
 }

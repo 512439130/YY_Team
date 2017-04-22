@@ -20,6 +20,7 @@ public class TeamNewsActivity extends Activity implements View.OnClickListener {
 
     ImageView returnView;
     TextView titleName;
+
     TeamNews teamNews;
 
 
@@ -38,7 +39,7 @@ public class TeamNewsActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teamnews);
+        setContentView(R.layout.activity_team_news);
 
         //接收Intent传值
         Intent intent = this.getIntent();

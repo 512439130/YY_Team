@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 
 import com.somust.yyteam.activity.PersionInformationActivity;
+import com.somust.yyteam.activity.SearchUserActivity;
 import com.somust.yyteam.adapter.FriendAdapter;
 import com.somust.yyteam.bean.PersonBean;
 import com.somust.yyteam.bean.TeamFriend;
@@ -36,6 +38,7 @@ import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,11 +79,15 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
     private Bitmap[] portraitBitmaps;
 
     private RelativeLayout addRelativeLayout;  //界面无好友，显示添加好友界面
-    private Button addButton;
+
+    private Button addButton;  //添加好友按钮
 
 
     private RefreshLayout swipeLayout;
     private View header;
+
+    private List<User> allUser;
+
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,9 +95,11 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
         initView();
         Intent intent = getActivity().getIntent();
         user = (User) intent.getSerializableExtra("user");
+        allUser = (List<User>) intent.getSerializableExtra("allUser");
 
         //发送网络请求，获取好友列表
         obtainFriendList(user.getUserPhone());
+        initListener();
 
         return mView;
     }
@@ -100,14 +109,15 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
 
         addRelativeLayout = (RelativeLayout) mView.findViewById(R.id.id_rl_add_friend);
 
-        friendListView = (ListView) mView.findViewById(R.id.id_lv_friend);
+
+
         sidebar = (SideBar) mView.findViewById(R.id.sidebar);
         dialogTextView = (TextView) mView.findViewById(R.id.dialog);
         sidebar.setTextView(dialogTextView);
         addButton = (Button) mView.findViewById(R.id.id_add_friend);
 
 
-
+        friendListView = (ListView) mView.findViewById(R.id.id_lv_friend);
         //头部布局
         header = getActivity().getLayoutInflater().inflate(R.layout.friend_header, null);
         friendListView.addHeaderView(header);
@@ -157,10 +167,11 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
             if (response.equals("[]")) {
 
                 T.testShowShort(getActivity(), "您当前无好友");
-                friendListView.setVisibility(View.INVISIBLE);
+                //friendlistLinearLayout.setVisibility(View.INVISIBLE);
                 addRelativeLayout.setVisibility(View.VISIBLE);
             } else {
-
+               // friendlistLinearLayout.setVisibility(View.VISIBLE);
+                addRelativeLayout.setVisibility(View.INVISIBLE);
                 T.testShowShort(getActivity(), "好友获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();
@@ -205,7 +216,7 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
                         portraitBitmaps[i] = bitmap;
                         //网络请求成功后
                         initSidebarAndView();
-                        initEvent();
+
                     }
                 });
     }
@@ -213,7 +224,7 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
 
 
 
-    private void initEvent() {
+    private void initListener() {
         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -240,7 +251,12 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
         addButton.setOnClickListener(new View.OnClickListener() {  //添加好友按钮
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(),SearchUserActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("allUser", (Serializable) allUser);
+                intent.putExtra("Own_id",user.getUserPhone());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
@@ -315,21 +331,28 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
 
 
     /**
-     * 上拉刷新
+     * 下拉刷新
      */
     @Override
     public void onRefresh() {
+
+        addRelativeLayout.setVisibility(View.INVISIBLE);
+
+
         swipeLayout.postDelayed(new Runnable() {
 
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                personBeenList.clear();
+
+                if(personBeenList != null){
+                    personBeenList.clear();
+                }
                 obtainFriendList(user.getUserPhone());
                 //请求是否有更新（在这个时间段后）
                 swipeLayout.setRefreshing(false);
             }
-        }, 1500);
+        }, 2000);
     }
 
 

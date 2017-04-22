@@ -174,7 +174,9 @@ public class MineFragment extends Fragment {
                 .setNegativeButton("确定",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
+                                getActivity().finish();
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
+
                             }
                         })
                 .setPositiveButton("取消",

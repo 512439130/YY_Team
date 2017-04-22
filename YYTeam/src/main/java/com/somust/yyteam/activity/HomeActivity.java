@@ -40,9 +40,7 @@ import io.rong.push.notification.PushNotificationMessage;
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
-    private String[] mTitles = new String[]{   //定义四个Title用于显示四个Fragment的上边
-            "Fourth Fragment"
-    };
+
     private ViewPager mViewPager;
     private List<ChangeColorIconWithText> mTabIndicators = new ArrayList<ChangeColorIconWithText>();
     private FragmentPagerAdapter mFragmentPagerAdapter;//将tab页面持久在内存中
@@ -66,6 +64,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        T.isShow = false;  //关闭toast
+        L.isDebug = false;  //关闭Log
+
 
         Intent intent = this.getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -262,6 +264,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     Intent intent = new Intent(HomeActivity.this,SearchUserActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("allUser", (Serializable) allUser);
+                    intent.putExtra("Own_id",user.getUserPhone());
                     intent.putExtras(bundle);
                     startActivity(intent);
                     break;
@@ -294,6 +297,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     Intent intent2 = new Intent(HomeActivity.this,SearchUserActivity.class);
                     Bundle bundle2 = new Bundle();
                     bundle2.putSerializable("allUser", (Serializable) allUser);
+                    intent2.putExtra("Own_id",user.getUserPhone());
                     intent2.putExtras(bundle2);
                     startActivity(intent2);
                     break;

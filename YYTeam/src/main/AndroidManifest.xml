@@ -198,7 +198,9 @@
             android:name=".activity.HomeActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <!-- 个人信息界面 -->
-        <activity android:name=".activity.PersionInformationActivity" />
+        <activity
+            android:name=".activity.PersionInformationActivity"
+            android:launchMode="singleTop" />
         <!-- 联系人界面 -->
         <activity
             android:name=".activity.GroupChatActivity"
@@ -210,22 +212,25 @@
         <!-- 社团个人信息页 -->
         <activity android:name=".activity.TeamInformationActivity" />
         <activity android:name=".activity.UserManagerActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <!--搜索用户界面-->
-        <activity android:name=".activity.SearchUserActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan" >
 
         </activity>
-        <!--搜索社团界面-->
-        <activity android:name=".activity.SearchTeamActivity"
+        <!-- 搜索用户界面 -->
+        <activity
+            android:name=".activity.SearchUserActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
+        <!-- 搜索社团界面 -->
+        <activity
+            android:name=".activity.SearchTeamActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
+        <!-- 好友请求界面 -->
+        <activity android:name=".activity.FriendRequestActivity"
+            android:launchMode="singleTop">
 
         </activity>
     </application>

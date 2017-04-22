@@ -66,6 +66,13 @@ public class SearchUserActivity extends Activity implements SearchUserView.Searc
     private List<AllUser> allUsers;  //通过 Users和 portraitBitmaps合并的数据
 
 
+    /**
+     * 保存登录用户的手机号
+     * @param savedInstanceState
+     */
+    private String Own_id;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +101,7 @@ public class SearchUserActivity extends Activity implements SearchUserView.Searc
                 Intent intent = new Intent(SearchUserActivity.this, PersionInformationActivity.class);
                 intent.putExtra("userId", userId);
                 intent.putExtra("userNickname", userNickname);
+                intent.putExtra("Own_id",Own_id);
                 intent.putExtra("openState","stranger");  //好友
                 startActivity(intent);
             }
@@ -106,7 +114,7 @@ public class SearchUserActivity extends Activity implements SearchUserView.Searc
     private void initData() {
         Intent intent = this.getIntent();
         users = (List<User>) intent.getSerializableExtra("allUser");
-
+        Own_id = intent.getStringExtra("Own_id");
         //获取网络图片
         portraitBitmaps = new Bitmap[users.size()];
         for (int i = 0; i < users.size(); i++) {

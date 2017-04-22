@@ -294,33 +294,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     }
 
-    /**
-     * 请求社团创始人头像
-     * @param url
-     * @param i
-     */
-    public void obtainPresidentImage(String url, final int i) {
-        OkHttpUtils
-                .get()
-                .url(url)
-                .tag(this)
-                .build()
-                .connTimeOut(20000)
-                .readTimeOut(20000)
-                .writeTimeOut(20000)
-                .execute(new BitmapCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        L.e("onError:" + e.getMessage());
-                    }
 
-                    @Override
-                    public void onResponse(Bitmap bitmap, int id) {
-                        presidentBitmaps[i]=bitmap;
-                        UpdateUi(imageHandler, "president_success", "president_success");
-                    }
-                });
-    }
 
 
 

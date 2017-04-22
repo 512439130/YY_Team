@@ -35,6 +35,10 @@ public class UserManagerActivity extends Activity implements View.OnClickListene
     private TextView id_name;
     private TextView id_phone;
     private Bitmap portraitBitmap;
+
+
+    private Intent intent;
+
     private static final String TAG = "UserManagerActivity:";
 
     @Override
@@ -80,13 +84,17 @@ public class UserManagerActivity extends Activity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.user_request:  //添加请求
                 //查看添加请求的列表（带下拉刷新）
+                intent = new Intent(UserManagerActivity.this,FriendRequestActivity.class);
+                //传值
+                intent.putExtra("user", user);
+                startActivity(intent);
                 break;
             case R.id.user_message:  //维护个人信息
                 //修改个人信息
                 break;
 
             case R.id.user_repass:   //修改密码
-                Intent intent = new Intent();
+                intent = new Intent();
                 intent.setClass(UserManagerActivity.this, RePassActivity.class);
                 startActivity(intent);
                 break;

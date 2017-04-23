@@ -205,13 +205,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         L.v("position" + position);  //滑动结束后的页面位置
         L.v("positionOffset" + positionOffset);  //为精确滑动的值
         if (positionOffset > 0) {
-
             ChangeColorIconWithText left = mTabIndicators.get(position);
             ChangeColorIconWithText right = mTabIndicators.get(position + 1);
             left.setIconAlpha(1 - positionOffset);
             right.setIconAlpha(positionOffset);
-
-
         }
 
     }
@@ -303,6 +300,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     break;
                 case 2:// 扫一扫
                     T.testShowShort(HomeActivity.this, "扫一扫");
+                    //扫一扫打开好友信息界面
 
                     break;
                 case 3:// 收钱

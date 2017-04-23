@@ -116,7 +116,10 @@
                 <action android:name="io.rong.push" />
             </intent-filter>
         </service>
-
+        <service
+            android:name="io.rong.imlib.ipc.RongService"
+            android:process=":ipc" />
+        <service android:name="io.rong.imlib.ReConnectService" />
         <receiver
             android:name="io.rong.push.PushReceiver"
             android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
@@ -149,10 +152,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
 
-        <service
-            android:name="io.rong.imlib.ipc.RongService"
-            android:process=":ipc" />
-        <service android:name="io.rong.imlib.ReConnectService" />
+
 
         <receiver android:name="io.rong.imlib.ConnectChangeReceiver" />
         <receiver
@@ -163,19 +163,8 @@
             android:name="com.amap.api.v2.apikey"
             android:value="63ed9e3f5ba5aaa16de01a599107fd00" />
 
-        <!-- 测试环境 -->
-        <meta-data
-            android:name="RONG_CLOUD_APP_KEY"
-            android:value="uwd1c0sxugt21" />
-        <!-- 生产环境 -->
-        <!--
-            <meta-data
-            android:name="RONG_CLOUD_APP_KEY"
-            android:value="8luwapkv859cl" />
-        -->
-        <!-- base -->
-        <activity android:name="com.somust.yy.base.LoginActivity" />
-        <activity android:name="com.somust.yy.base.TabLayoutActivity" />
+
+
 
         <!-- 注册界面 -->
         <activity
@@ -233,6 +222,15 @@
             android:launchMode="singleTop">
 
         </activity>
+
+        <!-- 测试环境 -->
+        <meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="uwd1c0sxugt21" />
+        <!-- 生产环境 -->
+        <!--<meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="8luwapkv859cl" />-->
     </application>
 
 </manifest>

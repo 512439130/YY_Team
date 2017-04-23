@@ -16,8 +16,8 @@ android {
         applicationId "com.somust.yyteam"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 10003
-        versionName "1.0.3"
+        versionCode 10004
+        versionName "1.0.4"
     }
     buildTypes {
         release {
@@ -100,7 +100,6 @@ dependencies {
     compile files('libs/MobTools-2016.1201.1839.jar')
     compile files('libs/gson-2.2.1.jar')
     compile project(path: ':okhttputils')
-    compile project(path: ':YYBase')
     compile files('libs/pinyin4j-2.5.0.jar')
     compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 }

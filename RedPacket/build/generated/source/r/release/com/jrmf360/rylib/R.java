@@ -441,10 +441,6 @@ containing a value of this type.
 <item name="android:activityOpenExitAnimation">@null</item>
 <item name="android:activityCloseEnterAnimation">@null</item>
 <item name="android:activityCloseExitAnimation">@null</item>
-<item name="android:activityOpenEnterAnimation">@null</item>
-<item name="android:activityOpenExitAnimation">@null</item>
-<item name="android:activityCloseEnterAnimation">@null</item>
-<item name="android:activityCloseExitAnimation">@null</item>
          */
         public static int AnimationActivity=0x7f060001;
         public static int GridPasswordView=0x7f060003;
@@ -453,8 +449,6 @@ containing a value of this type.
         public static int GridPasswordView_TextView=0x7f060006;
         public static int NavPage=0x7f060007;
         public static int commondialog=0x7f060008;
-        /**  是否允许背景模糊 
-         */
         public static int dialog=0x7f060009;
         public static int mediumCustomProgressBar=0x7f06000a;
         public static int text_black_12=0x7f06000b;

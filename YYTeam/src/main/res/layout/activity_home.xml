@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/actionbarbase" />
+    <include layout="@layout/acitonbar_home_base" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/id_viewpager"

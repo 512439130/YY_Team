@@ -1,1 +1,1 @@
-include ':YYTeam', ':IMKit', ':RedPacket', ':okhttputils', ':YYBase'
+include ':YYTeam', ':IMKit', ':RedPacket', ':okhttputils'

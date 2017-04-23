@@ -237,10 +237,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
 
-
+            /**
+             * 连接融云成功
+             * @param userId 当前 token
+             */
             @Override
             public void onSuccess(String userId) {
-
                 if (!userId.equals("")) {
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     Bundle bundle = new Bundle();
@@ -254,14 +256,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     T.testShowShort(LoginActivity.this, "连接失败，请检查网络：");
                 }
             }
-
+            /**
+             * 连接融云失败
+             * @param errorCode 错误码，可到官网 查看错误码对应的注释
+             */
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 // Log.e("onError", "onError userid:" + errorCode.getValue());//获取错误的错误码
                 L.e(TAG, "connect failure errorCode is : " + errorCode.getValue());
             }
 
-
+            /**
+             * Token 错误，在线上环境下主要是因为 Token 已经过期，您需要向 App Server 重新请求一个新的 Token
+             */
             @Override
             public void onTokenIncorrect() {
                 L.e(TAG, "token is error ,please check token and appkey");

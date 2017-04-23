@@ -5,7 +5,7 @@
     android:background="#f5f5f5"
     android:orientation="vertical">
 
-    <include layout="@layout/actionbar" />
+    <include layout="@layout/actionbar_base" />
 
     <LinearLayout
         android:layout_width="wrap_content"

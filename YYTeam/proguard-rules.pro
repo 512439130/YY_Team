@@ -21,6 +21,16 @@
 
 -keepattributes Signature
 
+#保留yyteam Module不混淆
+-keep class com.somust.yyteam.**{*;}
+#保留OkHttpUtils不混淆
+-keep class com.yy.http.okhttp.OkHttpUtils.** {*;}
+
+
+#抛出异常时保留代码行号（测试用）
+-keepattributes SourceFile,LineNumberTable
+
+
 # RongCloud SDK
 -keep class io.rong.** {*;}
 -keep class * implements io.rong.imlib.model.MessageContent {*;}
@@ -43,5 +53,14 @@
 -keep class com.google.android.gms.** { *; }
 -keep class com.alipay.** {*;}
 -keep class com.jrmf360.rylib.** {*;}
+
+
+
+
+
+
+
+
+
 
 -ignorewarnings

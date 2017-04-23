@@ -129,7 +129,7 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
         }
     }
     /**
-     * 设置 actionbar 事件
+     * 设置 actionbar_base 事件
      */
     private void setActionBar() {
         mBack.setOnClickListener(new View.OnClickListener() {

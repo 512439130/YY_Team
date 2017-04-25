@@ -74,21 +74,6 @@
         </activity>
 
         <!-- 聚合会话列表 -->
-        <activity
-            android:name=".activity.SubConversationListActivtiy"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="com.somut.yyteam"
-                    android:pathPrefix="/subconversationlist"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
 
         <!-- 联系人页面 -->
         <!-- 软键盘弹出时不会顶上去 -->
@@ -220,6 +205,11 @@
         <!-- 好友请求界面 -->
         <activity android:name=".activity.FriendRequestActivity"
             android:launchMode="singleTop">
+
+        </activity>
+
+        <activity android:name=".activity.TeamHomeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
 

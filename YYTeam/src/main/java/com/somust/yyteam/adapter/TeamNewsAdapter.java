@@ -6,16 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
-import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.TeamNewsMessage;
-import com.somust.yyteam.utils.DateUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,7 +53,7 @@ public class TeamNewsAdapter extends BaseAdapter {
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
-            view = layoutInflater.inflate(R.layout.item_teamnews, null);
+            view = layoutInflater.inflate(R.layout.item_team_news, null);
 
             holder.news_title = (TextView) view.findViewById(R.id.news_title);
             holder.news_content = (TextView) view.findViewById(R.id.news_content);

@@ -24,11 +24,17 @@
     <string name="login_send_message">发消息</string>
     <string name="login_add_team">申请加入</string>
 
-    <!--title_bar_popwindow-->
+    <!--title_bar_home_popwindow-->
     <string name="groupchat">创建讨论组</string>
     <string name="addfriend">添加好友</string>
     <string name="qrcode">扫一扫</string>
     <string name="money">我的钱包</string>
+
+
+    <!--title_bar_team_home_popwindow-->
+    <string name="team_create">创建大学社团</string>
+    <string name="send_team_task">发送任务安排</string>
+    <string name="see_tem_task">查看任务通知</string>
 
 
     <!--friend request-->

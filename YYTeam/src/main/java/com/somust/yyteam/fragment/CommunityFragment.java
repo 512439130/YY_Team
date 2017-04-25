@@ -60,7 +60,7 @@ public class CommunityFragment extends Fragment implements SwipeRefreshLayout.On
      * 初始化数据
      */
     private void initView() {
-        header = getActivity().getLayoutInflater().inflate(R.layout.team_news_header, null);
+        header = getActivity().getLayoutInflater().inflate(R.layout.community_header, null);
         swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources(R.color.color_bule2,R.color.color_bule,R.color.color_bule2,R.color.color_bule3);
     }

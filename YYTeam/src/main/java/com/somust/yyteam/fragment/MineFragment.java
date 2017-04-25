@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.LoginActivity;
-import com.somust.yyteam.activity.RePassActivity;
-import com.somust.yyteam.activity.SubConversationListActivtiy;
+
+import com.somust.yyteam.activity.TeamHomeActivity;
 import com.somust.yyteam.activity.UserManagerActivity;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.utils.log.L;
@@ -29,9 +29,9 @@ import com.yy.http.okhttp.callback.BitmapCallback;
 import okhttp3.Call;
 
 /**
- * Created by DELL on 2016/3/14.
+ * Created by yy on 2017/3/14.
  */
-public class MineFragment extends Fragment {
+public class MineFragment extends Fragment implements View.OnClickListener{
     public static MineFragment instance = null;//单例模式
 
     public static MineFragment getInstance() {
@@ -87,10 +87,10 @@ public class MineFragment extends Fragment {
         mMoney = (RelativeLayout) mView.findViewById(R.id.id_mine_money);
         mSignout = (RelativeLayout) mView.findViewById(R.id.id_mine_sign_out);
         mUser = (RelativeLayout) mView.findViewById(R.id.id_mine_user);
-        mTeam.setOnClickListener(new MyOnClickListener());
-        mMoney.setOnClickListener(new MyOnClickListener());
-        mSignout.setOnClickListener(new MyOnClickListener());
-        mUser.setOnClickListener(new MyOnClickListener());
+        mTeam.setOnClickListener(this);
+        mMoney.setOnClickListener(this);
+        mSignout.setOnClickListener(this);
+        mUser.setOnClickListener(this);
 
 
         iv_headPortrait = (ImageView) mView.findViewById(R.id.id_head_portrait);
@@ -98,30 +98,30 @@ public class MineFragment extends Fragment {
         id_phone = (TextView) mView.findViewById(R.id.id_phone);
     }
 
-    private class MyOnClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.id_mine_user:   //用户管理
-                    Intent intent = new Intent(getActivity(), UserManagerActivity.class);
-                    intent.putExtra("user", user);
-                    startActivity(intent);
-                    break;
-                case R.id.id_mine_team://社团管理
-                    startActivity(new Intent(getActivity(), SubConversationListActivtiy.class));
-                    break;
-                case R.id.id_mine_money://打开我的钱包页面
-                    JrmfClient.intentWallet(getActivity());
-                    break;
-                case R.id.id_mine_sign_out:  //弹出确认退出框
-                    showMyDialog(getActivity());
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.id_mine_user:   //用户管理
+                Intent intent = new Intent(getActivity(), UserManagerActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                break;
+            case R.id.id_mine_team://社团管理
+                startActivity(new Intent(getActivity(), TeamHomeActivity.class));
+                break;
+            case R.id.id_mine_money://打开我的钱包页面
+                JrmfClient.intentWallet(getActivity());
+                break;
+            case R.id.id_mine_sign_out:  //弹出确认退出框
+                showMyDialog(getActivity());
 
-                    break;
-                default:
-                    break;
-            }
+                break;
+            default:
+                break;
         }
     }
+
+
     /**
      * 获取网络图片请求，并将网络图片显示到imageview中去(如果是多次请求，需要一个bitmap数组)
      *

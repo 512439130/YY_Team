@@ -77,7 +77,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
     public List<TeamNews> intentDatas;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_teamnews, null);
+        mView = inflater.inflate(R.layout.fragment_team_news, null);
         initView();
         requestData();
         initListener();

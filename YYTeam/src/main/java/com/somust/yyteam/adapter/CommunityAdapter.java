@@ -52,7 +52,7 @@ public class CommunityAdapter extends BaseAdapter {
             holder = new ViewHolder();
             view = layoutInflater.inflate(R.layout.item_community, null);
 
-            holder.user_background = (ImageView) view.findViewById(R.id.user_background);
+           // holder.user_background = (ImageView) view.findViewById(R.id.user_background);
             holder.release_image  = (ImageView) view.findViewById(R.id.release_image);
             holder.release_name = (TextView) view.findViewById(R.id.release_name);
             holder.release_content = (TextView) view.findViewById(R.id.release_content);
@@ -65,17 +65,13 @@ public class CommunityAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.release_content.setText(list.get(position).get("itemText"));
-        if(position == 0){
-            holder.user_background.setVisibility(View.VISIBLE);
-        }else{
-            holder.user_background.setVisibility(View.GONE);
-        }
+
 
         return view;
     }
 
     static class ViewHolder {
-        ImageView user_background;  //社团圈顶部背景
+        //ImageView user_background;  //社团圈顶部背景
         ImageView release_image;   //发步人的头像
 
 

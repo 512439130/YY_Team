@@ -23,6 +23,7 @@ import com.somust.yyteam.R;
 import com.somust.yyteam.activity.PersionInformationActivity;
 import com.somust.yyteam.activity.SearchUserActivity;
 import com.somust.yyteam.adapter.FriendAdapter;
+import com.somust.yyteam.adapter.TeamMemberAdapter;
 import com.somust.yyteam.bean.PersonBean;
 import com.somust.yyteam.bean.TeamFriend;
 import com.somust.yyteam.bean.User;
@@ -70,7 +71,7 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
     private List<PersonBean> personBeenList;
     private SideBar sidebar;
     private TextView dialogTextView;
-    private FriendAdapter friendAdapter;
+    private TeamMemberAdapter teamMemberAdapter;
 
     private static final String TAG = "FriendFragment:";
 
@@ -271,7 +272,7 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
             public void onTouchingLetterChanged(String s) {
                 // TODO Auto-generated method stub
                 // 该字母首次出现的位置
-                int position = friendAdapter.getPositionForSelection(s.charAt(0));
+                int position = teamMemberAdapter.getPositionForSelection(s.charAt(0));
 
                 if (position != -1) {
                     friendListView.setSelection(position);
@@ -291,9 +292,9 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
         // 数据在放在adapter之前需要排序
         Collections.sort(personBeenList, new PinyinComparator());
 
-        friendAdapter = new FriendAdapter(getActivity(), personBeenList);
+        teamMemberAdapter = new TeamMemberAdapter(getActivity(), personBeenList);
 
-        friendListView.setAdapter(friendAdapter);
+        friendListView.setAdapter(teamMemberAdapter);
     }
 
 

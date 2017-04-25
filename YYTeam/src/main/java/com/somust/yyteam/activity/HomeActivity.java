@@ -81,7 +81,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mViewPager.addOnPageChangeListener(this);
         mViewPager.setOffscreenPageLimit(4);  //设置缓存的页面个数
 
-        inint();  //初始化titlebar中的popwindow
+        initPopwindow();  //初始化titlebar中的popwindow
     }
 
     private void initView() {
@@ -114,7 +114,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     /**
      * 实例化标题栏弹窗
      */
-    private void inint() {
+    private void initPopwindow() {
         // 实例化标题栏弹窗
         titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT);

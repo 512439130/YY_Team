@@ -57,6 +57,15 @@ public class ConstantUrl {
 
 
 
+    public static final String getTeam_interface = "yy_obtain_team"; //获取全部社团
+
+    public static final String createTeam_interface = "yy_add_team?Json=";  //创建社团
+
+    public static final String addTeam_interface = "yy_add_team_member?Json="; //加入社团的处理
+
+
+
+
 
 
 

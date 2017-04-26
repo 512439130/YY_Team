@@ -1,5 +1,6 @@
 package com.somust.yyteam.utils;
 
+import com.somust.yyteam.bean.Team;
 import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.TeamNewsMessage;
 import com.somust.yyteam.constant.Constant;
@@ -52,11 +53,11 @@ public class DateUtil {
 
 
     /**
-     * 对社团时间的排序
+     * 对社团新闻时间的排序
      * @param list
      */
 
-    public static void sortDate(List<TeamNews> list){
+    public static void TeamNewsSortDate(List<TeamNews> list){
 
         System.out.println("排序前："+list);
 
@@ -89,6 +90,50 @@ public class DateUtil {
         });
         System.out.println("排序后："+list);
     }
+
+
+    /**
+     * 对社团新闻时间的排序
+     * @param list
+     */
+
+    public static void TeamSortDate(List<Team> list){
+
+        System.out.println("排序前："+list);
+
+        Collections.sort(list, new Comparator<Team>(){
+
+            /*
+             * int compare(Student team1, Student team2) 返回一个基本类型的整型，
+             * 返回负数表示：team1 team2，
+             * 返回0 表示：team1和team2相等，
+             * 返回正数表示：team1大于team2。
+             */
+            public int compare(Team team1, Team team2) {
+
+
+                try {
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                    Date date1 = df.parse(team1.getTeamTime());
+                    Date date2 = df.parse(team2.getTeamTime());
+                    //按照学生的年龄进行升序排列
+                    if (date1.getTime() < date2.getTime()) {   //date1 在date2前
+                        return 1;
+                    } else if (date1.getTime() == date2.getTime()) {
+                        return 0;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return -1;
+            }
+        });
+        System.out.println("排序后："+list);
+    }
+
+
+
+
 
 
 

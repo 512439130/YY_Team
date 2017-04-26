@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
+import com.somust.yyteam.bean.Team;
 import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
@@ -39,6 +40,7 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
     private ImageView iv_reutrn;
     private TextView titleName;
     private TeamNews teamNews;
+    private Team teams;
 
 
     private ImageView team_image;  //社团logo
@@ -64,7 +66,8 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
         //获取intent传值
         //接收Intent传值
         Intent intent = this.getIntent();
-        teamNews = (TeamNews) intent.getSerializableExtra("teamNews");
+        teamNews = (TeamNews) intent.getSerializableExtra("teamNews");  //新闻列表跳转
+        teams = (Team) intent.getSerializableExtra("teams");  //社团列表跳转
         //通过网络请求获取用户信息
 
         initDatas();
@@ -93,24 +96,47 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
 
     private void initDatas() {
         titleName.setText("社团信息");
-        //社团类型转换图标
-        if (teamNews.getTeamId().getTeamType().equals("学习")) {
-            team_type.setBackgroundResource(R.mipmap.ic_team_study);
-        } else if (teamNews.getTeamId().getTeamType().equals("公益")) {
-            team_type.setBackgroundResource(R.mipmap.ic_team_welfare);
-        } else if (teamNews.getTeamId().getTeamType().equals("技术")) {
-            team_type.setBackgroundResource(R.mipmap.ic_team_technology);
+        if(teamNews != null){
+            //社团类型转换图标
+            if (teamNews.getTeamId().getTeamType().equals("学习")) {
+                team_type.setBackgroundResource(R.mipmap.ic_team_study);
+            } else if (teamNews.getTeamId().getTeamType().equals("公益")) {
+                team_type.setBackgroundResource(R.mipmap.ic_team_welfare);
+            } else if (teamNews.getTeamId().getTeamType().equals("技术")) {
+                team_type.setBackgroundResource(R.mipmap.ic_team_technology);
+            }
+
+            team_name.setText(teamNews.getTeamId().getTeamName());
+            team_president.setText(teamNews.getTeamId().getTeamPresident().getUserNickname());
+            team_time.setText(teamNews.getTeamId().getTeamTime());
+            team_introduce.setText(teamNews.getTeamId().getTeamIntroduce());
+
+            //通过网络获取社团logo
+            obtainTeamImage(teamNews.getTeamId().getTeamImage());
+            //获取社长头像
+            obtainPresidentImage(teamNews.getTeamId().getTeamPresident().getUserImage());
+        }
+        if(teams != null){
+            //社团类型转换图标
+            if (teams.getTeamType().equals("学习")) {
+                team_type.setBackgroundResource(R.mipmap.ic_team_study);
+            } else if (teams.getTeamType().equals("公益")) {
+                team_type.setBackgroundResource(R.mipmap.ic_team_welfare);
+            } else if (teams.getTeamType().equals("技术")) {
+                team_type.setBackgroundResource(R.mipmap.ic_team_technology);
+            }
+
+            team_name.setText(teams.getTeamName());
+            team_president.setText(teams.getTeamPresident().getUserNickname());
+            team_time.setText(teams.getTeamTime());
+            team_introduce.setText(teams.getTeamIntroduce());
+
+            //通过网络获取社团logo
+            obtainTeamImage(teams.getTeamImage());
+            //获取社长头像
+            obtainPresidentImage(teams.getTeamPresident().getUserImage());
         }
 
-        team_name.setText(teamNews.getTeamId().getTeamName());
-        team_president.setText(teamNews.getTeamId().getTeamPresident().getUserNickname());
-        team_time.setText(teamNews.getTeamId().getTeamTime());
-        team_introduce.setText(teamNews.getTeamId().getTeamIntroduce());
-
-        //通过网络获取社团logo
-        obtainTeamImage(teamNews.getTeamId().getTeamImage());
-        //获取社长头像
-        obtainPresidentImage(teamNews.getTeamId().getTeamPresident().getUserImage());
     }
 
     private void initListener() {
@@ -186,9 +212,17 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
             case R.id.team_president_image:
                 //社长信息（Activity）
                 Intent intent = new Intent(TeamInformationActivity.this, PersionInformationActivity.class);
-                intent.putExtra("userId", teamNews.getTeamId().getTeamPresident().getUserPhone());
-                intent.putExtra("userNickname", teamNews.getTeamId().getTeamPresident().getUserNickname());
-                intent.putExtra("openState","stranger");  //陌生人
+                if(teamNews != null){
+                    intent.putExtra("userId", teamNews.getTeamId().getTeamPresident().getUserPhone());
+                    intent.putExtra("userNickname", teamNews.getTeamId().getTeamPresident().getUserNickname());
+                    intent.putExtra("openState","stranger");  //陌生人
+                }
+                if(teams != null){
+                    intent.putExtra("userId", teams.getTeamPresident().getUserPhone());
+                    intent.putExtra("userNickname", teams.getTeamPresident().getUserNickname());
+                    intent.putExtra("openState","stranger");  //陌生人
+                }
+
                 startActivity(intent);
                 break;
             default:

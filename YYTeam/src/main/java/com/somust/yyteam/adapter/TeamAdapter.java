@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
+import com.somust.yyteam.bean.Team;
+import com.somust.yyteam.bean.TeamMessage;
 import com.somust.yyteam.bean.TeamNewsMessage;
 
 import java.util.ArrayList;
@@ -18,15 +20,15 @@ import java.util.List;
  * 社团新闻
  */
 public class TeamAdapter extends BaseAdapter {
-    public List<TeamNewsMessage> teamNewsMessages = new ArrayList<>();
+    public List<TeamMessage> teamMessages = new ArrayList<>();
 
     public Context context;
     public LayoutInflater layoutInflater;
 
-    public TeamAdapter(Context context, List<TeamNewsMessage> list) {
+    public TeamAdapter(Context context, List<TeamMessage> list) {
         this.context = context;
 
-        this.teamNewsMessages = list;
+        this.teamMessages = list;
 
         layoutInflater = LayoutInflater.from(context);
     }
@@ -34,7 +36,7 @@ public class TeamAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return teamNewsMessages.size();
+        return teamMessages.size();
     }
 
     @Override
@@ -55,43 +57,55 @@ public class TeamAdapter extends BaseAdapter {
             holder = new ViewHolder();
             view = layoutInflater.inflate(R.layout.item_team, null);
 
-            holder.news_title = (TextView) view.findViewById(R.id.news_title);
-            holder.news_content = (TextView) view.findViewById(R.id.news_content);
-            holder.news_image = (ImageView) view.findViewById(R.id.team_news_image);
-            holder.news_time  = (TextView) view.findViewById(R.id.news_time);
+            holder.team_image  = (ImageView) view.findViewById(R.id.team_image);
 
             holder.team_name = (TextView) view.findViewById(R.id.team_name);
-            holder.team_image  = (ImageView) view.findViewById(R.id.team_image);
+            holder.team_type = (ImageView) view.findViewById(R.id.team_type);
+
+            holder.team_president = (TextView) view.findViewById(R.id.team_president);
+            holder.team_president_image = (ImageView) view.findViewById(R.id.team_president_image);
+
+            holder.team_time  = (TextView) view.findViewById(R.id.team_time);
 
             view.setTag(holder);
         } else {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
-        holder.news_title.setText(teamNewsMessages.get(position).getNewsTitle());
-        holder.news_content.setText(teamNewsMessages.get(position).getNewsContent());
-
-        holder.news_image.setImageBitmap(teamNewsMessages.get(position).getNewsImage());
-        holder.news_time.setText(teamNewsMessages.get(position).getNewsTime()) ;
-
-        holder.team_name.setText(teamNewsMessages.get(position).getTeamName());
-        holder.team_image.setImageBitmap(teamNewsMessages.get(position).getTeamImage());
 
 
+        holder.team_image.setImageBitmap(teamMessages.get(position).getTeamImage());
+        holder.team_name.setText(teamMessages.get(position).getTeamName());
 
+
+        holder.team_president.setText(teamMessages.get(position).getUserNickname()) ;
+
+        holder.team_president_image.setImageBitmap(teamMessages.get(position).getUserImage());
+        holder.team_time.setText(teamMessages.get(position).getTeamTime());
+
+        //根据社团类型的value设置社团类型图片
+        String teamType = teamMessages.get(position).getTeamType();
+        if (teamType.equals("学习")) {
+            holder.team_type.setBackgroundResource(R.mipmap.ic_team_study);
+        } else if (teamType.equals("公益")) {
+            holder.team_type.setBackgroundResource(R.mipmap.ic_team_welfare);
+        } else if (teamType.equals("技术")) {
+            holder.team_type.setBackgroundResource(R.mipmap.ic_team_technology);
+        }
         return view;
     }
 
     static class ViewHolder {
+        ImageView team_image;  //社团logo
 
-        TextView news_title;     //新闻标题
-        TextView news_content;  //新闻内容
-        ImageView news_image;  //新闻图片
 
-        ImageView team_image;   //社团头像
         TextView team_name;  //社团名称
+        ImageView team_type;   //社团类型
 
-        TextView news_time;    //发表时间
+        TextView team_president; //社团创建人
+        ImageView team_president_image;  //社团创建人头像
+
+        TextView team_time;  //社团创建时间
 
     }
 

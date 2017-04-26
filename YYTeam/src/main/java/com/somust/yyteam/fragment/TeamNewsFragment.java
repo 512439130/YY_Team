@@ -197,7 +197,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 Gson gson = new Gson();
                 teamNewsList = gson.fromJson(response, new TypeToken<List<TeamNews>>() {
                 }.getType());
-                DateUtil.sortDate(teamNewsList);   //对结果排序
+                DateUtil.TeamNewsSortDate(teamNewsList);   //对结果排序
                 intentDatas = teamNewsList;
 
 

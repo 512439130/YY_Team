@@ -64,6 +64,8 @@ public class YYApplication extends Application {
              * IMKit SDK调用第一步 初始化
              */
             RongIM.init(this);
+            RongIM.getInstance().enableNewComingMessageIcon(true);//显示新消息提醒
+            RongIM.getInstance().enableUnreadMessageIcon(true);//显示未读消息数目
 
             if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
 

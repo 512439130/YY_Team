@@ -43,7 +43,7 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 
-public class LoginActivity extends Activity implements View.OnClickListener {
+public class LoginActivity extends Activity implements View.OnClickListener, RongIM.UserInfoProvider {
     private static final String TAG = "LoginActivity:";
     private TextView tv_register;
 
@@ -61,7 +61,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private User user;
 
-    private List<User> allUser;
+
 
     private ImageView mImg_Background;
 
@@ -69,8 +69,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        userIdList = new ArrayList<Friend>();
-        allUser = new ArrayList<User>();
+
         initView();
         initEvent();
 
@@ -100,7 +99,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         //initDropEditTextAdapter();
     }
-
 
 
     private void initEvent() {
@@ -166,6 +164,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     }
 
+
     public class MyLoginCallback extends StringCallback {
 
 
@@ -191,42 +190,22 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 T.testShowShort(LoginActivity.this, Constant.mMessage_success);
                 L.v(TAG, "onResponse:" + response);
 
+                userIdList = new ArrayList<Friend>();
                 Friend friend = new Friend();
                 friend.setUserId(user.getUserPhone());
                 friend.setName(user.getUserNickname());
                 friend.setPortraitUri(user.getUserImage());   //设置默认头像(修改为获取用户的头像)
                 userIdList.add(friend);
-                setUserInfoProvider();   //两种获取用户信息方式，只需要实现一种就好
+                L.v(TAG + "测试", userIdList.toString());
 
-                obtainAllUserInfo();
+                connectRongServer(user.getUserToken());
             }
 
         }
 
 
-
     }
 
-
-    /**
-     * 提供用户信息
-     */
-    private void setUserInfoProvider() {
-        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
-            @Override
-            public UserInfo getUserInfo(String s) {
-                for (Friend friend : userIdList) {
-                    if (friend.getUserId().equals(s)) {
-                        Log.e(TAG, friend.getPortraitUri());
-                        return new UserInfo(friend.getUserId(), friend.getName(), Uri.parse(friend.getPortraitUri()));
-                    }
-                }
-                Log.e("MainActivity", "UserId is : " + s);
-                return null;
-            }
-
-        }, true);
-    }
 
     /**
      * 根据RongCloud的Token登录
@@ -244,10 +223,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(String userId) {
                 if (!userId.equals("")) {
+                    RongIM.setUserInfoProvider(LoginActivity.this, true);  //开启缓存
+
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("user", user);
-                    bundle.putSerializable("allUser", (Serializable) allUser);
                     intent.putExtras(bundle);
                     startActivity(intent);
                     T.testShowShort(LoginActivity.this, "用户Id：" + userId);
@@ -256,6 +236,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     T.testShowShort(LoginActivity.this, "连接失败，请检查网络：");
                 }
             }
+
             /**
              * 连接融云失败
              * @param errorCode 错误码，可到官网 查看错误码对应的注释
@@ -276,37 +257,27 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         });
 
     }
-    public void obtainAllUserInfo(){
-        final String url = ConstantUrl.userUrl + ConstantUrl.getAllUserInfo_interface;
-        OkHttpUtils
-                .post()
-                .url(url)
-                .build()
-                .execute(new MyAllUserInfoCallback());
-    }
 
-    public class MyAllUserInfoCallback extends StringCallback {
-        @Override
-        public void onError(Call call, Exception e, int id) {
-            e.printStackTrace();
-            L.e(TAG, "onError:" + e.getMessage());
-            T.testShowShort(LoginActivity.this,"所有用户获取失败");
-        }
 
-        @Override
-        public void onResponse(String response, int id) {
-            dialog.cancel();
-            if (response.equals("")) {
-                T.testShowShort(LoginActivity.this,"所有用户为空");
-            } else {
-                L.v(TAG, "onResponse:" + response);
-                Gson gson = new Gson();
-                allUser = gson.fromJson(response, new TypeToken<List<User>>() {
-                }.getType());
-                L.v(TAG,allUser.toString());
 
-                connectRongServer(user.getUserToken());
+    /**
+     * 提供用户信息
+     *
+     * @param s
+     * @return
+     */
+    @Override
+    public UserInfo getUserInfo(String s) {
+        L.v(TAG, "调用getUserInfo");
+        for (Friend friend : userIdList) {
+            if (friend.getUserId().equals(s)) {
+                L.e(TAG + "头像地址", friend.getPortraitUri());
+                return new UserInfo(friend.getUserId(), friend.getName(), Uri.parse(friend.getPortraitUri()));
             }
         }
+        L.e(TAG, "UserId is : " + s);
+        return null;
     }
+
+
 }

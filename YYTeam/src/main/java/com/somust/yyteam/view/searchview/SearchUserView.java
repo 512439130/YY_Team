@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -24,7 +25,7 @@ import com.somust.yyteam.R;
  * Created by 13160677911 on 2017-4-22.
  */
 
-public class SearchUserView extends LinearLayout implements View.OnClickListener{
+public class SearchUserView extends LinearLayout implements View.OnClickListener {
     /**
      * 输入框
      */
@@ -51,6 +52,7 @@ public class SearchUserView extends LinearLayout implements View.OnClickListener
      */
     private SearchViewListener mListener;
 
+
     /**
      * 设置搜索回调接口
      *
@@ -69,6 +71,9 @@ public class SearchUserView extends LinearLayout implements View.OnClickListener
 
     private void initViews() {
         etInput = (EditText) findViewById(R.id.search_et_input);
+        etInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+
         ivDelete = (ImageView) findViewById(R.id.search_iv_delete);
         iv_reutrn = (ImageView) findViewById(R.id.id_title_back);
 
@@ -90,18 +95,44 @@ public class SearchUserView extends LinearLayout implements View.OnClickListener
 
     /**
      * 通知监听者 进行搜索操作
+     *
      * @param text
      */
-    private void notifyStartSearching(String text){
+    private void notifyStartSearching(String text) {
         if (mListener != null) {
             mListener.onSearch(etInput.getText().toString());
         }
-        //隐藏软键盘
-        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        HideKeyboard(0);
     }
 
-
+    /**
+     * 隐藏软键盘,如果键盘隐藏，那就显示，如果显示，那就隐藏
+     */
+    private void HideKeyboard(int showFlags) {
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(showFlags, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+    /**
+     * 强制隐藏软键盘
+     * @param view
+     */
+    private void ForceHidekeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+    }
+    /**
+     * 检查软键盘是否打开
+     */
+    private boolean CheckKeyboard() {
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+        if(isOpen){
+            System.out.println("软键盘打开");
+        }else {
+            System.out.println("软键盘关闭");
+        }
+        return isOpen;
+    }
 
     private class EditChangedListener implements TextWatcher {
         @Override
@@ -135,16 +166,19 @@ public class SearchUserView extends LinearLayout implements View.OnClickListener
 
                 break;
             case R.id.id_title_back:
+                ForceHidekeyboard(view);  //强制隐藏软键盘
+
                 ((Activity) mContext).finish();
                 break;
         }
     }
 
+
+
     /**
      * search view回调方法
      */
     public interface SearchViewListener {
-
 
 
         /**

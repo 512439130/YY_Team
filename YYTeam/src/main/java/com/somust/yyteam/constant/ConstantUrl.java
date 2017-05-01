@@ -19,6 +19,9 @@ public class ConstantUrl {
     //team
     public static final String TeamUrl = "http://118.89.47.137/renren-security/team/";
 
+    //file
+    public static final String FileUrl = "http://118.89.47.137/renren-security/file/";
+
     //save _friend_image(上传图片时使用)
     public static final String save_friend_image = "http://118.89.47.137/renren-security/friend/";
 
@@ -64,11 +67,13 @@ public class ConstantUrl {
     public static final String addTeam_interface = "yy_add_team_member?Json="; //加入社团的处理
 
 
+    //文件上传
+    public static final String uploadImage_interface = "yy_upload_file?";  //上传图片到服务器
 
+    //更换头像
+    public static final String updateUserImage_interface = "yy_update_userImage?";  //上传图片到服务器
 
-
-
-
+    //userPhone=13160677911&userImage=http://118.89.47.137/image/default_yy.png
 
 
 

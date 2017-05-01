@@ -1,5 +1,7 @@
 package com.somust.yyteam.constant;
 
+import android.os.Environment;
+
 /**
  * Created by 13160677911 on 2017-4-14.  常量类
  */
@@ -16,4 +18,10 @@ public class Constant {
     //formatType
     public static final String formatType = "yyyy-MM-dd HH:mm:ss!";
 
+    public static final String FILE_PATH = Environment.getExternalStorageDirectory().toString();
+
+    //上传文件名称
+    public static final String CROP_FILE_NAME = "user_image.png";     //图片名称
+
+    public static final String USER_IMAGE_PATH = "http://118.89.47.137/image/";         //用户头像存放的服务器地址
 }

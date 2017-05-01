@@ -1,6 +1,7 @@
 package com.somust.yyteam.activity;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,13 +18,23 @@ import android.widget.TextView;
 
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.LocationSource;
+import com.google.gson.Gson;
 import com.somust.yyteam.R;
 import com.somust.yyteam.application.YYApplication;
+import com.somust.yyteam.bean.Friend;
+import com.somust.yyteam.bean.User;
+import com.somust.yyteam.constant.Constant;
+import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.context.BaseContext;
 import com.somust.yyteam.utils.log.L;
+import com.somust.yyteam.utils.log.T;
+import com.yy.http.okhttp.OkHttpUtils;
+import com.yy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import io.rong.imkit.RongIM;
@@ -35,6 +46,8 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
+import okhttp3.Call;
+import okhttp3.Request;
 
 
 /**
@@ -43,7 +56,13 @@ import io.rong.message.VoiceMessage;
  */
 
 
-public class ConversationActivity extends FragmentActivity implements RongIM.LocationProvider,RongIM.ConversationBehaviorListener{
+public class ConversationActivity extends FragmentActivity implements RongIM.LocationProvider, RongIM.ConversationBehaviorListener {
+    private static final String TAG = "ConversationActivity:";
+
+    private ProgressDialog dialog;
+
+    private User user;
+
     private TextView mTitle;
     private RelativeLayout mBack;
 
@@ -68,10 +87,10 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
     private static final int SET_TARGETID_TITLE = 0X000;  //当前会话没有用户正在输入，标题栏仍显示原来标题
 
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch(msg.what){
+            switch (msg.what) {
                 case SET_TEXT_TYPING_TITLE:  //文字状态
                     inputStatus = "正在文字输入...";
                     mTitle.setText(inputStatus);
@@ -88,10 +107,12 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversation);
+
         Intent intent = getIntent();
 
         initView();
@@ -107,27 +128,100 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
     }
 
 
-
     private void initView() {
         mTitle = (TextView) findViewById(R.id.id_title_name);
         mBack = (RelativeLayout) findViewById(R.id.id_rl_title_bar);
 
     }
+
     private void getIntentDate(Intent intent) {
         mTargetId = getIntent().getData().getQueryParameter("targetId");//targetId:单聊即对方ID，群聊即群组ID
         sickName = getIntent().getData().getQueryParameter("title");//获取昵称
-        System.out.println("昵称："+sickName);
+        System.out.println("昵称：" + sickName);
         mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
         enterFragment(mConversationType, mTargetId);
 
-        if (!TextUtils.isEmpty(sickName)){  //昵称不为空的情况
+        if (!TextUtils.isEmpty(sickName)) {  //昵称不为空的情况
             mTitle.setText(sickName);
 
-        }else {
-//            sId
-            //TODO 拿到id 去请求自己服务端
+
+            getUserInfo(mTargetId);  //刷新聊天目标对象的用户信息
+
         }
     }
+
+
+    /**
+     * 获取用户信息
+     */
+    private void getUserInfo(final String userPhone) {
+        final String url = ConstantUrl.userUrl + ConstantUrl.getUserInfo_interface;
+        if (TextUtils.isEmpty(userPhone)) {
+            T.testShowShort(ConversationActivity.this, "手机号不能为空");
+        } else {
+
+            OkHttpUtils
+                    .post()
+                    .url(url)
+                    .addParams("userPhone", userPhone)
+                    .build()
+                    .execute(new MyStringCallback());
+
+
+        }
+    }
+
+    public class MyStringCallback extends StringCallback {
+        @Override
+        public void onBefore(Request request, int id) {
+
+        }
+
+        @Override
+        public void onAfter(int id) {
+            setTitle("okHttp");
+        }
+
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+            L.e(TAG, "onError:" + e.getMessage());
+            T.testShowShort(ConversationActivity.this, Constant.mProgressDialog_error);
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            if (response.equals("")) {
+                T.testShowShort(ConversationActivity.this, Constant.mMessage_error);
+            } else {
+                Gson gson = new Gson();
+                user = gson.fromJson(response, User.class);
+                System.out.println(user.toString());
+                T.testShowShort(ConversationActivity.this, Constant.mMessage_success);
+                L.v(TAG, "onResponse:" + response);
+
+                refreshUserInfo(user.getUserPhone(), user.getUserNickname(), user.getUserImage());
+
+
+            }
+
+        }
+
+    }
+
+    /**
+     * 刷新用户缓存数据
+     *
+     * @param userid   需要更换的用户Id
+     * @param nickname 用户昵称
+     * @param urlPath  头像图片地址
+     *                 userInfo 需要更新的用户缓存数据。
+     */
+    public void refreshUserInfo(String userid, String nickname, String urlPath) {
+        RongIM.getInstance().refreshUserInfoCache(new UserInfo(userid, nickname, Uri.parse(urlPath)));
+    }
+
+
     /**
      * 设置 actionbar_base 事件
      */
@@ -139,9 +233,11 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
             }
         });
     }
+
     public void setActionBarTitle(String mTargetId) {
         setActionBarTitle(mTargetId);
     }
+
     /**
      * 加载会话页面 ConversationFragment
      *
@@ -170,7 +266,7 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
         if (BaseContext.getInstance() != null) {
 
             token = BaseContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
-            System.out.println("TOKEN:"+token);
+            System.out.println("TOKEN:" + token);
         }
 
         //push或通知过来
@@ -189,6 +285,7 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
             }
         }
     }
+
     /**
      * 重连
      *
@@ -217,7 +314,8 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
             });
         }
     }
-    public void setTypingStatusListener(){
+
+    public void setTypingStatusListener() {
         RongIMClient.setTypingStatusListener(new RongIMClient.TypingStatusListener() {
             @Override
             public void onTypingStatusChanged(Conversation.ConversationType type, String targetId, Collection<TypingStatus> typingStatusSet) {
@@ -260,7 +358,7 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
     /**
      * 位置信息提供者:LocationProvider 的回调方法，打开第三方地图页面。
      *
-     * @param context  上下文
+     * @param context          上下文
      * @param locationCallback 回调
      */
     @Override
@@ -271,6 +369,7 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
 
     /**
      * 头像点击事件
+     *
      * @param context
      * @param conversationType
      * @param userInfo
@@ -284,6 +383,7 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
 
     /**
      * 头像长点击事件
+     *
      * @param context
      * @param conversationType
      * @param userInfo
@@ -298,6 +398,7 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
 
     /**
      * 消息点击事件
+     *
      * @param context
      * @param view
      * @param message
@@ -317,6 +418,7 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
 
     /**
      * 消息长按事件
+     *
      * @param context
      * @param view
      * @param message

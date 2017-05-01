@@ -1,9 +1,17 @@
 package com.somust.yyteam.activity;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -11,11 +19,15 @@ import android.widget.TextView;
 
 import com.somust.yyteam.R;
 import com.somust.yyteam.bean.User;
+import com.somust.yyteam.dialog.BottomMenuDialog;
 import com.somust.yyteam.utils.log.L;
+import com.somust.yyteam.utils.photo.PhotoUtils;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
 
 import okhttp3.Call;
+
+
 
 public class UserManagerActivity extends Activity implements View.OnClickListener {
     //Tab_Button
@@ -142,4 +154,7 @@ public class UserManagerActivity extends Activity implements View.OnClickListene
         id_name.setText(user.getUserNickname());
         id_phone.setText(user.getUserPhone());
     }
+
+
+
 }

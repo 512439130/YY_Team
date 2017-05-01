@@ -52,7 +52,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private static final String TAG = "HomeActivity:";
 
     private User user;    //登录用户的信息
-    private List<User> allUser;
 
     private ImageView iv_add;
     private ImageView iv_search;
@@ -71,7 +70,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         Intent intent = this.getIntent();
         user = (User) intent.getSerializableExtra("user");
-        allUser = (List<User>) intent.getSerializableExtra("allUser");
+
         initView();
 
         //初始化数据
@@ -235,9 +234,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
                     .appendPath("conversation")
                     .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false")//设置私聊会话是否聚合显示
-                    .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//仅仅显示私聊和群组类型
+                    .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
+                    .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
+                    .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//订阅号
+                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
                     .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")
-                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")
                     .build();
             listFragment.setUri(uri);
             return listFragment;
@@ -260,7 +261,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 case R.id.id_search: //打开查询页面
                     Intent intent = new Intent(HomeActivity.this,SearchUserActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("allUser", (Serializable) allUser);
                     intent.putExtra("Own_id",user.getUserPhone());
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -278,12 +278,13 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private class MyOnItemOnClickListener implements TitlePopup.OnItemOnClickListener {
         @Override
         public void onItemClick(ActionItem item, int position) {
-            // mLoadingDialog.show();
+            Intent intent;
+            Bundle bundle;
             switch (position) {
                 case 0:// 发起群聊
                     T.testShowShort(HomeActivity.this, "创建讨论组");
-                    Intent intent = new Intent();
-                    Bundle bundle = new Bundle();
+                    intent = new Intent();
+                    bundle = new Bundle();
                     bundle.putSerializable("user", user);
                     intent.putExtras(bundle);
                     intent.setClass(HomeActivity.this, GroupChatActivity.class);
@@ -291,12 +292,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     break;
                 case 1:// 添加朋友
                     T.testShowShort(HomeActivity.this, "添加好友");
-                    Intent intent2 = new Intent(HomeActivity.this,SearchUserActivity.class);
-                    Bundle bundle2 = new Bundle();
-                    bundle2.putSerializable("allUser", (Serializable) allUser);
-                    intent2.putExtra("Own_id",user.getUserPhone());
-                    intent2.putExtras(bundle2);
-                    startActivity(intent2);
+                    intent = new Intent(HomeActivity.this,SearchUserActivity.class);
+                    bundle = new Bundle();
+                    intent.putExtra("Own_id",user.getUserPhone());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     break;
                 case 2:// 扫一扫
                     T.testShowShort(HomeActivity.this, "扫一扫");

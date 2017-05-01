@@ -189,17 +189,18 @@
 
         </activity>
         <!-- 搜索用户界面 -->
+        <!--windowSoftInputMode="stateAlwaysVisible"默认打开软键盘-->
         <activity
             android:name=".activity.SearchUserActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="stateAlwaysVisible">
 
         </activity>
         <!-- 搜索社团界面 -->
         <activity
             android:name=".activity.SearchTeamActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="stateAlwaysVisible">
 
         </activity>
         <!-- 好友请求界面 -->
@@ -210,6 +211,10 @@
 
         <activity android:name=".activity.TeamHomeActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
+
+        </activity>
+        <!--更换用户信息界面-->
+        <activity android:name=".activity.AccountActivity">
 
         </activity>
 

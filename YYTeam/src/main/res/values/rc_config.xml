@@ -6,4 +6,6 @@
     <integer name="rc_message_recall_interval">120</integer>
     <!-- 设置开启@功能-->
     <bool name="rc_enable_mentioned_message">true</bool>
+    <!-- 默认图片保存路径，在会话界面查看大图，长按时选择保存，会使用这个配置-->
+    <string name="rc_image_default_saved_path">/RongCloud/Image/</string>
 </resources>

@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
+import com.somust.yyteam.bean.Friend;
 import com.somust.yyteam.bean.FriendRequest;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
@@ -30,7 +33,11 @@ import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.rong.imkit.RongIM;
+import io.rong.imlib.model.UserInfo;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -63,6 +70,9 @@ public class PersionInformationActivity extends Activity {
     private ProgressDialog dialog;
 
     private User user;
+
+
+    private List<Friend> userIdList;//用户信息提供者
 
     /**
      * 保存登录用户的手机号
@@ -241,6 +251,15 @@ public class PersionInformationActivity extends Activity {
                     showMyDialog(PersionInformationActivity.this);  //弹出确认框
                     break;
                 case R.id.btn_send_message:  //发消息
+                    Friend friend = new Friend();
+                    friend.setUserId(user.getUserPhone());
+                    friend.setName(user.getUserNickname());
+                    friend.setPortraitUri(user.getUserImage());   //设置默认头像(修改为获取用户的头像)
+                    userIdList = new ArrayList<Friend>();
+                    userIdList.add(friend);
+                    refreshUserInfo(user.getUserPhone(),user.getUserNickname(),user.getUserImage());
+
+
                     //打开单聊界面（根据position）
                     RongIM.getInstance().startPrivateChat(PersionInformationActivity.this, userPhone, userNickname);
                     finish();
@@ -253,6 +272,20 @@ public class PersionInformationActivity extends Activity {
         }
     }
 
+
+
+
+    /**
+     * 刷新用户缓存数据
+     *
+     * @param userid   需要更换的用户Id
+     * @param nickname 用户昵称
+     * @param urlPath  头像图片地址
+     *                 userInfo 需要更新的用户缓存数据。
+     */
+    public void refreshUserInfo(String userid, String nickname, String urlPath) {
+        RongIM.getInstance().refreshUserInfoCache(new UserInfo(userid, nickname, Uri.parse(urlPath)));
+    }
     /**
      * 弹出确认框
      */
@@ -344,5 +377,23 @@ public class PersionInformationActivity extends Activity {
         }
     }
 
+    /**
+     * 提供用户信息
+     */
+    private void setUserInfoProvider() {
+        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+            @Override
+            public UserInfo getUserInfo(String s) {
+                for (Friend friend : userIdList) {
+                    if (friend.getUserId().equals(s)) {
+                        L.e(TAG, friend.getPortraitUri());
+                        return new UserInfo(friend.getUserId(), friend.getName(), Uri.parse(friend.getPortraitUri()));
+                    }
+                }
+                L.e(TAG, "UserId is : " + s);
+                return null;
+            }
 
+        }, true);
+    }
 }

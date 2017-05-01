@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 import com.somust.yyteam.adapter.GroupChatAdapter;
+import com.somust.yyteam.bean.Friend;
 import com.somust.yyteam.bean.PersonBean;
 import com.somust.yyteam.bean.TeamFriend;
 import com.somust.yyteam.bean.User;
@@ -39,6 +41,7 @@ import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -69,6 +72,10 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
     List mLists = new ArrayList();
 
     private CheckBox mCheckBox;
+
+
+
+    private List<Friend> userIdList;//用户信息提供者
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,6 +254,16 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
                             public void onClick(DialogInterface dialog,int id) {
                                 groupName = userInput.getText().toString();
                                 L.v(TAG,"讨论组名称："+groupName);
+                                for(int i = 0; i < friendlist.size(); i++){
+                                    Friend friend = new Friend();
+                                    friend.setUserId(friendlist.get(i).getFriendPhone().getUserPhone());
+                                    friend.setName(friendlist.get(i).getFriendPhone().getUserNickname());
+                                    friend.setPortraitUri(friendlist.get(i).getFriendPhone().getUserImage());   //设置默认头像(修改为获取用户的头像)
+                                    userIdList = new ArrayList<Friend>();
+                                    userIdList.add(friend);
+                                    setUserInfoProvider();   //把用户信息发送给融云
+                                }
+
                                 createContacts(groupName);
                                 finish();
                             }
@@ -393,6 +410,26 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
             });
 
         }
+    }
+
+    /**
+     * 提供用户信息
+     */
+    private void setUserInfoProvider() {
+        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+            @Override
+            public UserInfo getUserInfo(String s) {
+                for (Friend friend : userIdList) {
+                    if (friend.getUserId().equals(s)) {
+                        L.e(TAG, friend.getPortraitUri());
+                        return new UserInfo(friend.getUserId(), friend.getName(), Uri.parse(friend.getPortraitUri()));
+                    }
+                }
+                L.e(TAG, "UserId is : " + s);
+                return null;
+            }
+
+        }, true);
     }
 
 

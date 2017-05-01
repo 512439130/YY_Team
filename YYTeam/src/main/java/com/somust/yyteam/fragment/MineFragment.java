@@ -1,12 +1,19 @@
 package com.somust.yyteam.fragment;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +23,23 @@ import android.widget.TextView;
 
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
+import com.somust.yyteam.activity.AccountActivity;
 import com.somust.yyteam.activity.LoginActivity;
 
 import com.somust.yyteam.activity.TeamHomeActivity;
 import com.somust.yyteam.activity.UserManagerActivity;
 import com.somust.yyteam.bean.User;
+import com.somust.yyteam.dialog.BottomMenuDialog;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
+import com.somust.yyteam.utils.photo.PhotoUtils;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
 
+import io.rong.imkit.RongIM;
 import okhttp3.Call;
+
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 /**
  * Created by yy on 2017/3/14.
@@ -53,7 +66,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
     private User user;
 
-
+    private static final int RESULT_CANCELED = 0;
 
 
 
@@ -66,6 +79,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_mine, null);
+
+        L.isDebug = true;
+        T.isShow = true;
         initView();
         Intent intent = getActivity().getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -93,16 +109,22 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         mUser.setOnClickListener(this);
 
 
+
+
         iv_headPortrait = (ImageView) mView.findViewById(R.id.id_head_portrait);
+        iv_headPortrait.setOnClickListener(this);
         id_name = (TextView) mView.findViewById(R.id.id_name);
         id_phone = (TextView) mView.findViewById(R.id.id_phone);
+
+
     }
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.id_mine_user:   //用户管理
-                Intent intent = new Intent(getActivity(), UserManagerActivity.class);
+                intent = new Intent(getActivity(), UserManagerActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
@@ -116,11 +138,28 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 showMyDialog(getActivity());
 
                 break;
+
+            case R.id.id_head_portrait:  //更换头像
+
+                intent = new Intent(getActivity(), AccountActivity.class);
+                intent.putExtra("user", user);
+                startActivityForResult(intent, Activity.RESULT_FIRST_USER);
             default:
                 break;
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == Activity.RESULT_FIRST_USER) {
+
+            if (resultCode == RESULT_CANCELED) {
+                user = (User) intent.getSerializableExtra("user");
+                obtainImage(user.getUserImage());//刷新头像
+
+            }
+        }
+    }
 
     /**
      * 获取网络图片请求，并将网络图片显示到imageview中去(如果是多次请求，需要一个bitmap数组)
@@ -174,6 +213,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 .setNegativeButton("确定",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
+                                RongIM.getInstance().logout();//断开融云连接
                                 getActivity().finish();
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
 
@@ -193,4 +233,14 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         // show it
         alertDialog.show();
     }
+
+
+
+
+
+
+
+
+
+
 }

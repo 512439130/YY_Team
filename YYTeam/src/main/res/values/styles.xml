@@ -32,4 +32,9 @@
     </style>
 
 
+    <style name="dialogFullscreen">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
 </resources>

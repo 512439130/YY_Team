@@ -1,7 +1,7 @@
 package com.somust.yyteam.bean;
 
 /**
- * Created by DELL on 2016/3/14.
+ * Created by yy on 2017/3/14.
  */
 public class Friend {
 
@@ -40,5 +40,14 @@ public class Friend {
     }
     public Friend(){
 
+    }
+
+    @Override
+    public String toString() {
+        return "Friend{" +
+                "userId='" + userId + '\'' +
+                ", name='" + name + '\'' +
+                ", portraitUri='" + portraitUri + '\'' +
+                '}';
     }
 }

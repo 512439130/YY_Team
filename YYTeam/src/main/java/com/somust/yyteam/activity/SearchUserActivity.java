@@ -1,6 +1,7 @@
 package com.somust.yyteam.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -9,14 +10,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 import com.somust.yyteam.adapter.SearchUserAdapter;
 import com.somust.yyteam.bean.AllUser;
 import com.somust.yyteam.bean.User;
+import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.log.L;
+import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.searchview.SearchUserView;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
+import com.yy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +80,11 @@ public class SearchUserActivity extends Activity implements SearchUserView.Searc
 
 
 
+    //所有用户的信息
+    private List<User> allUser;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,16 +124,64 @@ public class SearchUserActivity extends Activity implements SearchUserView.Searc
      */
     private void initData() {
         Intent intent = this.getIntent();
-        users = (List<User>) intent.getSerializableExtra("allUser");
+
         Own_id = intent.getStringExtra("Own_id");
-        //获取网络图片
-        portraitBitmaps = new Bitmap[users.size()];
-        for (int i = 0; i < users.size(); i++) {
-            obtainImage(users.get(i).getUserImage(), i);
-        }
+
+
+        obtainAllUserInfo();//获取全部用户
+
+
 
         getResultData(null);  //初始化listview
     }
+
+
+    /**
+     * 获取所有用户
+     */
+    public void obtainAllUserInfo() {
+        final String url = ConstantUrl.userUrl + ConstantUrl.getAllUserInfo_interface;
+        OkHttpUtils
+                .post()
+                .url(url)
+                .build()
+                .execute(new MyAllUserInfoCallback());
+    }
+
+    public class MyAllUserInfoCallback extends StringCallback {
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+            L.e(TAG, "onError:" + e.getMessage());
+            T.testShowShort(SearchUserActivity.this, "所有用户获取失败");
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            if (response.equals("")) {
+                T.testShowShort(SearchUserActivity.this, "所有用户为空");
+            } else {
+                L.v(TAG, "onResponse:" + response);
+                Gson gson = new Gson();
+                allUser = new ArrayList<User>();
+                allUser = gson.fromJson(response, new TypeToken<List<User>>() {
+                }.getType());
+                L.v(TAG, allUser.toString());
+
+                users = allUser;
+
+                //获取网络图片
+                portraitBitmaps = new Bitmap[users.size()];
+                for (int i = 0; i < users.size(); i++) {
+                    obtainImage(users.get(i).getUserImage(), i);
+                }
+
+            }
+        }
+    }
+
+
+
 
     /**
      * 获取网络图片请求，并将网络图片显示到imageview中去(如果是多次请求，需要一个bitmap数组)
@@ -189,7 +248,7 @@ public class SearchUserActivity extends Activity implements SearchUserView.Searc
         } else {
             resultData.clear();
             for (int i = 0; i < allUsers.size(); i++) {
-                if (allUsers.get(i).getUserPhone().contains(text.trim())) {  //模糊查询
+                if (allUsers.get(i).getUserPhone().contains(text.trim()) && !allUsers.get(i).getUserPhone().equals(Own_id)) {  //模糊查询
                     resultData.add(allUsers.get(i));
                 }
             }

@@ -2,12 +2,15 @@ package com.somust.yyteam.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.view.ViewGroup.LayoutParams;
@@ -334,4 +337,43 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         super.onPause();
 
     }
+
+
+
+    private boolean isExit=false;//定义是否退出程序的标记
+
+    private Handler mKeyDownHandler = new Handler(){    //定义接受用户发送信息的handler
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //标记用户不退出状态
+            isExit=false;
+        }
+    };
+
+
+    //监听手机的物理按键点击事件
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //判断用户是否点击的是返回键
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            //如果isExit标记为false，提示用户再次按键
+            if(!isExit){
+                isExit=true;
+                T.testShowShort(getApplicationContext(),"再按一次退出程序");
+                //如果用户没有在2秒内再次按返回键的话，就发送消息标记用户为不退出状态
+                mKeyDownHandler.sendEmptyMessageDelayed(0, 2000);
+            }
+            //如果isExit标记为true，退出程序
+            else{
+                //退出程序
+                finish();
+                System.exit(0);
+            }
+        }
+        return false;
+    }
+
+
+
 }

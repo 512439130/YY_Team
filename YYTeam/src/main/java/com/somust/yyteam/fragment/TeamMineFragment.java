@@ -14,14 +14,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.LoginActivity;
-import com.somust.yyteam.activity.TeamHomeActivity;
-import com.somust.yyteam.activity.UserManagerActivity;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.utils.log.L;
-import com.somust.yyteam.utils.log.T;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
 
@@ -164,7 +160,7 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
         // get prompts.xml view
         L.v(TAG,"调用dialog");
         LayoutInflater li = LayoutInflater.from(context);
-        View promptsView = li.inflate(R.layout.dialog_signout, null);
+        View promptsView = li.inflate(R.layout.dialog_null_edit, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(promptsView);
 

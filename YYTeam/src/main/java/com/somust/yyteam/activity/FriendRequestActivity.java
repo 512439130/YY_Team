@@ -6,25 +6,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 import com.somust.yyteam.adapter.FriendRequestAdapter;
 import com.somust.yyteam.adapter.FriendRequestAdapter.Callback;
-import com.somust.yyteam.adapter.SearchUserAdapter;
 import com.somust.yyteam.bean.AllUser;
-import com.somust.yyteam.bean.FriendRequest;
 import com.somust.yyteam.bean.FriendRequestUser;
-import com.somust.yyteam.bean.TeamFriend;
-import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
@@ -41,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
-import okhttp3.MediaType;
 
 
 /**
@@ -57,7 +50,7 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     private ListView friendRequestListview;
 
 
-    private List<FriendRequestUser> friendRequests;   //添加好友的请求列表
+    private List<FriendRequestUser> friendRequestUsers;   //添加好友的请求列表
 
     /**
      * 保存网络获取的图片集合
@@ -170,7 +163,7 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
                         .url(ConstantUrl.friendUrl + ConstantUrl.updateFriendRequest_interface)
                         .addParams("requestPhoneNumber", requestPhone)
                         .addParams("receivePhone", receivePhone)
-                        .addParams("friendState", state)
+                        .addParams("friendRequestState", state)
                         .build()
                         .execute(new MyUpdateRequestFriendCallback());
             }
@@ -249,7 +242,7 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
                 .post()
                 .url(ConstantUrl.friendUrl + ConstantUrl.obtainFriendRequest_interface)
                 .addParams("receivePhone", receivePhone)
-                .addParams("friendState", friendState)
+                .addParams("friendRequestState", friendState)
                 .build()
                 .execute(new MyFriendRequestBack());
     }
@@ -277,14 +270,14 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
                 T.testShowShort(FriendRequestActivity.this, "好友请求获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();
-                friendRequests = gson.fromJson(response, new TypeToken<List<FriendRequestUser>>() {
+                friendRequestUsers = gson.fromJson(response, new TypeToken<List<FriendRequestUser>>() {
                 }.getType());
 
-                L.v(TAG, friendRequests.toString());
-                portraitBitmaps = new Bitmap[friendRequests.size()];
+                L.v(TAG, friendRequestUsers.toString());
+                portraitBitmaps = new Bitmap[friendRequestUsers.size()];
                 //获取请求用户的头像
-                for (int i = 0; i < friendRequests.size(); i++) {
-                    obtainImage(friendRequests.get(i).getRequestPhone().getUserImage(), i);
+                for (int i = 0; i < friendRequestUsers.size(); i++) {
+                    obtainImage(friendRequestUsers.get(i).getRequestPhone().getUserImage(), i);
                 }
 
 
@@ -335,12 +328,13 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     public void Transformation(List<AllUser> mAllUser, Bitmap[] portraitBitmaps) {
         for (int i = 0; i < portraitBitmaps.length; i++) {
             AllUser allUser = new AllUser();
-            allUser.setUserId(friendRequests.get(i).getRequestPhone().getUserId());
-            allUser.setUserPhone(friendRequests.get(i).getRequestPhone().getUserPhone());
-            allUser.setUserNickname(friendRequests.get(i).getRequestPhone().getUserNickname());
-            allUser.setUserPassword(friendRequests.get(i).getRequestPhone().getUserPassword());
-            allUser.setUserSex(friendRequests.get(i).getRequestPhone().getUserSex());
-            allUser.setUserToken(friendRequests.get(i).getRequestPhone().getUserToken());
+            allUser.setUserId(friendRequestUsers.get(i).getRequestPhone().getUserId());
+            allUser.setUserPhone(friendRequestUsers.get(i).getRequestPhone().getUserPhone());
+            allUser.setUserNickname(friendRequestUsers.get(i).getRequestPhone().getUserNickname());
+            allUser.setUserPassword(friendRequestUsers.get(i).getRequestPhone().getUserPassword());
+            allUser.setUserSex(friendRequestUsers.get(i).getRequestPhone().getUserSex());
+            allUser.setUserToken(friendRequestUsers.get(i).getRequestPhone().getUserToken());
+            allUser.setFriendRequestReason(friendRequestUsers.get(i).getFriendRequestReason());
             allUser.setUserImage(portraitBitmaps[i]);
             mAllUser.add(allUser);
         }

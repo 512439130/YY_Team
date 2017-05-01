@@ -2,10 +2,12 @@ package com.somust.yyteam.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -92,6 +94,7 @@ public class SearchUserActivity extends Activity implements SearchUserView.Searc
         initViews();
         initData();
     }
+
 
 
     /**
@@ -279,7 +282,7 @@ public class SearchUserActivity extends Activity implements SearchUserView.Searc
             //更新搜索数据
             searchUserAdapter.notifyDataSetChanged();
         }
-        Toast.makeText(this, "完成搜索", Toast.LENGTH_SHORT).show();
+        T.testShowShort(this, "完成搜索");
     }
 
 

@@ -16,12 +16,14 @@ public class AllUser implements Serializable {
     private String userToken;
     private Bitmap userImage;
     private String userSex;
+    private String friendRequestReason;
 
     public AllUser() {
 
     }
 
-    public AllUser(String userId, String userPhone, String userNickname, String userPassword, String userToken, Bitmap userImage, String userSex) {
+
+    public AllUser(String userId, String userPhone, String userNickname, String userPassword, String userToken, Bitmap userImage, String userSex, String friendRequestReason) {
         this.userId = userId;
         this.userPhone = userPhone;
         this.userNickname = userNickname;
@@ -29,6 +31,7 @@ public class AllUser implements Serializable {
         this.userToken = userToken;
         this.userImage = userImage;
         this.userSex = userSex;
+        this.friendRequestReason = friendRequestReason;
     }
 
     @Override
@@ -41,6 +44,7 @@ public class AllUser implements Serializable {
                 ", userToken='" + userToken + '\'' +
                 ", userImage=" + userImage +
                 ", userSex='" + userSex + '\'' +
+                ", friendRequestReason='" + friendRequestReason + '\'' +
                 '}';
     }
 
@@ -98,5 +102,13 @@ public class AllUser implements Serializable {
 
     public void setUserSex(String userSex) {
         this.userSex = userSex;
+    }
+
+    public String getFriendRequestReason() {
+        return friendRequestReason;
+    }
+
+    public void setFriendRequestReason(String friendRequestReason) {
+        this.friendRequestReason = friendRequestReason;
     }
 }

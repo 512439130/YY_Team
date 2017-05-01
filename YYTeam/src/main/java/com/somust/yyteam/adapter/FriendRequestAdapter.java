@@ -76,9 +76,13 @@ public class FriendRequestAdapter extends BaseAdapter implements View.OnClickLis
 
             viewholder.user_name = (TextView) convertView.findViewById(R.id.user_name);
             viewholder.user_phone = (TextView) convertView.findViewById(R.id.user_phone);
+            viewholder.request_reason = (TextView) convertView.findViewById(R.id.request_reason);
+
 
             viewholder.btn_agree = (Button) convertView.findViewById(R.id.btn_agree);
             viewholder.btn_refuse = (Button) convertView.findViewById(R.id.btn_refuse);
+
+
 
             convertView.setTag(viewholder);
         } else {
@@ -89,6 +93,7 @@ public class FriendRequestAdapter extends BaseAdapter implements View.OnClickLis
         viewholder.user_name.setText(allUser.getUserNickname());
         viewholder.user_phone.setText(allUser.getUserPhone());
 
+        viewholder.request_reason.setText(allUser.getFriendRequestReason());
 
         viewholder.btn_agree.setTag(position);
         viewholder.btn_agree.setOnClickListener(this);
@@ -104,8 +109,10 @@ public class FriendRequestAdapter extends BaseAdapter implements View.OnClickLis
         ImageView user_image;
         TextView user_name;
         TextView user_phone;
+        TextView request_reason;
         Button btn_agree;
         Button btn_refuse;
+
     }
 
     //响应按钮点击事件,调用子定义接口，并传入View

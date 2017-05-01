@@ -233,7 +233,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="12dp"
                     android:layout_toRightOf="@id/iv_icon_sign_out"
-                    android:text="注销登录"
+                    android:text="切换账户"
                     android:textColor="#333333"
                     android:textSize="14sp" />
 

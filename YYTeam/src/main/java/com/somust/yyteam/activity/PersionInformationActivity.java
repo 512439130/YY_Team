@@ -12,17 +12,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
 import com.somust.yyteam.bean.Friend;
-import com.somust.yyteam.bean.FriendRequest;
+import com.somust.yyteam.bean.FriendRequestUser;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
@@ -73,6 +73,11 @@ public class PersionInformationActivity extends Activity {
 
 
     private List<Friend> userIdList;//用户信息提供者
+
+    //请求理由
+    private String friendRequestReason;
+
+    private String jsonString;
 
     /**
      * 保存登录用户的手机号
@@ -242,13 +247,13 @@ public class PersionInformationActivity extends Activity {
 
     }
 
-    private class MyOnClickListener implements View.OnClickListener {
+    private class MyOnClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_add_friend:  //添加好友
                     //发送添加好友请求
-                    showMyDialog(PersionInformationActivity.this);  //弹出确认框
+                    showEditDialog(PersionInformationActivity.this,"请输入添加理由");
                     break;
                 case R.id.btn_send_message:  //发消息
                     Friend friend = new Friend();
@@ -275,55 +280,51 @@ public class PersionInformationActivity extends Activity {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
-     * 刷新用户缓存数据
-     *
-     * @param userid   需要更换的用户Id
-     * @param nickname 用户昵称
-     * @param urlPath  头像图片地址
-     *                 userInfo 需要更新的用户缓存数据。
+     * 弹出输入提示框
      */
-    public void refreshUserInfo(String userid, String nickname, String urlPath) {
-        RongIM.getInstance().refreshUserInfoCache(new UserInfo(userid, nickname, Uri.parse(urlPath)));
-    }
-    /**
-     * 弹出确认框
-     */
-    private void showMyDialog(final Context context) {
-        // get prompts.xml view
-        L.v(TAG,"调用dialog");
+    private void showEditDialog(final Context context,String dialogName) {
         LayoutInflater li = LayoutInflater.from(context);
-        View promptsView = li.inflate(R.layout.dialog_signout, null);
-        TextView community_content = (TextView)promptsView.findViewById(R.id.community_content);
-        community_content.setText("是否添加好友");
+        View promptsView = li.inflate(R.layout.dialog_edit, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(promptsView);
+        final TextView dialog_name_tv = (TextView) promptsView.findViewById(R.id.dialog_name_tv);
+        dialog_name_tv.setText(dialogName);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
         alertDialogBuilder
                 .setCancelable(false)
-                .setNegativeButton("确定",
+                .setPositiveButton("确定",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                //startActivity(new Intent(context, HomeActivity.class));
+                                friendRequestReason = userInput.getText().toString();
                                 requestAddFriend();
-                                //finish();
                             }
                         })
-                .setPositiveButton("取消",
+                .setNegativeButton("取消",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 dialog.cancel();
                             }
                         });
-
-
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
         alertDialog.show();
     }
-    private String jsonString;
     /**
      * 添加好友的网络请求
      */
@@ -332,11 +333,14 @@ public class PersionInformationActivity extends Activity {
         L.v(TAG,Own_Phone);
         L.v(TAG,userPhone);
         dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_success, true, true);
+
+        final User user = new User();
+        user.setUserPhone(Own_Phone);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                jsonString = new Gson().toJson(new FriendRequest(Own_Phone,userPhone,"insert"));
+                jsonString = new Gson().toJson(new FriendRequestUser(user,userPhone,friendRequestReason,"insert"));
 
                 //发起添加请求
                 OkHttpUtils
@@ -354,7 +358,6 @@ public class PersionInformationActivity extends Activity {
 
 
     }
-
     public class MyRequestAddFriendCallback extends StringCallback {
         @Override
         public void onError(Call call, Exception e, int id) {
@@ -371,11 +374,28 @@ public class PersionInformationActivity extends Activity {
             L.v(response);
             L.v(TAG, "请求成功");
             T.testShowShort(PersionInformationActivity.this, Constant.mMessage_success);
-           // startActivity(new Intent(PersionInformationActivity.this, HomeActivity.class));  //跳转回主页面
-            finish();
+
+            //数据保持问题
+            // startActivity(new Intent(PersionInformationActivity.this, HomeActivity.class));  //跳转回主页面
+
+            PersionInformationActivity.this.finish();
+
             //保持HomeActivity数据
         }
     }
+
+    /**
+     * 刷新用户缓存数据
+     *
+     * @param userid   需要更换的用户Id
+     * @param nickname 用户昵称
+     * @param urlPath  头像图片地址
+     *                 userInfo 需要更新的用户缓存数据。
+     */
+    public void refreshUserInfo(String userid, String nickname, String urlPath) {
+        RongIM.getInstance().refreshUserInfoCache(new UserInfo(userid, nickname, Uri.parse(urlPath)));
+    }
+
 
     /**
      * 提供用户信息

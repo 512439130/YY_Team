@@ -231,6 +231,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Ron
                     intent.putExtras(bundle);
                     startActivity(intent);
                     T.testShowShort(LoginActivity.this, "用户Id：" + userId);
+                    LoginActivity.this.finish();
                     dialog.cancel();
                 } else {
                     T.testShowShort(LoginActivity.this, "连接失败，请检查网络：");

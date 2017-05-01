@@ -1,19 +1,13 @@
 package com.somust.yyteam.fragment;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,17 +23,13 @@ import com.somust.yyteam.activity.LoginActivity;
 import com.somust.yyteam.activity.TeamHomeActivity;
 import com.somust.yyteam.activity.UserManagerActivity;
 import com.somust.yyteam.bean.User;
-import com.somust.yyteam.dialog.BottomMenuDialog;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
-import com.somust.yyteam.utils.photo.PhotoUtils;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
 
 import io.rong.imkit.RongIM;
 import okhttp3.Call;
-
-import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 /**
  * Created by yy on 2017/3/14.
@@ -134,9 +124,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             case R.id.id_mine_money://打开我的钱包页面
                 JrmfClient.intentWallet(getActivity());
                 break;
-            case R.id.id_mine_sign_out:  //弹出确认退出框
-                showMyDialog(getActivity());
-
+            case R.id.id_mine_sign_out:  //切换账户
+                showNullDialog(getActivity(),"是否切换账户？");
                 break;
 
             case R.id.id_head_portrait:  //更换头像
@@ -197,16 +186,18 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         id_phone.setText(user.getUserPhone());
     }
 
+
+
     /**
-     * 弹出输入退出确认框
+     * 弹出无输入确认框
      */
-    private void showMyDialog(Context context) {
-        // get prompts.xml view
-        L.v(TAG,"调用dialog");
+    public void showNullDialog(Context context, String dialogName) {
         LayoutInflater li = LayoutInflater.from(context);
-        View promptsView = li.inflate(R.layout.dialog_signout, null);
+        View promptsView = li.inflate(R.layout.dialog_null_edit, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(promptsView);
+        TextView dialog_name = (TextView) promptsView.findViewById(R.id.dialog_name_tv);
+        dialog_name.setText(dialogName);
 
         alertDialogBuilder
                 .setCancelable(false)
@@ -216,7 +207,6 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                                 RongIM.getInstance().logout();//断开融云连接
                                 getActivity().finish();
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
-
                             }
                         })
                 .setPositiveButton("取消",
@@ -225,22 +215,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                                 dialog.cancel();
                             }
                         });
-
-
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
         alertDialog.show();
     }
-
-
-
-
-
-
-
-
-
 
 }

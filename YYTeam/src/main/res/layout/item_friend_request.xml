@@ -13,8 +13,8 @@
 
         <com.somust.yyteam.view.ImageViewPlus
             android:id="@+id/user_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@mipmap/ic_launcher"
             android:adjustViewBounds="true"
             android:layout_margin="8dp"
@@ -31,7 +31,8 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textSize="13sp"
+                android:textColor="#333333"
                 android:text="梓琳"/>
             <TextView
                 android:id="@+id/user_phone"
@@ -39,15 +40,29 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/iv_lv_item_head"
-
+                android:textSize="13sp"
+                android:textColor="#333333"
                 android:text="13160677911"/>
+
+            <TextView
+                android:id="@+id/request_reason"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/iv_lv_item_head"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你"
+                android:textColor="#00FA9A"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
         <Button
             android:id="@+id/btn_refuse"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="55dp"
+            android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
@@ -58,8 +73,8 @@
             android:textSize="14sp" />
         <Button
             android:id="@+id/btn_agree"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="55dp"
+            android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"

@@ -2,11 +2,13 @@ package com.somust.yyteam.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +30,7 @@ import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.SideBar.PinyinComparator;
 import com.somust.yyteam.utils.SideBar.PinyinUtils;
+import com.somust.yyteam.utils.dialog.DialogUtil;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.SideBar;
@@ -74,8 +77,9 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
     private CheckBox mCheckBox;
 
 
-
     private List<Friend> userIdList;//用户信息提供者
+
+    private String groupName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,9 +215,6 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
         createGroup.setOnClickListener(this);
 
 
-
-
-
     }
 
     @Override
@@ -223,64 +224,13 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.id_title_creategroup:
-                showMyDialog();  //打开提示框，点击确认后，成功创建讨论组
+                showEditDialog(GroupChatActivity.this, "请输入讨论组名称");
                 break;
             default:
                 break;
         }
     }
 
-    private String groupName;
-    /**
-     * 弹出输入提示框
-     */
-    private void showMyDialog() {
-        // get prompts.xml view
-        LayoutInflater li = LayoutInflater.from(this);
-        View promptsView = li.inflate(R.layout.dialog_group, null);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-        // set prompts.xml to alertdialog builder
-        alertDialogBuilder.setView(promptsView);
-
-        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
-
-        // set dialog message
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("确定",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                groupName = userInput.getText().toString();
-                                L.v(TAG,"讨论组名称："+groupName);
-                                for(int i = 0; i < friendlist.size(); i++){
-                                    Friend friend = new Friend();
-                                    friend.setUserId(friendlist.get(i).getFriendPhone().getUserPhone());
-                                    friend.setName(friendlist.get(i).getFriendPhone().getUserNickname());
-                                    friend.setPortraitUri(friendlist.get(i).getFriendPhone().getUserImage());   //设置默认头像(修改为获取用户的头像)
-                                    userIdList = new ArrayList<Friend>();
-                                    userIdList.add(friend);
-                                    setUserInfoProvider();   //把用户信息发送给融云
-                                }
-
-                                createContacts(groupName);
-                                finish();
-                            }
-                        })
-                .setNegativeButton("取消",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
-    }
 
     private void initEvent() {
         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -388,28 +338,55 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
     }
 
 
+
+
+
     /**
-     * 创建聊天组
+     * 弹出输入提示框
      */
-    private void createContacts(String contactsName) {
-        if (RongIM.getInstance() != null) {
-            /**创建讨论组会话并进入会话界面。
-             *创建讨论组时，mLists为要添加的讨论组成员，创建者一定不能在 mLists 中
-             */
-            RongIM.getInstance().createDiscussionChat(GroupChatActivity.this, mLists, contactsName, new RongIMClient.CreateDiscussionCallback() {
-                @Override
-                public void onSuccess(String s) {
-                    System.out.println("创建讨论组成功");
-                    Toast.makeText(GroupChatActivity.this, "创建讨论组成功", Toast.LENGTH_SHORT).show();
-                }
+    private void showEditDialog(final Context context, String dialogName) {
+        LayoutInflater li = LayoutInflater.from(context);
+        View promptsView = li.inflate(R.layout.dialog_edit, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setView(promptsView);
+        final TextView dialog_name_tv = (TextView) promptsView.findViewById(R.id.dialog_name_tv);
+        dialog_name_tv.setText(dialogName);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-                    Toast.makeText(GroupChatActivity.this, "创建讨论组失败", Toast.LENGTH_SHORT).show();
-                }
-            });
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                groupName = userInput.getText().toString().trim();
 
-        }
+                                if (mLists.size() == 0) {
+                                    T.testShowShort(GroupChatActivity.this,"请选择好友！");
+                                }else{
+
+                                    //用户信息提供者的数据
+                                    userIdList = new ArrayList<Friend>();
+                                    for (int i = 0; i < friendlist.size(); i++) {
+                                        Friend friend = new Friend();
+                                        friend.setUserId(friendlist.get(i).getFriendPhone().getUserPhone());
+                                        friend.setName(friendlist.get(i).getFriendPhone().getUserNickname());
+                                        friend.setPortraitUri(friendlist.get(i).getFriendPhone().getUserImage());   //设置默认头像(修改为获取用户的头像)
+                                        userIdList.add(friend);
+                                    }
+                                    setUserInfoProvider();   //把用户信息发送给融云
+                                    createContacts(groupName);
+                                    finish();
+                                }
+                            }
+                        })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     /**
@@ -432,5 +409,31 @@ public class GroupChatActivity extends Activity implements View.OnClickListener 
         }, true);
     }
 
+    /**
+     * 创建聊天组
+     */
+    private void createContacts(String contactsName) {
+        if (TextUtils.equals(contactsName,"")) {
+            contactsName = "默认名称";
+        }
+        L.v(TAG, "讨论组名称：" + contactsName);
+        if (RongIM.getInstance() != null) {
+            /**创建讨论组会话并进入会话界面。
+             *创建讨论组时，mLists为要添加的讨论组成员，创建者一定不能在 mLists 中
+             */
+            RongIM.getInstance().createDiscussionChat(GroupChatActivity.this, mLists, contactsName, new RongIMClient.CreateDiscussionCallback() {
+                @Override
+                public void onSuccess(String s) {
+                    System.out.println("创建讨论组成功");
+                    Toast.makeText(GroupChatActivity.this, "创建讨论组成功", Toast.LENGTH_SHORT).show();
+                }
 
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    Toast.makeText(GroupChatActivity.this, "创建讨论组失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+    }
 }

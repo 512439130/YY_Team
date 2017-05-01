@@ -93,6 +93,9 @@ public class FriendRequestAdapter extends BaseAdapter implements View.OnClickLis
         viewholder.user_name.setText(allUser.getUserNickname());
         viewholder.user_phone.setText(allUser.getUserPhone());
 
+        if(allUser.getFriendRequestReason().equals("")){
+            allUser.setFriendRequestReason("我想撩你~");
+        }
         viewholder.request_reason.setText(allUser.getFriendRequestReason());
 
         viewholder.btn_agree.setTag(position);

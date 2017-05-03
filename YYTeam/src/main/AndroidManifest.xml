@@ -170,6 +170,7 @@
         <!-- 主界面 -->
         <activity
             android:name=".activity.HomeActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <!-- 个人信息界面 -->
         <activity
@@ -210,14 +211,21 @@
         </activity>
 
         <activity android:name=".activity.TeamHomeActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
         <!--更换用户信息界面-->
-        <activity android:name=".activity.AccountActivity">
+        <activity android:name=".activity.AccountActivity"
+            android:launchMode="singleTop">
 
         </activity>
+        <!--创建社团界面-->
+        <activity android:name=".activity.CreateTeamActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
+        </activity>
         <!-- 测试环境 -->
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"

@@ -53,6 +53,10 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
 
     private TitlePopup titlePopup;
 
+    private User user;
+
+    private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,8 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
         L.isDebug = true;  //关闭Log
 
         //接收用户的登录信息user
+        intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
 
         initView();
         //初始化数据
@@ -243,6 +249,10 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
             switch (position) {
                 case 0:// 创建大学社团
                     T.testShowShort(TeamHomeActivity.this, "创建大学社团");
+                    intent = new Intent(TeamHomeActivity.this, CreateTeamActivity.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+
                     break;
                 case 1:// 发布任务安排
                     T.testShowShort(TeamHomeActivity.this, "发布任务安排");

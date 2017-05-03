@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 import com.somust.yyteam.adapter.FriendRequestAdapter;
-import com.somust.yyteam.adapter.FriendRequestAdapter.Callback;
+import com.somust.yyteam.adapter.FriendRequestAdapter.FriendRequestCallback;
 import com.somust.yyteam.bean.AllUser;
 import com.somust.yyteam.bean.FriendRequestUser;
 import com.somust.yyteam.bean.User;
@@ -40,7 +40,7 @@ import okhttp3.Call;
 /**
  * 好友请求Activity
  */
-public class FriendRequestActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, Callback {
+public class FriendRequestActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, FriendRequestCallback {
     ImageView returnView;
     TextView titleName;
 
@@ -74,8 +74,6 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_request);
 
-        T.isShow = false;  //关闭toast
-        L.isDebug = false;  //关闭Log
 
         Intent intent = this.getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -126,13 +124,9 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     public void agreeClick(View v) {
         //改变请求表状态
         UpdateRequestFriend(allUsers.get((Integer) v.getTag()).getUserPhone(), user.getUserPhone(), "agree");
-
         //互相添加为好友
         addFriend(user.getUserPhone(),allUsers.get((Integer) v.getTag()).getUserPhone());
         addFriend(allUsers.get((Integer) v.getTag()).getUserPhone(),user.getUserPhone());
-
-
-
     }
 
     /**
@@ -197,6 +191,10 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
                 obtainFriendRequest(user.getUserPhone(), "insert");
                 friendRequestAdapter.notifyDataSetChanged();
             }
+
+            //startActivity(new Intent(FriendRequestActivity.this, HomeActivity.class));  //跳转回主页面
+
+
         }
     }
 
@@ -264,10 +262,9 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
         public void onResponse(String response, int id) {
 
             if (response.equals("[]")) {
-                T.testShowShort(FriendRequestActivity.this, "无好友请求");
+                L.e(TAG,"无好友请求");
             } else {
-
-                T.testShowShort(FriendRequestActivity.this, "好友请求获取成功");
+                L.e(TAG,"好友请求获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();
                 friendRequestUsers = gson.fromJson(response, new TypeToken<List<FriendRequestUser>>() {

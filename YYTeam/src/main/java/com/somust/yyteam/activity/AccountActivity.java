@@ -1,20 +1,13 @@
 package com.somust.yyteam.activity;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,25 +24,17 @@ import com.somust.yyteam.dialog.BottomMenuDialog;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.utils.photo.PhotoUtils;
-import com.somust.yyteam.utils.uri.UriUtils;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
-import com.yy.http.okhttp.callback.FileCallBack;
 import com.yy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import io.rong.imageloader.core.ImageLoader;
 
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.UserInfo;
 import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.Request;
 import okhttp3.Response;
 
 /**
@@ -195,7 +180,8 @@ public class AccountActivity extends Activity implements View.OnClickListener {
                 if (bottomMenuDialog != null && bottomMenuDialog.isShowing()) {
                     bottomMenuDialog.dismiss();
                 }
-                if (Build.VERSION.SDK_INT >= 23) {
+                //6.0以上的权限问题
+               /* if (Build.VERSION.SDK_INT >= 23) {
                     int checkPermission = checkSelfPermission(Manifest.permission.CAMERA);
                     if (checkPermission != PackageManager.PERMISSION_GRANTED) {
                         if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
@@ -214,8 +200,8 @@ public class AccountActivity extends Activity implements View.OnClickListener {
                         }
                         return;
                     }
-                }
-                photoUtils.takePicture(AccountActivity.this, user.getUserPhone(), fileTime);
+                }*/
+                photoUtils.takePicture(AccountActivity.this, user.getUserPhone(), fileTime,Constant.CROP_USER_IMAGE_NAME);
             }
         });
         bottomMenuDialog.setMiddleListener(new View.OnClickListener() {
@@ -224,7 +210,7 @@ public class AccountActivity extends Activity implements View.OnClickListener {
                 if (bottomMenuDialog != null && bottomMenuDialog.isShowing()) {
                     bottomMenuDialog.dismiss();
                 }
-                photoUtils.selectPicture(AccountActivity.this, user.getUserPhone(), fileTime);
+                photoUtils.selectPicture(AccountActivity.this, user.getUserPhone(), fileTime,Constant.CROP_USER_IMAGE_NAME);
             }
         });
         bottomMenuDialog.show();
@@ -267,13 +253,13 @@ public class AccountActivity extends Activity implements View.OnClickListener {
         switch (requestCode) {
             case PhotoUtils.INTENT_CROP:
 
-                photoUtils.onActivityResult(AccountActivity.this, requestCode, resultCode, data, user.getUserPhone(), fileTime);
+                photoUtils.onActivityResult(AccountActivity.this, requestCode, resultCode, data, user.getUserPhone(), fileTime,Constant.CROP_USER_IMAGE_NAME);
                 break;
             case PhotoUtils.INTENT_TAKE:
-                photoUtils.onActivityResult(AccountActivity.this, requestCode, resultCode, data, user.getUserPhone(), fileTime);
+                photoUtils.onActivityResult(AccountActivity.this, requestCode, resultCode, data, user.getUserPhone(), fileTime,Constant.CROP_USER_IMAGE_NAME);
                 break;
             case PhotoUtils.INTENT_SELECT:
-                photoUtils.onActivityResult(AccountActivity.this, requestCode, resultCode, data, user.getUserPhone(), fileTime);
+                photoUtils.onActivityResult(AccountActivity.this, requestCode, resultCode, data, user.getUserPhone(), fileTime,Constant.CROP_USER_IMAGE_NAME);
                 break;
         }
     }
@@ -290,12 +276,13 @@ public class AccountActivity extends Activity implements View.OnClickListener {
         }
         OkHttpUtils.post()
                 .addFile("image", fileName, file)
-                .url(ConstantUrl.FileUrl + ConstantUrl.uploadImage_interface)
+                .url(ConstantUrl.FileImageUrl + ConstantUrl.uploadImage_interface)
+                .addParams("serverPath", "C:/websoft/image/")
                 .build()
-                .execute(new MyUploadImageCallback());
+                .execute(new MyUploadUserImageCallback());
     }
 
-    public class MyUploadImageCallback extends StringCallback {
+    public class MyUploadUserImageCallback extends StringCallback {
         @Override
         public boolean validateReponse(Response response, int id) {
             L.v(TAG, "validateReponse");
@@ -364,8 +351,6 @@ public class AccountActivity extends Activity implements View.OnClickListener {
         if (TextUtils.isEmpty(userPhone)) {
             T.testShowShort(AccountActivity.this, "手机号不能为空");
         } else {
-
-
             OkHttpUtils
                     .post()
                     .url(url)

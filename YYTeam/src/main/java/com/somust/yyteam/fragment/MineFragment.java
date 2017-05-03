@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.AccountActivity;
+import com.somust.yyteam.activity.FriendRequestActivity;
 import com.somust.yyteam.activity.LoginActivity;
 
 import com.somust.yyteam.activity.TeamHomeActivity;
@@ -48,6 +49,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     private View mView;
 
     //Tab_Button
+    private RelativeLayout user_request;
     private RelativeLayout mUser;
     private RelativeLayout mTeam;
     private RelativeLayout mMoney;
@@ -70,8 +72,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_mine, null);
 
-        L.isDebug = true;
-        T.isShow = true;
+
         initView();
         Intent intent = getActivity().getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -89,14 +90,19 @@ public class MineFragment extends Fragment implements View.OnClickListener{
      * 初始化数据
      */
     private void initView() {
+
+
+        user_request = (RelativeLayout) mView.findViewById(R.id.user_request);
+        mUser = (RelativeLayout) mView.findViewById(R.id.id_mine_user);
         mTeam = (RelativeLayout) mView.findViewById(R.id.id_mine_team);
         mMoney = (RelativeLayout) mView.findViewById(R.id.id_mine_money);
         mSignout = (RelativeLayout) mView.findViewById(R.id.id_mine_sign_out);
-        mUser = (RelativeLayout) mView.findViewById(R.id.id_mine_user);
+
+        mUser.setOnClickListener(this);
+        user_request.setOnClickListener(this);
         mTeam.setOnClickListener(this);
         mMoney.setOnClickListener(this);
         mSignout.setOnClickListener(this);
-        mUser.setOnClickListener(this);
 
 
 
@@ -113,13 +119,22 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
+            case R.id.user_request:  //添加请求
+                //查看添加请求的列表（带下拉刷新）
+                intent = new Intent(getActivity(),FriendRequestActivity.class);
+                //传值
+                intent.putExtra("user", user);
+                startActivity(intent);
+                break;
             case R.id.id_mine_user:   //用户管理
                 intent = new Intent(getActivity(), UserManagerActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
             case R.id.id_mine_team://社团管理
-                startActivity(new Intent(getActivity(), TeamHomeActivity.class));
+                intent = new Intent(getActivity(), TeamHomeActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
                 break;
             case R.id.id_mine_money://打开我的钱包页面
                 JrmfClient.intentWallet(getActivity());

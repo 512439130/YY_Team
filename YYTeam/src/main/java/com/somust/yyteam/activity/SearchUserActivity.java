@@ -127,14 +127,8 @@ public class SearchUserActivity extends Activity implements SearchUserView.Searc
      */
     private void initData() {
         Intent intent = this.getIntent();
-
         Own_id = intent.getStringExtra("Own_id");
-
-
         obtainAllUserInfo();//获取全部用户
-
-
-
         getResultData(null);  //初始化listview
     }
 

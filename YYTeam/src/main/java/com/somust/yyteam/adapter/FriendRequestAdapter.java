@@ -25,7 +25,7 @@ public class FriendRequestAdapter extends BaseAdapter implements View.OnClickLis
     private static final String TAG = "FriendRequestAdapter:";
 
 
-    private Callback mCallback; //注：所有listview的item共用同一个
+    private FriendRequestCallback mCallback; //注：所有listview的item共用同一个
 
     /**
      * 自定义接口，用于回调按钮点击事件到Activity
@@ -33,12 +33,12 @@ public class FriendRequestAdapter extends BaseAdapter implements View.OnClickLis
      * @author Ivan Xu
      *         2014-11-26
      */
-    public interface Callback {
+    public interface FriendRequestCallback {
         void agreeClick(View v);  //同意按钮的点击事件
         void refuseClick(View v); //拒绝按钮的点击事件
     }
 
-    public FriendRequestAdapter(Context context, List<AllUser> users, Callback callback) {
+    public FriendRequestAdapter(Context context, List<AllUser> users, FriendRequestCallback callback) {
         this.context = context;
         this.allUsers = users;
         this.inflater = LayoutInflater.from(context);

@@ -28,9 +28,8 @@
 
         <ImageView
             android:id="@+id/team_type"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@mipmap/ic_team_study"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginLeft="12dp"
             android:layout_gravity="bottom" />
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -67,16 +68,14 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        T.isShow = false;  //关闭toast
-        L.isDebug = false;  //关闭Log
+        T.isShow = true;  //控制toast显示
+        L.isDebug = true;  //控制Log显示
 
+        L.e(TAG,"onCreate调用");
 
         Intent intent = this.getIntent();
         user = (User) intent.getSerializableExtra("user");
-
         initView();
-
-        //初始化数据
         initDatas();
 
         mViewPager.setAdapter(mFragmentPagerAdapter);
@@ -262,6 +261,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     titlePopup.show(findViewById(R.id.id_add));
                     break;
                 case R.id.id_search: //打开查询页面
+                    T.testShowShort(HomeActivity.this, "搜索图标，添加好友");
                     Intent intent = new Intent(HomeActivity.this,SearchUserActivity.class);
                     Bundle bundle = new Bundle();
                     intent.putExtra("Own_id",user.getUserPhone());
@@ -299,6 +299,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     bundle = new Bundle();
                     intent.putExtra("Own_id",user.getUserPhone());
                     intent.putExtras(bundle);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     break;
                 case 2:// 扫一扫
@@ -332,11 +333,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         RongIM.getInstance().refreshUserInfoCache(new UserInfo(userid, nickname, Uri.parse(urlPath)));
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
 
-    }
 
 
 
@@ -360,7 +357,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             //如果isExit标记为false，提示用户再次按键
             if(!isExit){
                 isExit=true;
-                T.testShowShort(getApplicationContext(),"再按一次退出程序");
+                T.testShowShort(HomeActivity.this,"再按一次退出程序");
                 //如果用户没有在2秒内再次按返回键的话，就发送消息标记用户为不退出状态
                 mKeyDownHandler.sendEmptyMessageDelayed(0, 2000);
             }
@@ -374,6 +371,43 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         return false;
     }
 
+    //测试保留
+    /*@Override
+    protected void onStart() {
+        super.onStart();
+
+        L.e(TAG,"onStart调用");
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        L.e(TAG,"onResume调用");
+    }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        L.e(TAG,"onPause调用");
+
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        L.e(TAG,"onStop调用");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        L.e(TAG,"onDestroy调用");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        L.e(TAG,"onRestart调用");
+    }*/
 }

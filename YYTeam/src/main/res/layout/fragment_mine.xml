@@ -90,7 +90,44 @@
             android:background="#ffffff"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:id="@+id/user_request"
+                style="@style/style_single_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/icon_user"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@id/icon_user"
+                    android:text="添加请求"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/icon_go" />
+
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#f5f5f5" />
             <RelativeLayout
                 android:id="@+id/id_mine_user"
                 style="@style/style_single_item"
@@ -122,7 +159,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/ic_mine_return" />
+                    android:src="@mipmap/icon_go" />
 
             </RelativeLayout>
             <TextView
@@ -160,7 +197,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/ic_mine_return" />
+                    android:src="@mipmap/icon_go" />
 
             </RelativeLayout>
 
@@ -201,7 +238,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/ic_mine_return" />
+                    android:src="@mipmap/icon_go" />
 
             </RelativeLayout>
 
@@ -243,7 +280,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/ic_mine_return" />
+                    android:src="@mipmap/icon_go" />
 
             </RelativeLayout>
 

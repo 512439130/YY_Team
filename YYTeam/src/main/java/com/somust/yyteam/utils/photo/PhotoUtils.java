@@ -58,17 +58,17 @@ public class PhotoUtils {
      * @param
      * @return
      */
-    public void takePicture(Activity activity, String userPhone, String time) {
+    public void takePicture(Activity activity, String userPhone, String time, String photoName) {
         L.v("点击dialogItem=拍照");
         try {
             //每次选择图片吧之前的图片删除
             L.v("开始清除之前的图片");
-            clearCropFile(buildUri(activity, userPhone, time));
+            clearCropFile(buildUri(activity, userPhone, time, photoName));
             L.v("图片清除成功");
 
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, buildUri(activity, userPhone, time));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, buildUri(activity, userPhone, time, photoName));
             if (!isIntentAvailable(activity, intent)) {
 
                 return;
@@ -89,11 +89,11 @@ public class PhotoUtils {
      * @param activity Activity
      */
     @SuppressLint("InlinedApi")
-    public void selectPicture(Activity activity, String userPhone, String time) {
+    public void selectPicture(Activity activity, String userPhone, String time, String photoName) {
         L.v("点击dialogItem=选择一张图片");
         try {
             //每次选择图片吧之前的图片删除
-            clearCropFile(buildUri(activity, userPhone, time));
+            clearCropFile(buildUri(activity, userPhone, time, photoName));
 
             Intent intent = new Intent(Intent.ACTION_PICK, null);
             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
@@ -113,13 +113,13 @@ public class PhotoUtils {
      * @param activity
      * @return
      */
-    private Uri buildUri(Activity activity, String userPhone, String time) {
+    private Uri buildUri(Activity activity, String userPhone, String time, String photoName) {
         if (CommonUtils.checkSDCard()) {
             L.v("CommonUtils.checkSDCard()");
-            return Uri.fromFile(Environment.getExternalStorageDirectory()).buildUpon().appendPath(userPhone + "_" + time + "_" + Constant.CROP_FILE_NAME).build();
+            return Uri.fromFile(Environment.getExternalStorageDirectory()).buildUpon().appendPath(userPhone + "_" + time + "_" + photoName).build();
         } else {
             L.v("else");
-            return Uri.fromFile(activity.getCacheDir()).buildUpon().appendPath(userPhone + "_" + time + "_" + Constant.CROP_FILE_NAME).build();
+            return Uri.fromFile(activity.getCacheDir()).buildUpon().appendPath(userPhone + "_" + time + "_" + photoName).build();
         }
     }
 
@@ -133,7 +133,7 @@ public class PhotoUtils {
         return list.size() > 0;
     }
 
-    private boolean corp(Activity activity, Uri uri, String userPhone, String time) {
+    private boolean corp(Activity activity, Uri uri, String userPhone, String time, String photoName) {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
         cropIntent.setDataAndType(uri, "image/*");
         cropIntent.putExtra("crop", "true");
@@ -143,7 +143,7 @@ public class PhotoUtils {
         cropIntent.putExtra("outputY", 200);
         cropIntent.putExtra("return-data", false);
         cropIntent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
-        Uri cropuri = buildUri(activity, userPhone, time);
+        Uri cropuri = buildUri(activity, userPhone, time, photoName);
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, cropuri);
         if (!isIntentAvailable(activity, cropIntent)) {
             return false;
@@ -165,7 +165,7 @@ public class PhotoUtils {
      * @param resultCode
      * @param data
      */
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data, String userPhone, String time) {
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data, String userPhone, String time, String photoName) {
         if (onPhotoResultListener == null) {
             Log.e(tag, "onPhotoResultListener is not null");
             return;
@@ -175,8 +175,8 @@ public class PhotoUtils {
             //拍照
             case INTENT_TAKE:
                 L.v("选择拍照");
-                if (new File(buildUri(activity, userPhone, time).getPath()).exists()) {
-                    if (corp(activity, buildUri(activity, userPhone, time), userPhone, time)) {
+                if (new File(buildUri(activity, userPhone, time, photoName).getPath()).exists()) {
+                    if (corp(activity, buildUri(activity, userPhone, time, photoName), userPhone, time, photoName)) {
                         return;
                     }
                     onPhotoResultListener.onPhotoCancel();
@@ -188,7 +188,7 @@ public class PhotoUtils {
                 L.v("选本地图片");
                 if (data != null && data.getData() != null) {
                     Uri imageUri = data.getData();
-                    if (corp(activity, imageUri, userPhone, time)) {
+                    if (corp(activity, imageUri, userPhone, time, photoName)) {
 
                         return;
                     }
@@ -199,8 +199,8 @@ public class PhotoUtils {
             //截图
             case INTENT_CROP:
                 L.v("开始截图");
-                if (resultCode == Activity.RESULT_OK && new File(buildUri(activity, userPhone, time).getPath()).exists()) {
-                    onPhotoResultListener.onPhotoResult(buildUri(activity, userPhone, time));
+                if (resultCode == Activity.RESULT_OK && new File(buildUri(activity, userPhone, time, photoName).getPath()).exists()) {
+                    onPhotoResultListener.onPhotoResult(buildUri(activity, userPhone, time, photoName));
                 }
                 break;
         }

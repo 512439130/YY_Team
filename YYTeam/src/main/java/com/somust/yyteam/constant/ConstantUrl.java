@@ -20,10 +20,10 @@ public class ConstantUrl {
     public static final String TeamUrl = "http://118.89.47.137/renren-security/team/";
 
     //file
-    public static final String FileUrl = "http://118.89.47.137/renren-security/file/";
+    public static final String FileImageUrl = "http://118.89.47.137/renren-security/file/";
 
-    //save _friend_image(上传图片时使用)
-    public static final String save_friend_image = "http://118.89.47.137/renren-security/friend/";
+
+
 
     //default image
     //man

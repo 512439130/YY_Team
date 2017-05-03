@@ -375,10 +375,10 @@ public class PersionInformationActivity extends Activity {
             L.v(TAG, "请求成功");
             T.testShowShort(PersionInformationActivity.this, Constant.mMessage_success);
 
-            //数据保持问题
-            // startActivity(new Intent(PersionInformationActivity.this, HomeActivity.class));  //跳转回主页面
+            //数据保持问题(解决，采用singTask启动模式)
+            startActivity(new Intent(PersionInformationActivity.this, HomeActivity.class));  //跳转回主页面
 
-            PersionInformationActivity.this.finish();
+            //PersionInformationActivity.this.finish();
 
             //保持HomeActivity数据
         }

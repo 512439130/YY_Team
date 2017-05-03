@@ -31,7 +31,6 @@ import okhttp3.Call;
 
 public class UserManagerActivity extends Activity implements View.OnClickListener {
     //Tab_Button
-    private RelativeLayout user_request;
     private RelativeLayout user_message;
     private RelativeLayout user_repass;
 
@@ -67,7 +66,6 @@ public class UserManagerActivity extends Activity implements View.OnClickListene
 
     private void initView() {
         //Tab_Button
-        user_request = (RelativeLayout) findViewById(R.id.user_request);
         user_message = (RelativeLayout) findViewById(R.id.user_message);
         user_repass = (RelativeLayout) findViewById(R.id.user_repass);
 
@@ -82,7 +80,6 @@ public class UserManagerActivity extends Activity implements View.OnClickListene
     }
 
     private void initListener() {
-        user_request.setOnClickListener(this);
         user_message.setOnClickListener(this);
         user_repass.setOnClickListener(this);
         iv_reutrn.setOnClickListener(this);
@@ -94,13 +91,6 @@ public class UserManagerActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.user_request:  //添加请求
-                //查看添加请求的列表（带下拉刷新）
-                intent = new Intent(UserManagerActivity.this,FriendRequestActivity.class);
-                //传值
-                intent.putExtra("user", user);
-                startActivity(intent);
-                break;
             case R.id.user_message:  //维护个人信息
                 //修改个人信息
                 break;

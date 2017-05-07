@@ -27,7 +27,7 @@
             />
 
         <com.somust.yyteam.view.ImageViewPlus
-            android:id="@+id/iv_lv_item_head"
+            android:id="@+id/item_head_iv"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@mipmap/ic_launcher"
@@ -36,13 +36,23 @@
 
             android:layout_marginLeft="5dp" />
         <TextView
-            android:id="@+id/tv_lv_item_name"
+            android:id="@+id/item_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_lv_item_head"
-            android:layout_marginLeft="5dip"
+            android:layout_toRightOf="@id/item_head_iv"
+            android:layout_marginLeft="5dp"
             android:text="周华健"/>
+
+
+        <TextView
+            android:id="@+id/team_position_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="社长"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"/>
 
 
     </RelativeLayout>

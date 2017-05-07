@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
-    private String userId;
+    private Integer userId;
     private String userPhone;
     private String userNickname;
     private String userPassword;
@@ -30,7 +30,7 @@ public class User implements Serializable {
         this.userSex = userSex;
     }
 
-    public User(String userId, String userPhone, String userNickname, String userPassword, String userToken, String userImage, String userSex) {
+    public User(Integer userId, String userPhone, String userNickname, String userPassword, String userToken, String userImage, String userSex) {
         this.userId = userId;
         this.userPhone = userPhone;
         this.userNickname = userNickname;
@@ -40,11 +40,11 @@ public class User implements Serializable {
         this.userSex = userSex;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

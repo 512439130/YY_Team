@@ -1,10 +1,10 @@
 package com.somust.yyteam.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -20,19 +20,17 @@ import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 
 import com.somust.yyteam.bean.User;
-import com.somust.yyteam.fragment.CommunityFragment;
 import com.somust.yyteam.fragment.FriendFragment;
 import com.somust.yyteam.fragment.MineFragment;
 import com.somust.yyteam.fragment.TeamNewsFragment;
-import com.somust.yyteam.fragment.TestFragment;
 import com.somust.yyteam.popwindow.ActionItem;
 import com.somust.yyteam.popwindow.TitlePopup;
 
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.ChangeColorIconWithText;
+import com.somust.yyteam.view.popupwindow.SelectSearchPopupWindowDialog;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +38,6 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
-import io.rong.push.notification.PushNotificationMessage;
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
@@ -60,18 +57,23 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private ImageView iv_add;
     private ImageView iv_search;
 
-    private TitlePopup titlePopup;
+    private TitlePopup addTitlePopup;
+
+    private TitlePopup searchTitlePopup;
+
+
+    private Activity mActivity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        mActivity = this;
         T.isShow = true;  //控制toast显示
         L.isDebug = true;  //控制Log显示
 
-        L.e(TAG,"onCreate调用");
+        L.e(TAG, "onCreate调用");
 
         Intent intent = this.getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -82,7 +84,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mViewPager.addOnPageChangeListener(this);
         mViewPager.setOffscreenPageLimit(4);  //设置缓存的页面个数
 
-        initPopwindow();  //初始化titlebar中的popwindow
+        initAddPopwindow();  //初始化addTitlebar中的popwindow
+
     }
 
     private void initView() {
@@ -115,29 +118,25 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     /**
      * 实例化标题栏弹窗
      */
-    private void initPopwindow() {
+    private void initAddPopwindow() {
         // 实例化标题栏弹窗
-        titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT);
-        titlePopup.setItemOnClickListener(new MyOnItemOnClickListener());
+        addTitlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        addTitlePopup.setItemOnClickListener(new MyAddOnItemOnClickListener());
         // 给标题栏弹窗添加子类
-        titlePopup.addAction(new ActionItem(this, R.string.groupchat,
-                R.mipmap.icon_menu_group));
-        titlePopup.addAction(new ActionItem(this, R.string.addfriend,
-                R.mipmap.icon_menu_addfriend));
-        titlePopup.addAction(new ActionItem(this, R.string.qrcode,
-                R.mipmap.icon_menu_sao));
-        titlePopup.addAction(new ActionItem(this, R.string.money,
-                R.mipmap.abv));
+        addTitlePopup.addAction(new ActionItem(this, R.string.groupchat, R.mipmap.icon_menu_group));
+        addTitlePopup.addAction(new ActionItem(this, R.string.addfriend, R.mipmap.icon_menu_addfriend));
+        addTitlePopup.addAction(new ActionItem(this, R.string.qrcode, R.mipmap.icon_menu_sao));
+        addTitlePopup.addAction(new ActionItem(this, R.string.money, R.mipmap.abv));
     }
+
 
     private void initDatas() {
 
         mConversationList = initConversationList();  //获取融云会话列表的对象
         mFragment.add(mConversationList);//加入会话列表（第一页）
         mFragment.add(FriendFragment.getInstance());//加入第2页,朋友列表
-       // mFragment.add(TestFragment.getInstance());//加入第3页 测试功能界面
-       // mFragment.add(CommunityFragment.getInstance());  //社团圈改变位置
+        // mFragment.add(TestFragment.getInstance());//加入第3页 测试功能界面
+        // mFragment.add(CommunityFragment.getInstance());  //社团圈改变位置
         mFragment.add(TeamNewsFragment.getInstance());  //社团新闻页
         mFragment.add(MineFragment.getInstance());//加入第4页，我的页
 
@@ -210,6 +209,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             ChangeColorIconWithText right = mTabIndicators.get(position + 1);
             left.setIconAlpha(1 - positionOffset);
             right.setIconAlpha(positionOffset);
+            changAlpha(position, positionOffset);
         }
 
     }
@@ -218,7 +218,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     public void onPageSelected(int position) {
         //选择到某个fragment时
         L.v(TAG, "" + position);
-
+        changAlpha(position);
 
     }
 
@@ -255,20 +255,15 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
      */
     private class MyTitleBarOncliclListener implements View.OnClickListener {
         @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
+        public void onClick(View view) {
+            switch (view.getId()) {
                 case R.id.id_add:  //打开popwindow
-                    titlePopup.show(findViewById(R.id.id_add));
+                    addTitlePopup.showAddView(view);
                     break;
                 case R.id.id_search: //打开查询页面
-                    T.testShowShort(HomeActivity.this, "搜索图标，添加好友");
-                    Intent intent = new Intent(HomeActivity.this,SearchUserActivity.class);
-                    Bundle bundle = new Bundle();
-                    intent.putExtra("Own_id",user.getUserPhone());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                    //调用例子
+                    openSelectView(view);
                     break;
-
                 default:
                     break;
             }
@@ -276,9 +271,39 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
     /**
+     * 打开搜索域选择框
+     *
+     * @param view
+     */
+    private void openSelectView(View view) {
+        SelectSearchPopupWindowDialog selectSearchPopupWindowDialog = new SelectSearchPopupWindowDialog(HomeActivity.this, view, mActivity, new SelectSearchPopupWindowDialog.Callback() {
+            @Override
+            public void selectUserClick(View v) {
+                L.v(TAG, "选择查询用户");
+                Intent intent = new Intent(HomeActivity.this, SearchUserActivity.class);
+                Bundle bundle = new Bundle();
+                intent.putExtra("Own_id", user.getUserPhone());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+
+            @Override
+            public void selectTeamClick(View v) {
+                L.v(TAG, "选择查询社团");
+                Intent intent = new Intent(HomeActivity.this, SearchTeamActivity.class);
+                Bundle bundle = new Bundle();
+                intent.putExtra("user", user);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        selectSearchPopupWindowDialog.create();
+    }
+
+    /**
      * popwindow中item的点击事件监听
      */
-    private class MyOnItemOnClickListener implements TitlePopup.OnItemOnClickListener {
+    private class MyAddOnItemOnClickListener implements TitlePopup.OnItemOnClickListener {
         @Override
         public void onItemClick(ActionItem item, int position) {
             Intent intent;
@@ -292,20 +317,21 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     intent.putExtras(bundle);
                     intent.setClass(HomeActivity.this, GroupChatActivity.class);
                     startActivity(intent);
+
                     break;
                 case 1:// 添加朋友
                     T.testShowShort(HomeActivity.this, "添加好友");
-                    intent = new Intent(HomeActivity.this,SearchUserActivity.class);
+                    intent = new Intent(HomeActivity.this, SearchUserActivity.class);
                     bundle = new Bundle();
-                    intent.putExtra("Own_id",user.getUserPhone());
+                    intent.putExtra("Own_id", user.getUserPhone());
                     intent.putExtras(bundle);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+
                     break;
                 case 2:// 扫一扫
                     T.testShowShort(HomeActivity.this, "扫一扫");
                     //扫一扫打开好友信息界面
-
                     break;
                 case 3:// 收钱
                     T.testShowShort(HomeActivity.this, "我的钱包");
@@ -334,17 +360,14 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     }
 
 
+    private boolean isExit = false;//定义是否退出程序的标记
 
-
-
-    private boolean isExit=false;//定义是否退出程序的标记
-
-    private Handler mKeyDownHandler = new Handler(){    //定义接受用户发送信息的handler
+    private Handler mKeyDownHandler = new Handler() {    //定义接受用户发送信息的handler
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             //标记用户不退出状态
-            isExit=false;
+            isExit = false;
         }
     };
 
@@ -353,16 +376,16 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //判断用户是否点击的是返回键
-        if(keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             //如果isExit标记为false，提示用户再次按键
-            if(!isExit){
-                isExit=true;
-                T.testShowShort(HomeActivity.this,"再按一次退出程序");
+            if (!isExit) {
+                isExit = true;
+                T.testShowShort(HomeActivity.this, "再按一次退出程序");
                 //如果用户没有在2秒内再次按返回键的话，就发送消息标记用户为不退出状态
                 mKeyDownHandler.sendEmptyMessageDelayed(0, 2000);
             }
             //如果isExit标记为true，退出程序
-            else{
+            else {
                 //退出程序
                 finish();
                 System.exit(0);
@@ -370,6 +393,51 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
         return false;
     }
+
+
+    /**
+     * 根据滑动设置透明度
+     */
+    private void changAlpha(int pos, float posOffset) {
+        int nextIndex = pos + 1;
+        if (posOffset > 0) {
+            //设置tab的颜色渐变效果
+           /* mButtonList.get(nextIndex).setAlpha(posOffset);
+            mButtonList.get(pos).setAlpha(1 - posOffset);*/
+            //设置fragment的颜色渐变效果
+            mFragment.get(nextIndex).getView().setAlpha(posOffset);
+            mFragment.get(pos).getView().setAlpha(1 - posOffset);
+            //设置fragment滑动视图由大到小，由小到大的效果
+            mFragment.get(nextIndex).getView().setScaleX(0.75F + posOffset / 4);
+            mFragment.get(nextIndex).getView().setScaleY(0.75F + posOffset / 4);
+            mFragment.get(pos).getView().setScaleX(1 - (posOffset / 4));
+            mFragment.get(pos).getView().setScaleY(1 - (posOffset / 4));
+        }
+    }
+
+    /**
+     * 一开始运行、滑动和点击tab结束后设置tab的透明度，fragment的透明度和大小
+     */
+    private void changAlpha(int postion) {
+        for (int i = 0; i < mFragment.size(); i++) {
+            if (i == postion) {
+                //mButtonList.get(i).setAlpha(1.0f);
+                if (null != mFragment.get(i).getView()) {
+                    mFragment.get(i).getView().setAlpha(1.0f);
+                    mFragment.get(i).getView().setScaleX(1.0f);
+                    mFragment.get(i).getView().setScaleY(1.0f);
+                }
+            } else {
+                //mButtonList.get(i).setAlpha(0.0f);
+                if (null != mFragment.get(i).getView()) {
+                    mFragment.get(i).getView().setAlpha(0.0f);
+                    mFragment.get(i).getView().setScaleX(0.0f);
+                    mFragment.get(i).getView().setScaleY(0.0f);
+                }
+            }
+        }
+    }
+
 
     //测试保留
     /*@Override

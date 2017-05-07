@@ -73,5 +73,5 @@
         android:layout_width="12dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="#ffffff" />
+        android:background="#00ffffff" />
 </RelativeLayout>

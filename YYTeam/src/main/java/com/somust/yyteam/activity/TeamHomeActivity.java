@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
+import com.somust.yyteam.bean.TeamMember;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.fragment.CommunityFragment;
 import com.somust.yyteam.fragment.FriendFragment;
@@ -57,6 +58,9 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
 
     private Intent intent;
 
+    private TeamMember teamMember;
+    private Integer teamId = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,9 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
         //接收用户的登录信息user
         intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
+        teamMember = (TeamMember) intent.getSerializableExtra("teamMember");
+        teamId = teamMember.getTeamId().getTeamId();
+        L.v(TAG+"teamId=",teamId.toString());
 
         initView();
         //初始化数据
@@ -104,8 +111,8 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
 
         iv_add = (ImageView) findViewById(R.id.id_add);
         iv_search = (ImageView) findViewById(R.id.id_search);
+        iv_search.setVisibility(View.INVISIBLE);
         iv_add.setOnClickListener(new MyTitleBarOncliclListener());
-        iv_search.setOnClickListener(new MyTitleBarOncliclListener());
     }
 
     /**
@@ -199,6 +206,7 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
             ChangeColorIconWithText right = mTabIndicators.get(position + 1);
             left.setIconAlpha(1 - positionOffset);
             right.setIconAlpha(positionOffset);
+            changAlpha(position,positionOffset);
         }
 
     }
@@ -207,6 +215,7 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
     public void onPageSelected(int position) {
         //选择到某个fragment时
         L.v(TAG, "" + position);
+        changAlpha(position);
     }
 
 
@@ -226,12 +235,9 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.id_add:  //打开popwindow
-                    titlePopup.show(findViewById(R.id.id_add));
+                    titlePopup.showAddView(findViewById(R.id.id_add));
                     break;
-                case R.id.id_search: //打开查询页面
-                    Intent intent = new Intent(TeamHomeActivity.this,SearchTeamActivity.class);
-                    startActivity(intent);
-                    break;
+
 
                 default:
                     break;
@@ -263,6 +269,50 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
                 default:
                     break;
 
+            }
+        }
+    }
+
+
+    /**
+     * 根据滑动设置透明度
+     */
+    private void changAlpha(int pos, float posOffset) {
+        int nextIndex = pos + 1;
+        if (posOffset > 0) {
+            //设置tab的颜色渐变效果
+           /* mButtonList.get(nextIndex).setAlpha(posOffset);
+            mButtonList.get(pos).setAlpha(1 - posOffset);*/
+            //设置fragment的颜色渐变效果
+            mFragment.get(nextIndex).getView().setAlpha(posOffset);
+            mFragment.get(pos).getView().setAlpha(1 - posOffset);
+            //设置fragment滑动视图由大到小，由小到大的效果
+            mFragment.get(nextIndex).getView().setScaleX(0.75F + posOffset / 4);
+            mFragment.get(nextIndex).getView().setScaleY(0.75F + posOffset / 4);
+            mFragment.get(pos).getView().setScaleX(1 - (posOffset / 4));
+            mFragment.get(pos).getView().setScaleY(1 - (posOffset / 4));
+        }
+    }
+
+    /**
+     * 一开始运行、滑动和点击tab结束后设置tab的透明度，fragment的透明度和大小
+     */
+    private void changAlpha(int postion) {
+        for (int i = 0; i < mFragment.size(); i++) {
+            if (i == postion) {
+                //mButtonList.get(i).setAlpha(1.0f);
+                if (null != mFragment.get(i).getView()) {
+                    mFragment.get(i).getView().setAlpha(1.0f);
+                    mFragment.get(i).getView().setScaleX(1.0f);
+                    mFragment.get(i).getView().setScaleY(1.0f);
+                }
+            } else {
+                //mButtonList.get(i).setAlpha(0.0f);
+                if (null != mFragment.get(i).getView()) {
+                    mFragment.get(i).getView().setAlpha(0.0f);
+                    mFragment.get(i).getView().setScaleX(0.0f);
+                    mFragment.get(i).getView().setScaleY(0.0f);
+                }
             }
         }
     }

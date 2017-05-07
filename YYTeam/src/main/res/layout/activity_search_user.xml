@@ -4,15 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.somust.yyteam.view.searchview.SearchUserView
-        android:id="@+id/main_search_layout"
+    <com.somust.yyteam.view.searchview.SearchView
+        android:id="@+id/search_layout_user_sv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.somust.yyteam.view.searchview.SearchUserView>
+    </com.somust.yyteam.view.searchview.SearchView>
 
     <ListView
 
-        android:id="@+id/main_lv_search_results"
+        android:id="@+id/search_results_user_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">

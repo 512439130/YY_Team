@@ -157,7 +157,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Ron
                             .build()
                             .execute(new MyLoginCallback());
                 }
-            }, 1200);//1.2秒后执行Runnable中的run方法
+            }, 600);//1.2秒后执行Runnable中的run方法
 
 
         }

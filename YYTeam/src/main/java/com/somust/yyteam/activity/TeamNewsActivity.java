@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.somust.yyteam.R;
 import com.somust.yyteam.bean.TeamNews;
+import com.somust.yyteam.bean.User;
 import com.somust.yyteam.utils.log.L;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
@@ -17,7 +18,7 @@ import com.yy.http.okhttp.callback.BitmapCallback;
 import okhttp3.Call;
 
 public class TeamNewsActivity extends Activity implements View.OnClickListener {
-
+    private static final String TAG = "TeamNewsActivity:";
     ImageView returnView;
     TextView titleName;
 
@@ -33,8 +34,8 @@ public class TeamNewsActivity extends Activity implements View.OnClickListener {
     private TextView team_name;  //社团名
     private TextView news_time;  //新闻发表时间
 
+    private User user;
 
-    private static final String TAG = "TeamNewsActivity:";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class TeamNewsActivity extends Activity implements View.OnClickListener {
         //接收Intent传值
         Intent intent = this.getIntent();
         teamNews = (TeamNews) intent.getSerializableExtra("teamNews");
-
+        user = (User) intent.getSerializableExtra("user");
         L.v(TAG, teamNews.toString());
 
         initView();
@@ -103,6 +104,7 @@ public class TeamNewsActivity extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(TeamNewsActivity.this, TeamInformationActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("teamNews",teamNews);
+                bundle.putSerializable("user",user);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;

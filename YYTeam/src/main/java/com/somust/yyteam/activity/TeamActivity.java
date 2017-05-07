@@ -1,25 +1,25 @@
-package com.somust.yyteam.fragment;
+package com.somust.yyteam.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
-import com.somust.yyteam.activity.TeamInformationActivity;
 import com.somust.yyteam.adapter.TeamAdapter;
 import com.somust.yyteam.bean.Team;
 import com.somust.yyteam.bean.TeamMessage;
+import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.DateUtil;
 import com.somust.yyteam.utils.log.L;
@@ -33,25 +33,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
-/**
- * Created by DELL on 2016/3/14.
- */
 
 /**
- * 社团任务列表
+ * Created by 13160677911 on 2017-5-5.
+ * 大学社团列表
  */
-public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener {
-    private static final String TAG = "TeamFragment:";
 
-    public static TeamFragment instance = null;//单例模式
-    public static TeamFragment getInstance() {
-        if (instance == null) {
-            instance = new TeamFragment();
-        }
-        return instance;
-    }
+public class TeamActivity extends Activity implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener{
+    private static final String TAG = "TeamActivity:";
+    private ImageView iv_reutrn;
+    private TextView titleName;
 
-    private View mView;
+
     private RefreshLayout swipeLayout;
     private View header;
 
@@ -69,31 +62,39 @@ public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private boolean teamFlag = false;
     private boolean presidentFlag = false;
 
-
-
-
     public List<Team> intentDatas;
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.activity_team, null);
+
+    private User user;
+
+    private Intent intent;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_team);
+
+        //接收用户的登录信息user
+        intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
+
         initView();
         requestData();
         initListener();
-        return mView;
-
     }
 
     /**
      * 初始化数据
      */
     private void initView() {
+        iv_reutrn = (ImageView) findViewById(R.id.id_title_back);
+        titleName = (TextView) findViewById(R.id.actionbar_name);
+
+
         teamMessages.clear();
         //头部
-        header = getActivity().getLayoutInflater().inflate(R.layout.team_header, null);
+        header = getLayoutInflater().inflate(R.layout.team_header, null);
 
-        swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
+        swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources(R.color.color_bule2,R.color.color_bule,R.color.color_bule2,R.color.color_bule3);
-        teamNewsListView = (ListView) mView.findViewById(R.id.list);
+        teamNewsListView = (ListView) findViewById(R.id.list);
         teamNewsListView.addHeaderView(header);
     }
 
@@ -131,8 +132,8 @@ public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefre
      * 添加数据
      */
     private void initDatas() {
-
-        teamAdapter = new TeamAdapter(getActivity(), teamMessages);
+        titleName.setText("大学社团列表");
+        teamAdapter = new TeamAdapter(TeamActivity.this, teamMessages);
         teamNewsListView.setAdapter(teamAdapter);
     }
     /**
@@ -141,6 +142,7 @@ public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void initListener() {
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setOnLoadListener(this);
+        iv_reutrn.setOnClickListener(this);
 
         teamNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //新闻item的点击事件
             @Override
@@ -149,16 +151,26 @@ public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     L.v(TAG,"数据获取完成");
 
                     Team teams = intentDatas.get(position-1);  //获取当前item的bean
-                    Intent intent = new Intent(getActivity(), TeamInformationActivity.class);
+                    Intent intent = new Intent(TeamActivity.this, TeamInformationActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("teams",teams);
+                    bundle.putSerializable("user",user);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
             }
         });
     }
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.id_title_back:
+                finish();
+                break;
+            default:
+                break;
+        }
+    }
 
     /**
      * 获取全部社团
@@ -171,6 +183,8 @@ public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 .execute(new MyTeamRequestCallback());
     }
 
+
+
     /**
      * 请求回调
      */
@@ -180,17 +194,17 @@ public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
             e.printStackTrace();
             L.e(TAG, "onError:" + e.getMessage());
-            T.testShowShort(getActivity(), "获取失败,服务器正在维护中");
+            T.testShowShort(TeamActivity.this, "获取失败,服务器正在维护中");
         }
 
         @Override
         public void onResponse(String response, int id) {
 
             if (response.equals("[]")) {
-                T.testShowShort(getActivity(), "当前无社团");
+                T.testShowShort(TeamActivity.this, "当前无社团");
             } else {
 
-                T.testShowShort(getActivity(), "所有社团获取成功");
+                T.testShowShort(TeamActivity.this, "所有社团获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();
                 teams = gson.fromJson(response, new TypeToken<List<Team>>() {
@@ -306,7 +320,7 @@ public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
                 swipeLayout.setRefreshing(false);
             }
-        }, 1200);
+        }, 1500);
     }
 
 
@@ -322,7 +336,7 @@ public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 swipeLayout.setLoading(false);
                 //teamNewsAdapter.notifyDataSetChanged();
             }
-        }, 1200);
+        }, 1500);
     }
 
 
@@ -340,6 +354,4 @@ public class TeamFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         msg.setData(bundle);
         handler.sendMessage(msg);
     }
-
-
 }

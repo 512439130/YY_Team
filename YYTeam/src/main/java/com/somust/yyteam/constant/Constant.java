@@ -24,6 +24,6 @@ public class Constant {
     public static final String CROP_USER_IMAGE_NAME = "user_image.png";     //用户头像名称
     public static final String CROP_TEAM_IMAGE_NAME = "team_image.png";     //用户头像名称
 
-    public static final String USER_IMAGE_PATH = "http://118.89.47.137/image/";         //用户头像存放的服务器地址
-    public static final String TEAM_IMAGE_PATH = "http://118.89.47.137/image/team/";         //用户头像存放的服务器地址
+    public static final String USER_IMAGE_PATH = "http://139.199.171.79/image/";         //用户头像存放的服务器地址
+    public static final String TEAM_IMAGE_PATH = "http://139.199.171.79/image/team/";         //用户头像存放的服务器地址
 }

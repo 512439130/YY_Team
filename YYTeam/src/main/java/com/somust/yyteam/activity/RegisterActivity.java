@@ -83,7 +83,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "RegisterActivity:";
     private ImageView mImg_Background;
 
-    private Handler mCountDownHandler = new Handler() {
+    private Handler mRegisterCountDownHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
@@ -258,11 +258,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             L.v(TAG, "手机号：" + phone);
                             L.v(TAG, "国家：" + country);
 
-                            UpdateUiAndToast(mCountDownHandler, "sms_verification", "verification_success");
+                            UpdateUiAndToast(mRegisterCountDownHandler, "sms_verification", "verification_success");
                         } else {
                             L.v(TAG, "手机号验证失败，验证码输入有误");
 
-                            UpdateUiAndToast(mCountDownHandler, "sms_verification", "verification_error");
+                            UpdateUiAndToast(mRegisterCountDownHandler, "sms_verification", "verification_error");
 
                         }
                         break;
@@ -275,12 +275,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             } else {
                                 //依然走短信验证
                                 L.v(TAG, "获取验证成功,依然走短信验证");
-                                UpdateUiAndToast(mCountDownHandler, "code_obtain", "obtain_success");
+                                UpdateUiAndToast(mRegisterCountDownHandler, "code_obtain", "obtain_success");
                             }
                         } else {
                             L.v(TAG, "获取验证失败，请输入正确的手机号");
 
-                            UpdateUiAndToast(mCountDownHandler, "code_obtain", "obtain_error");
+                            UpdateUiAndToast(mRegisterCountDownHandler, "code_obtain", "obtain_error");
 
                         }
                         break;
@@ -304,8 +304,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 @Override
                 public void run() {
                     mTime--;
-                    Message msg = mCountDownHandler.obtainMessage();
-                    mCountDownHandler.sendMessage(msg);
+                    Message msg = mRegisterCountDownHandler.obtainMessage();
+                    mRegisterCountDownHandler.sendMessage(msg);
                 }
             };
             mTimer.schedule(task, 100, 1000);
@@ -334,7 +334,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                     token = RongUtil.getToken(phone, nickname, urlPath);  //获取token
                     L.v(TAG, "RegisterActivity+token:" + token);
 
-                    UpdateUiAndToast(mCountDownHandler, "token", "token_success");
+                    UpdateUiAndToast(mRegisterCountDownHandler, "token", "token_success");
                 }
             };
             thread.start();
@@ -384,7 +384,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                         .build()
                         .execute(new MyStringCallback());
             }
-        }, 1200);//3秒后执行Runnable中的run方法
+        }, 600);//3秒后执行Runnable中的run方法
 
         L.v(TAG, "json处理后格式：" + userJsonString);
     }
@@ -416,7 +416,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             L.v(response);
             L.v(TAG, "注册成功");
             T.testShowShort(RegisterActivity.this, Constant.mMessage_success);
-            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));  //跳转到登录界面
+            //startActivity(new Intent(RegisterActivity.this, LoginActivity.class));  //跳转到登录界面
+            finish();
         }
 
         @Override
@@ -469,5 +470,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         bundle.putString(key, value);
         msg.setData(bundle);
         handler.sendMessage(msg);
+    }
+    @Override
+    protected void onDestroy() {
+        dialog.dismiss();
+        super.onDestroy();
     }
 }

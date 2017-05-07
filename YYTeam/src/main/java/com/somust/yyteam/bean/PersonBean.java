@@ -12,6 +12,7 @@ public class PersonBean {
 	private String FirstPinYin;
 	private Bitmap Image;
 	private String Phone;
+	private String teamMemberPosition;
 
 	public String getName() {
 		return Name;
@@ -53,6 +54,14 @@ public class PersonBean {
 		Phone = phone;
 	}
 
+	public String getTeamMemberPosition() {
+		return teamMemberPosition;
+	}
+
+	public void setTeamMemberPosition(String teamMemberPosition) {
+		this.teamMemberPosition = teamMemberPosition;
+	}
+
 	@Override
 	public String toString() {
 		return "PersonBean{" +
@@ -61,6 +70,7 @@ public class PersonBean {
 				", FirstPinYin='" + FirstPinYin + '\'' +
 				", Image=" + Image +
 				", Phone='" + Phone + '\'' +
+				", teamMemberPosition='" + teamMemberPosition + '\'' +
 				'}';
 	}
 }

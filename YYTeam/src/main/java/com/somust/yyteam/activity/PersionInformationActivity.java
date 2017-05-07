@@ -351,9 +351,7 @@ public class PersionInformationActivity extends Activity {
                         .build()
                         .execute(new MyRequestAddFriendCallback());
             }
-        }, 2000);//2秒后执行Runnable中的run方法
-
-        L.v(TAG, "json处理后格式：" + jsonString);
+        }, 600);//2秒后执行Runnable中的run方法
 
 
 

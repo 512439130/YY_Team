@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/actionbar_base" />
+
     <com.somust.yyteam.view.refreshview.RefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"

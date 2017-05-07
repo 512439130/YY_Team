@@ -1,34 +1,37 @@
 package com.somust.yyteam.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
 import com.somust.yyteam.bean.Team;
+import com.somust.yyteam.bean.TeamMemberRequest;
 import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
-import com.somust.yyteam.view.ImageViewPlus;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
-import io.rong.imkit.RongIM;
 import okhttp3.Call;
-import okhttp3.Request;
+import okhttp3.MediaType;
 
 /**
  * Created by MMZB-YY on 2017/4/11.
@@ -40,7 +43,7 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
     private ImageView iv_reutrn;
     private TextView titleName;
     private TeamNews teamNews;
-    private Team teams;
+    private Team team;
 
 
     private ImageView team_image;  //社团logo
@@ -57,7 +60,12 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
 
     private ProgressDialog dialog;
 
+    private User user;
 
+    //请求理由
+    private String TeamMemberRequestReason;
+
+    private String jsonString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +75,8 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
         //接收Intent传值
         Intent intent = this.getIntent();
         teamNews = (TeamNews) intent.getSerializableExtra("teamNews");  //新闻列表跳转
-        teams = (Team) intent.getSerializableExtra("teams");  //社团列表跳转
+        team = (Team) intent.getSerializableExtra("teams");  //社团列表跳转
+        user = (User) intent.getSerializableExtra("user");
         //通过网络请求获取用户信息
 
         initDatas();
@@ -116,25 +125,25 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
             //获取社长头像
             obtainPresidentImage(teamNews.getTeamId().getTeamPresident().getUserImage());
         }
-        if(teams != null){
+        if(team != null){
             //社团类型转换图标
-            if (teams.getTeamType().equals("学习")) {
+            if (team.getTeamType().equals("学习")) {
                 team_type.setBackgroundResource(R.mipmap.ic_team_study);
-            } else if (teams.getTeamType().equals("公益")) {
+            } else if (team.getTeamType().equals("公益")) {
                 team_type.setBackgroundResource(R.mipmap.ic_team_welfare);
-            } else if (teams.getTeamType().equals("技术")) {
+            } else if (team.getTeamType().equals("技术")) {
                 team_type.setBackgroundResource(R.mipmap.ic_team_technology);
             }
 
-            team_name.setText(teams.getTeamName());
-            team_president.setText(teams.getTeamPresident().getUserNickname());
-            team_time.setText(teams.getTeamTime());
-            team_introduce.setText(teams.getTeamIntroduce());
+            team_name.setText(team.getTeamName());
+            team_president.setText(team.getTeamPresident().getUserNickname());
+            team_time.setText(team.getTeamTime());
+            team_introduce.setText(team.getTeamIntroduce());
 
             //通过网络获取社团logo
-            obtainTeamImage(teams.getTeamImage());
+            obtainTeamImage(team.getTeamImage());
             //获取社长头像
-            obtainPresidentImage(teams.getTeamPresident().getUserImage());
+            obtainPresidentImage(team.getTeamPresident().getUserImage());
         }
 
     }
@@ -143,6 +152,7 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
         //监听事件
         iv_reutrn.setOnClickListener(this);
         team_president_image.setOnClickListener(this);
+        btn_add_team.setOnClickListener(this);
     }
 
 
@@ -216,19 +226,114 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
                     intent.putExtra("userId", teamNews.getTeamId().getTeamPresident().getUserPhone());
                     intent.putExtra("userNickname", teamNews.getTeamId().getTeamPresident().getUserNickname());
                     intent.putExtra("openState","stranger");  //陌生人
+                    intent.putExtra("Own_id",user.getUserPhone());
                 }
-                if(teams != null){
-                    intent.putExtra("userId", teams.getTeamPresident().getUserPhone());
-                    intent.putExtra("userNickname", teams.getTeamPresident().getUserNickname());
+                if(team != null){
+                    intent.putExtra("userId", team.getTeamPresident().getUserPhone());
+                    intent.putExtra("userNickname", team.getTeamPresident().getUserNickname());
                     intent.putExtra("openState","stranger");  //陌生人
+                    intent.putExtra("Own_id",user.getUserPhone());
                 }
 
                 startActivity(intent);
+                break;
+            case R.id.btn_add_team:
+                //执行添加社团的请求
+                showEditDialog(TeamInformationActivity.this,"请输入加入社团理由");
                 break;
             default:
                 break;
         }
     }
+
+
+
+
+
+    /**
+     * 弹出输入提示框
+     */
+    private void showEditDialog(final Context context, String dialogName) {
+        LayoutInflater li = LayoutInflater.from(context);
+        View promptsView = li.inflate(R.layout.dialog_edit, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setView(promptsView);
+        final TextView dialog_name_tv = (TextView) promptsView.findViewById(R.id.dialog_name_tv);
+        dialog_name_tv.setText(dialogName);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                TeamMemberRequestReason = userInput.getText().toString();
+                                requestAddTeam();
+                            }
+                        })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+    /**
+     * 申请加入社团的网络请求
+     */
+    private void requestAddTeam() {
+        L.v(TAG,"申请加入社团");
+        dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_success, true, true);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                jsonString = new Gson().toJson(new TeamMemberRequest(user, team.getTeamId(),TeamMemberRequestReason,"insert"));
+
+                //发起添加请求
+                OkHttpUtils
+                        .postString()
+                        .url(ConstantUrl.teamMemberUrl + ConstantUrl.addTeamMemberRequest_interface)
+                        .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                        .content(jsonString)
+                        .build()
+                        .execute(new MyRequestAddFriendCallback());
+            }
+        }, 600);//2秒后执行Runnable中的run方法
+
+
+
+
+
+    }
+    public class MyRequestAddFriendCallback extends StringCallback {
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            dialog.cancel();//关闭圆形进度条
+            e.printStackTrace();
+            L.v(TAG, "请求失败");
+            T.testShowShort(TeamInformationActivity.this, Constant.mProgressDialog_error);
+            L.v(e.getMessage());
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            dialog.cancel();//关闭圆形进度条
+            L.v(response);
+            L.v(TAG, "请求成功");
+            T.testShowShort(TeamInformationActivity.this, Constant.mMessage_success);
+
+            //数据保持问题(解决，采用singTask启动模式)
+            startActivity(new Intent(TeamInformationActivity.this, HomeActivity.class));  //跳转回主页面
+
+
+        }
+    }
+
+
 
 
 }

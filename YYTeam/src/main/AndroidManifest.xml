@@ -226,10 +226,23 @@
             android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
+
+        <!--大学社团列表-->
+        <activity android:name=".activity.TeamActivity"
+            android:launchMode="singleTop">
+
+
+        </activity>
+
+        <!--加入社团请求界面-->
+        <activity android:name=".activity.TeamMemberRequestActivity">
+
+        </activity>
         <!-- 测试环境 -->
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="uwd1c0sxugt21" />
+
         <!-- 生产环境 -->
         <!--<meta-data
             android:name="RONG_CLOUD_APP_KEY"

@@ -17,7 +17,7 @@
             android:layout_marginLeft="-50dp"
             android:layout_marginRight="-300dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/background" />
+            android:src="@mipmap/ic_background_new" />
 
     </FrameLayout>
 

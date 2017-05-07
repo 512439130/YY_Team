@@ -4,4 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.somust.yyteam.view.searchview.SearchView
+        android:id="@+id/search_layout_team_sv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.somust.yyteam.view.searchview.SearchView>
+
+    <ListView
+
+        android:id="@+id/search_results_team_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+    </ListView>
+
 </LinearLayout>

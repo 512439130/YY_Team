@@ -58,8 +58,9 @@ public class TeamMemberAdapter extends BaseAdapter {
             viewholder = new ViewHolder();
             convertView = inflater.inflate(R.layout.item_team_member, null);
             viewholder.tv_tag = (TextView) convertView.findViewById(R.id.tv_lv_item_tag);
-            viewholder.tv_name = (TextView) convertView.findViewById(R.id.tv_lv_item_name);
-            viewholder.iv_portrait = (ImageView) convertView.findViewById(R.id.iv_lv_item_head);
+            viewholder.tv_name = (TextView) convertView.findViewById(R.id.item_name_tv);
+            viewholder.iv_portrait = (ImageView) convertView.findViewById(R.id.item_head_iv);
+            viewholder.tv_team_position = (TextView) convertView.findViewById(R.id.team_position_tv);
 
             convertView.setTag(viewholder);
         } else {
@@ -78,6 +79,8 @@ public class TeamMemberAdapter extends BaseAdapter {
         }
         viewholder.tv_name.setText(person.getName());
         viewholder.iv_portrait.setImageBitmap(person.getImage());
+        viewholder.tv_team_position.setText(person.getTeamMemberPosition());
+
         return convertView;
     }
 
@@ -96,6 +99,7 @@ public class TeamMemberAdapter extends BaseAdapter {
         TextView tv_tag;
         TextView tv_name;
         ImageView iv_portrait;
+        TextView tv_team_position;
     }
 
 

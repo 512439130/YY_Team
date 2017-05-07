@@ -15,19 +15,28 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.AccountActivity;
 import com.somust.yyteam.activity.FriendRequestActivity;
 import com.somust.yyteam.activity.LoginActivity;
 
+import com.somust.yyteam.activity.TeamActivity;
 import com.somust.yyteam.activity.TeamHomeActivity;
 import com.somust.yyteam.activity.UserManagerActivity;
+import com.somust.yyteam.bean.TeamMember;
 import com.somust.yyteam.bean.User;
+import com.somust.yyteam.constant.Constant;
+import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
+import com.yy.http.okhttp.callback.StringCallback;
+
+import java.io.Serializable;
 
 import io.rong.imkit.RongIM;
 import okhttp3.Call;
@@ -35,7 +44,8 @@ import okhttp3.Call;
 /**
  * Created by yy on 2017/3/14.
  */
-public class MineFragment extends Fragment implements View.OnClickListener{
+public class MineFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "MineFragment:";
     public static MineFragment instance = null;//单例模式
 
     public static MineFragment getInstance() {
@@ -52,6 +62,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     private RelativeLayout user_request;
     private RelativeLayout mUser;
     private RelativeLayout mTeam;
+
+    private RelativeLayout mTeamManager;
+    private TextView mTeamManagerLine;
     private RelativeLayout mMoney;
     private RelativeLayout mSignout;
 
@@ -61,15 +74,19 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     private static final int RESULT_CANCELED = 0;
 
 
-
     //data
     private ImageView iv_headPortrait;
     private TextView id_name;
     private TextView id_phone;
     private Bitmap portraitBitmap;
-    private static final String TAG = "MineFragment:";
+
+    private Integer teamId;
+
+    private TeamMember teamMember;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         mView = inflater.inflate(R.layout.fragment_mine, null);
 
 
@@ -78,13 +95,60 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         user = (User) intent.getSerializableExtra("user");
 
         obtainImage(user.getUserImage()); //通过数据库user表中的图片url地址发起网络请求
-
+        obtainTeamInfo(user.getUserId().toString());
         return mView;
 
     }
 
+    /**
+     * 获取我的社团ID
+     *
+     * @param userId
+     */
+    private void obtainTeamInfo(String userId) {
+        OkHttpUtils
+                .post()
+                .url(ConstantUrl.teamUrl + ConstantUrl.getTeamId_interface)
+                .addParams("userId", userId)
+                .build()
+                .execute(new MyTeamIdCallback());
+    }
 
 
+    public class MyTeamIdCallback extends StringCallback {
+
+
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+            L.e(TAG, "onError:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            if (response.equals("")) {
+                T.testShowShort(getActivity(), Constant.mMessage_error);
+                teamId = 0;
+            } else {
+                Gson gson = new GsonBuilder().setDateFormat(Constant.formatType).create();
+
+                teamMember = gson.fromJson(response,TeamMember.class) ;
+                teamId = teamMember.getTeamId().getTeamId();
+                L.e(TAG, "TeamId:" + teamId);
+
+            }
+            if(teamId == 0){
+                mTeamManager.setVisibility(View.GONE);
+                mTeamManagerLine.setVisibility(View.GONE);
+            }else{
+                mTeamManager.setVisibility(View.VISIBLE);
+                mTeamManagerLine.setVisibility(View.VISIBLE);
+            }
+
+        }
+
+
+    }
 
     /**
      * 初始化数据
@@ -95,16 +159,18 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         user_request = (RelativeLayout) mView.findViewById(R.id.user_request);
         mUser = (RelativeLayout) mView.findViewById(R.id.id_mine_user);
         mTeam = (RelativeLayout) mView.findViewById(R.id.id_mine_team);
+
+        mTeamManager = (RelativeLayout) mView.findViewById(R.id.id_mine_team_manager);
+        mTeamManagerLine = (TextView) mView.findViewById(R.id.id_mine_line);
         mMoney = (RelativeLayout) mView.findViewById(R.id.id_mine_money);
         mSignout = (RelativeLayout) mView.findViewById(R.id.id_mine_sign_out);
 
         mUser.setOnClickListener(this);
         user_request.setOnClickListener(this);
         mTeam.setOnClickListener(this);
+        mTeamManager.setOnClickListener(this);
         mMoney.setOnClickListener(this);
         mSignout.setOnClickListener(this);
-
-
 
 
         iv_headPortrait = (ImageView) mView.findViewById(R.id.id_head_portrait);
@@ -121,7 +187,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.user_request:  //添加请求
                 //查看添加请求的列表（带下拉刷新）
-                intent = new Intent(getActivity(),FriendRequestActivity.class);
+                intent = new Intent(getActivity(), FriendRequestActivity.class);
                 //传值
                 intent.putExtra("user", user);
                 startActivity(intent);
@@ -131,16 +197,25 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
-            case R.id.id_mine_team://社团管理
-                intent = new Intent(getActivity(), TeamHomeActivity.class);
+            case R.id.id_mine_team://大学社团
+                //先判断team_id是否为空
+                intent = new Intent(getActivity(), TeamActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
+                break;
+            case R.id.id_mine_team_manager://社团管理
+                if (teamId != 0) {
+                    intent = new Intent(getActivity(), TeamHomeActivity.class);
+                    intent.putExtra("user", user);
+                    intent.putExtra("teamMember", (Serializable) teamMember);
+                    startActivity(intent);
+                }
                 break;
             case R.id.id_mine_money://打开我的钱包页面
                 JrmfClient.intentWallet(getActivity());
                 break;
             case R.id.id_mine_sign_out:  //切换账户
-                showNullDialog(getActivity(),"是否切换账户？");
+                showNullDialog(getActivity(), "是否切换账户？");
                 break;
 
             case R.id.id_head_portrait:  //更换头像
@@ -202,7 +277,6 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     }
 
 
-
     /**
      * 弹出无输入确认框
      */
@@ -218,7 +292,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 .setCancelable(false)
                 .setNegativeButton("确定",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 RongIM.getInstance().logout();//断开融云连接
                                 getActivity().finish();
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -226,7 +300,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                         })
                 .setPositiveButton("取消",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });

@@ -1,9 +1,12 @@
 package com.somust.yyteam.popwindow;
 
 import java.util.ArrayList;
+
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,17 +102,18 @@ public class TitlePopup extends PopupWindow {
 				// 点击子类项后，弹窗消失
 				dismiss();
 
-				if (mItemOnClickListener != null)
-					mItemOnClickListener.onItemClick(mActionItems.get(index),
-							index);
+				if (mItemOnClickListener != null){
+					mItemOnClickListener.onItemClick(mActionItems.get(index), index);
+				}
+
 			}
 		});
 	}
 
 	/**
-	 * 显示弹窗列表界面
+	 * 显示加号弹窗列表界面
 	 */
-	public void show(View view) {
+	public void showAddView(View view) {
 		// 获得点击屏幕的位置坐标
 		view.getLocationOnScreen(mLocation);
 
@@ -123,9 +127,10 @@ public class TitlePopup extends PopupWindow {
 		}
 
 		// 显示弹窗的位置
-		showAtLocation(view, popupGravity, mScreenWidth - LIST_PADDING
-				- (getWidth() / 2), mRect.bottom);
+		showAtLocation(view, popupGravity, mScreenWidth - LIST_PADDING - (getWidth() / 2), mRect.bottom);
 	}
+
+
 
 	/**
 	 * 设置弹窗列表子项

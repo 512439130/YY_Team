@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
-import com.somust.yyteam.bean.FriendRequestUser;
 import com.somust.yyteam.bean.Team;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
@@ -418,7 +417,7 @@ public class CreateTeamActivity extends Activity implements View.OnClickListener
             public void run() {
                 OkHttpUtils
                         .postString()
-                        .url(ConstantUrl.TeamUrl + ConstantUrl.createTeam_interface)
+                        .url(ConstantUrl.teamUrl + ConstantUrl.createTeam_interface)
                         .mediaType(MediaType.parse("application/json; charset=utf-8"))
                         .content(jsonString)
                         .build()
@@ -447,7 +446,7 @@ public class CreateTeamActivity extends Activity implements View.OnClickListener
 
             //数据保持问题(解决，采用singTask启动模式)
             startActivity(new Intent(CreateTeamActivity.this, TeamHomeActivity.class));  //跳转回主页面
-
+            photoUtils.clearCropFile(selectUri);//清除手机内存中刚刚裁剪的图片   必须在上传文件成功后执行
 
         }
     }

@@ -59,7 +59,7 @@ public class RePassActivity extends Activity implements View.OnClickListener{
 
     private ProgressDialog dialog;
 
-    private Handler mCountDownHandler = new Handler() {
+    private Handler mRepassCountDownHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
@@ -162,11 +162,11 @@ public class RePassActivity extends Activity implements View.OnClickListener{
                             L.v(TAG, "手机号：" + phone);
                             L.v(TAG, "国家：" + country);
 
-                            UpdateUiAndToast(mCountDownHandler, "sms_verification", "verification_success");
+                            UpdateUiAndToast(mRepassCountDownHandler, "sms_verification", "verification_success");
                         } else {
                             L.v(TAG, "手机号验证失败，验证码输入有误");
 
-                            UpdateUiAndToast(mCountDownHandler, "sms_verification", "verification_error");
+                            UpdateUiAndToast(mRepassCountDownHandler, "sms_verification", "verification_error");
 
                         }
                         break;
@@ -179,12 +179,12 @@ public class RePassActivity extends Activity implements View.OnClickListener{
                             } else {
                                 //依然走短信验证
                                 L.v(TAG, "获取验证成功,依然走短信验证");
-                                UpdateUiAndToast(mCountDownHandler, "code_obtain", "obtain_success");
+                                UpdateUiAndToast(mRepassCountDownHandler, "code_obtain", "obtain_success");
                             }
                         } else {
                             L.v(TAG, "获取验证失败，请输入正确的手机号");
 
-                            UpdateUiAndToast(mCountDownHandler, "code_obtain", "obtain_error");
+                            UpdateUiAndToast(mRepassCountDownHandler, "code_obtain", "obtain_error");
 
                         }
                         break;
@@ -206,8 +206,8 @@ public class RePassActivity extends Activity implements View.OnClickListener{
                 @Override
                 public void run() {
                     mTime--;
-                    Message msg = mCountDownHandler.obtainMessage();
-                    mCountDownHandler.sendMessage(msg);
+                    Message msg = mRepassCountDownHandler.obtainMessage();
+                    mRepassCountDownHandler.sendMessage(msg);
                 }
             };
             mTimer.schedule(task, 100, 1000);
@@ -280,7 +280,7 @@ public class RePassActivity extends Activity implements View.OnClickListener{
                         .build()
                         .execute(new MyStringCallback());
             }
-        }, 1200);//3秒后执行Runnable中的run方法
+        }, 600);//3秒后执行Runnable中的run方法
     }
     public class MyStringCallback extends StringCallback {
         @Override
@@ -308,7 +308,8 @@ public class RePassActivity extends Activity implements View.OnClickListener{
                 T.testShowShort(RePassActivity.this, Constant.mMessage_error);
             } else {
                 T.testShowShort(RePassActivity.this,  Constant.mMessage_success);
-                startActivity(new Intent(RePassActivity.this,LoginActivity.class));
+                //startActivity(new Intent(RePassActivity.this,LoginActivity.class));
+                finish();
             }
 
         }
@@ -332,5 +333,11 @@ public class RePassActivity extends Activity implements View.OnClickListener{
         bundle.putString(key, value);
         msg.setData(bundle);
         handler.sendMessage(msg);
+    }
+
+    @Override
+    protected void onDestroy() {
+        dialog.dismiss();
+        super.onDestroy();
     }
 }

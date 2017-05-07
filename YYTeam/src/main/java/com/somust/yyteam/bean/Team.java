@@ -66,4 +66,7 @@ public class Team implements Serializable{
                         ", teamIntroduce='" + teamIntroduce + '\'' +
                         '}';
         }
+
+
+
 }

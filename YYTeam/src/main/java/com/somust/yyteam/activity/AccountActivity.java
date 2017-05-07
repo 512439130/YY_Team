@@ -1,11 +1,16 @@
 package com.somust.yyteam.activity;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -181,7 +186,7 @@ public class AccountActivity extends Activity implements View.OnClickListener {
                     bottomMenuDialog.dismiss();
                 }
                 //6.0以上的权限问题
-               /* if (Build.VERSION.SDK_INT >= 23) {
+                if (Build.VERSION.SDK_INT >= 23) {
                     int checkPermission = checkSelfPermission(Manifest.permission.CAMERA);
                     if (checkPermission != PackageManager.PERMISSION_GRANTED) {
                         if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
@@ -200,7 +205,7 @@ public class AccountActivity extends Activity implements View.OnClickListener {
                         }
                         return;
                     }
-                }*/
+                }
                 photoUtils.takePicture(AccountActivity.this, user.getUserPhone(), fileTime,Constant.CROP_USER_IMAGE_NAME);
             }
         });

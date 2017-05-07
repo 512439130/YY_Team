@@ -25,7 +25,7 @@ import com.somust.yyteam.R;
  * Created by 13160677911 on 2017-4-22.
  */
 
-public class SearchUserView extends LinearLayout implements View.OnClickListener {
+public class SearchView extends LinearLayout implements View.OnClickListener {
     /**
      * 输入框
      */
@@ -62,7 +62,7 @@ public class SearchUserView extends LinearLayout implements View.OnClickListener
         mListener = listener;
     }
 
-    public SearchUserView(Context context, AttributeSet attrs) {
+    public SearchView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         LayoutInflater.from(context).inflate(R.layout.layout_search_user_view, this);
@@ -71,7 +71,6 @@ public class SearchUserView extends LinearLayout implements View.OnClickListener
 
     private void initViews() {
         etInput = (EditText) findViewById(R.id.search_et_input);
-        etInput.setInputType(InputType.TYPE_CLASS_NUMBER);
 
 
         ivDelete = (ImageView) findViewById(R.id.search_iv_delete);
@@ -112,23 +111,26 @@ public class SearchUserView extends LinearLayout implements View.OnClickListener
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(showFlags, InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
     /**
      * 强制隐藏软键盘
+     *
      * @param view
      */
     private void ForceHidekeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
     }
+
     /**
      * 检查软键盘是否打开
      */
     private boolean CheckKeyboard() {
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-        if(isOpen){
+        if (isOpen) {
             System.out.println("软键盘打开");
-        }else {
+        } else {
             System.out.println("软键盘关闭");
         }
         return isOpen;
@@ -172,7 +174,6 @@ public class SearchUserView extends LinearLayout implements View.OnClickListener
                 break;
         }
     }
-
 
 
     /**

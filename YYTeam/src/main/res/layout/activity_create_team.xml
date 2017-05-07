@@ -28,11 +28,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="创建社团"
-        android:textSize="32sp"
+        android:textSize="34sp"
         android:textColor="#ffffff"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="30dp"/>
 
 
 
@@ -43,7 +43,7 @@
         android:orientation="horizontal"
         android:layout_below="@id/id_create_team_name"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="30dp">
         <LinearLayout
             android:id="@+id/create_team_logo_ll"
             android:layout_width="0dp"

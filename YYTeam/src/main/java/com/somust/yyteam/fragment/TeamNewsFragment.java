@@ -19,6 +19,7 @@ import com.somust.yyteam.activity.TeamNewsActivity;
 import com.somust.yyteam.adapter.TeamNewsAdapter;
 import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.TeamNewsMessage;
+import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.DateUtil;
 import com.somust.yyteam.utils.log.L;
@@ -75,9 +76,15 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
     private static final String TAG = "TeamNewsFragment:";
 
     public List<TeamNews> intentDatas;
+
+    private User user;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_team_news, null);
+        Intent intent = getActivity().getIntent();
+        user = (User) intent.getSerializableExtra("user");
+
         initView();
         requestData();
         initListener();
@@ -154,6 +161,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                     Intent intent = new Intent(getActivity(), TeamNewsActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("teamNews",teamNews);
+                    bundle.putSerializable("user",user);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -168,7 +176,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void requestData() {
         OkHttpUtils
                 .post()
-                .url(ConstantUrl.TeamUrl + ConstantUrl.getTeamNews_interface)
+                .url(ConstantUrl.teamUrl + ConstantUrl.getTeamNews_interface)
                 .build()
                 .execute(new MyStringCallback());
     }
@@ -316,7 +324,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                 swipeLayout.setRefreshing(false);
             }
-        }, 1500);
+        }, 1200);
     }
 
 
@@ -332,7 +340,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 swipeLayout.setLoading(false);
                 //teamNewsAdapter.notifyDataSetChanged();
             }
-        }, 1500);
+        }, 1200);
     }
 
 

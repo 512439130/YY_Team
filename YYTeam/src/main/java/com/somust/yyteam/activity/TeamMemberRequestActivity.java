@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,42 +15,45 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
-import com.somust.yyteam.adapter.FriendRequestAdapter;
-import com.somust.yyteam.adapter.FriendRequestAdapter.FriendRequestCallback;
-import com.somust.yyteam.bean.AllUser;
-import com.somust.yyteam.bean.FriendRequestUser;
+import com.somust.yyteam.adapter.TeamMemberRequestAdapter.TeamMemberRequestCallback;
+import com.somust.yyteam.adapter.TeamMemberRequestAdapter;
+import com.somust.yyteam.bean.AllTeam;
+import com.somust.yyteam.bean.Team;
+import com.somust.yyteam.bean.TeamMember;
+import com.somust.yyteam.bean.TeamMemberRequest;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
+import com.somust.yyteam.utils.DateUtil;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.refreshview.RefreshLayout;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
-
 import com.yy.http.okhttp.callback.StringCallback;
 
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Call;
+import okhttp3.MediaType;
 
 
 /**
- * 好友请求Activity
+ * 添加社团请求Activity
  */
-public class FriendRequestActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, FriendRequestCallback {
+public class TeamMemberRequestActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, TeamMemberRequestCallback {
     ImageView returnView;
     TextView titleName;
 
 
-    private static final String TAG = "FriendRequestActivity:";
+    private static final String TAG = "TeamMemberRequestActivity:";
     private RefreshLayout refresh_view;
-    private ListView friendRequestListview;
+    private ListView teamMemberRequestListview;
 
 
-    private List<FriendRequestUser> friendRequestUsers;   //添加好友的请求列表
+    private List<TeamMemberRequest> teamMemberRequests;   //添加好友的请求列表
 
     /**
      * 保存网络获取的图片集合
@@ -60,24 +63,30 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     /**
      * 全部用户的转化数据
      */
-    private List<AllUser> allUsers;  //通过 friendRequests portraitBitmaps合并的数据
+    private List<AllTeam> allTeams;  //通过 friendRequests portraitBitmaps合并的数据
     private User user;
+
+    private Team team;
 
     private ProgressDialog dialog;
     /**
      * 搜索结果列表adapter
      */
-    private FriendRequestAdapter friendRequestAdapter;
+    private TeamMemberRequestAdapter teamMemberRequestAdapter;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_request);
+        setContentView(R.layout.activity_team_member_request);
 
 
         Intent intent = this.getIntent();
+        team = (Team) intent.getSerializableExtra("team");
         user = (User) intent.getSerializableExtra("user");
-        obtainFriendRequest(user.getUserPhone(), "insert"); //获取请求列表（加请求用户的个人信息）
+        obtainTeamMemberRequest(team.getTeamId().toString(), "insert"); //获取请求列表（加请求用户的个人信息）
 
         initView();
         initListener();
@@ -87,10 +96,10 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     private void initView() {
         returnView = (ImageView) findViewById(R.id.id_title_back);
         titleName = (TextView) findViewById(R.id.actionbar_name);
-        titleName.setText("好友添加请求");
+        titleName.setText("加入社团请求");
 
         //刷新相关初始化
-        friendRequestListview = (ListView) findViewById(R.id.request_friend_list);
+        teamMemberRequestListview = (ListView) findViewById(R.id.request_team_member_list);
 
         //初始化刷新
         refresh_view = (RefreshLayout) findViewById(R.id.refresh_view);
@@ -101,8 +110,8 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
 
     private void initData() {
 
-        friendRequestAdapter = new FriendRequestAdapter(this, allUsers, this);
-        friendRequestListview.setAdapter(friendRequestAdapter);
+        teamMemberRequestAdapter = new TeamMemberRequestAdapter(this, allTeams, this);
+        teamMemberRequestListview.setAdapter(teamMemberRequestAdapter);
 
     }
 
@@ -123,10 +132,17 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     @Override
     public void agreeClick(View v) {
         //改变请求表状态
-        UpdateRequestFriend(allUsers.get((Integer) v.getTag()).getUserPhone(), user.getUserPhone(), "agree");
-        //互相添加为好友
-        addFriend(user.getUserPhone(),allUsers.get((Integer) v.getTag()).getUserPhone());
-        addFriend(allUsers.get((Integer) v.getTag()).getUserPhone(),user.getUserPhone());
+        UpdateRequestTeamMember(teamMemberRequests.get((Integer) v.getTag()).getRequestId().getUserId().toString(),team.getTeamId().toString(), "agree");
+        //加入社团成员
+        TeamMember teamMember = new TeamMember();
+        teamMember.setUserId(teamMemberRequests.get((Integer) v.getTag()).getRequestId());
+        teamMember.setTeamId(team);
+        teamMember.setTeamMemberPosition("干事");
+        Date nowTime = new Date();
+        String time = DateUtil.dateToString(nowTime, Constant.formatType);  //创建社团的时间
+
+        teamMember.setTeamMemberJoinTime(time);
+        addTeamMember(teamMember);
     }
 
     /**
@@ -136,16 +152,15 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     @Override
     public void refuseClick(View v) {
         //改变请求表状态
-        UpdateRequestFriend(allUsers.get((Integer) v.getTag()).getUserPhone(), user.getUserPhone(), "refuse");
+        UpdateRequestTeamMember(teamMemberRequests.get((Integer) v.getTag()).getRequestId().getUserId().toString(),team.getTeamId().toString(), "refuse");
     }
 
 
     /**
-     * 改变添加好友请求状态的网络请求（同意或拒绝）
+     * 改变加入社团请求状态的网络请求（同意或拒绝）
      */
-    private void UpdateRequestFriend(final String requestPhone, final String receivePhone, final String state) {
+    private void UpdateRequestTeamMember(final String requestUserId, final String receiveTeamId, final String teamMemberRequestState) {
         L.v(TAG, "同意添加");
-        L.v(TAG, requestPhone);
         dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_success, true, true);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -154,27 +169,27 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
                 //发起同意请求
                 OkHttpUtils
                         .post()
-                        .url(ConstantUrl.friendUrl + ConstantUrl.updateFriendRequest_interface)
-                        .addParams("requestPhoneNumber", requestPhone)
-                        .addParams("receivePhone", receivePhone)
-                        .addParams("friendRequestState", state)
+                        .url(ConstantUrl.teamMemberUrl + ConstantUrl.updateTeamMemberRequest_interface)
+                        .addParams("requestUserId", requestUserId)
+                        .addParams("receiveTeamId", receiveTeamId)
+                        .addParams("teamMemberRequestState", teamMemberRequestState)
                         .build()
-                        .execute(new MyUpdateRequestFriendCallback());
+                        .execute(new MyUpdateRequestTeamMemberCallback());
             }
         }, 600);//2秒后执行Runnable中的run方法
 
     }
 
     /**
-     * 改变添加好友请求状态的网络回调
+     * 改变加入社团请求状态的网络回调
      */
-    public class MyUpdateRequestFriendCallback extends StringCallback {
+    public class MyUpdateRequestTeamMemberCallback extends StringCallback {
         @Override
         public void onError(Call call, Exception e, int id) {
             dialog.cancel();//关闭圆形进度条
             e.printStackTrace();
             L.v(TAG, "请求失败");
-            T.testShowShort(FriendRequestActivity.this, Constant.mProgressDialog_error);
+            T.testShowShort(TeamMemberRequestActivity.this, Constant.mProgressDialog_error);
             L.v(e.getMessage());
         }
 
@@ -183,13 +198,13 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
             dialog.cancel();//关闭圆形进度条
             L.v(response);
             L.v(TAG, "请求成功");
-            T.testShowShort(FriendRequestActivity.this, Constant.mMessage_success);
+            T.testShowShort(TeamMemberRequestActivity.this, Constant.mMessage_success);
 
             //刷新
-            if (allUsers != null){
-                allUsers.clear();
-                obtainFriendRequest(user.getUserPhone(), "insert");
-                friendRequestAdapter.notifyDataSetChanged();
+            if (allTeams != null){
+                allTeams.clear();
+                obtainTeamMemberRequest(team.getTeamId().toString(), "insert");
+                teamMemberRequestAdapter.notifyDataSetChanged();
             }
 
             //startActivity(new Intent(FriendRequestActivity.this, HomeActivity.class));  //跳转回主页面
@@ -199,23 +214,24 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     }
 
     /**
-     * 互相加入好友的网络请求
+     * 加入社团的网络请求
      *
      */
-    private void addFriend(String userPhone,String friendPhone) {
+    private void addTeamMember(TeamMember teamMember) {
+        String jsonString = new Gson().toJson(teamMember);
         OkHttpUtils
-                .post()
-                .url(ConstantUrl.friendUrl + ConstantUrl.addFriend_interface)
-                .addParams("userId", userPhone)
-                .addParams("friendPhone", friendPhone)
+                .postString()
+                .url(ConstantUrl.teamUrl + ConstantUrl.addTeam_interface)
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .content(jsonString)
                 .build()
-                .execute(new MyAddFriendCallback());
+                .execute(new MyAddTeamMemberCallback());
     }
 
     /**
      * 加好友的回调
      */
-    public class MyAddFriendCallback extends StringCallback{
+    public class MyAddTeamMemberCallback extends StringCallback{
 
         @Override
         public void onError(Call call, Exception e, int id) {
@@ -235,27 +251,27 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     /**
      * 通过自己receivePhone获取请求列表
      */
-    private void obtainFriendRequest(String receivePhone, String friendState) {
+    private void obtainTeamMemberRequest(String receiveId, String teamMemberRequestState) {
         OkHttpUtils
                 .post()
-                .url(ConstantUrl.friendUrl + ConstantUrl.obtainFriendRequest_interface)
-                .addParams("receivePhone", receivePhone)
-                .addParams("friendRequestState", friendState)
+                .url(ConstantUrl.teamMemberUrl + ConstantUrl.obtainTeamMemberRequest_interface)
+                .addParams("receiveId", receiveId)
+                .addParams("teamMemberRequestState", teamMemberRequestState)
                 .build()
-                .execute(new MyFriendRequestBack());
+                .execute(new MyTeamMemberRequestBack());
     }
 
 
     /**
      * 回调
      */
-    public class MyFriendRequestBack extends StringCallback {
+    public class MyTeamMemberRequestBack extends StringCallback {
         @Override
         public void onError(Call call, Exception e, int id) {
 
             e.printStackTrace();
             L.e(TAG, "onError:" + e.getMessage());
-            T.testShowShort(FriendRequestActivity.this, "获取失败,服务器正在维护中");
+            T.testShowShort(TeamMemberRequestActivity.this, "获取失败,服务器正在维护中");
         }
 
         @Override
@@ -264,17 +280,17 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
             if (response.equals("[]")) {
                 L.e(TAG,"无好友请求");
             } else {
-                L.e(TAG,"好友请求获取成功");
+                L.e(TAG,"社团添加请求获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();
-                friendRequestUsers = gson.fromJson(response, new TypeToken<List<FriendRequestUser>>() {
+                teamMemberRequests = gson.fromJson(response, new TypeToken<List<TeamMemberRequest>>() {
                 }.getType());
 
-                L.v(TAG, friendRequestUsers.toString());
-                portraitBitmaps = new Bitmap[friendRequestUsers.size()];
+                L.v(TAG, teamMemberRequests.toString());
+                portraitBitmaps = new Bitmap[teamMemberRequests.size()];
                 //获取请求用户的头像
-                for (int i = 0; i < friendRequestUsers.size(); i++) {
-                    obtainImage(friendRequestUsers.get(i).getRequestPhone().getUserImage(), i);
+                for (int i = 0; i < teamMemberRequests.size(); i++) {
+                    obtainImage(teamMemberRequests.get(i).getRequestId().getUserImage(), i);
                 }
 
 
@@ -310,8 +326,8 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
                         portraitBitmaps[i] = bitmap;
                         //网络请求成功后
                         //初始化搜索结果数据
-                        allUsers = new ArrayList<>();
-                        Transformation(allUsers, portraitBitmaps);
+                        allTeams = new ArrayList<>();
+                        Transformation(allTeams, portraitBitmaps);
 
                         initData();
                     }
@@ -322,20 +338,20 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
     /**
      * 转换
      */
-    public void Transformation(List<AllUser> mAllUser, Bitmap[] portraitBitmaps) {
+    public void Transformation(List<AllTeam> mAllTeam, Bitmap[] portraitBitmaps) {
         for (int i = 0; i < portraitBitmaps.length; i++) {
-            AllUser allUser = new AllUser();
-            allUser.setUserId(friendRequestUsers.get(i).getRequestPhone().getUserId().toString());
-            allUser.setUserPhone(friendRequestUsers.get(i).getRequestPhone().getUserPhone());
-            allUser.setUserNickname(friendRequestUsers.get(i).getRequestPhone().getUserNickname());
-            allUser.setUserPassword(friendRequestUsers.get(i).getRequestPhone().getUserPassword());
-            allUser.setUserSex(friendRequestUsers.get(i).getRequestPhone().getUserSex());
-            allUser.setUserToken(friendRequestUsers.get(i).getRequestPhone().getUserToken());
-            allUser.setFriendRequestReason(friendRequestUsers.get(i).getFriendRequestReason());
-            allUser.setUserImage(portraitBitmaps[i]);
-            mAllUser.add(allUser);
+            AllTeam allTeam = new AllTeam();
+            allTeam.setUserId(teamMemberRequests.get(i).getRequestId().getUserId().toString());
+            allTeam.setUserPhone(teamMemberRequests.get(i).getRequestId().getUserPhone());
+            allTeam.setUserNickname(teamMemberRequests.get(i).getRequestId().getUserNickname());
+            allTeam.setUserPassword(teamMemberRequests.get(i).getRequestId().getUserPassword());
+            allTeam.setUserSex(teamMemberRequests.get(i).getRequestId().getUserSex());
+            allTeam.setUserToken(teamMemberRequests.get(i).getRequestId().getUserToken());
+            allTeam.setTeamMemberRequestReason(teamMemberRequests.get(i).getTeamMemberRequestReason());
+            allTeam.setUserImage(portraitBitmaps[i]);
+            mAllTeam.add(allTeam);
         }
-        L.v(TAG, allUsers.toString());
+        L.v(TAG, allTeams.toString());
 
     }
 
@@ -350,12 +366,12 @@ public class FriendRequestActivity extends Activity implements SwipeRefreshLayou
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                obtainFriendRequest(user.getUserPhone(), "insert");
-                if (allUsers != null){
-                    allUsers.clear();
-                    obtainFriendRequest(user.getUserPhone(), "insert");
+                obtainTeamMemberRequest(team.getTeamId().toString(), "insert");
+                if (allTeams != null){
+                    allTeams.clear();
+                    obtainTeamMemberRequest(team.getTeamId().toString(), "insert");
                     refresh_view.setRefreshing(false);
-                    friendRequestAdapter.notifyDataSetChanged();
+                    teamMemberRequestAdapter.notifyDataSetChanged();
                 }else {
                     refresh_view.setRefreshing(false);
                 }

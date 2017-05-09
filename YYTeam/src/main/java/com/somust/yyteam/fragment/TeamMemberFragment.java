@@ -126,10 +126,10 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
         friendListView.addHeaderView(header);
 
 
-        //初始化刷新
         swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
-        swipeLayout.setColorSchemeResources(R.color.color_bule2, R.color.color_bule, R.color.color_bule2, R.color.color_bule3);
 
+        swipeLayout.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
+        swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
 
     }
 

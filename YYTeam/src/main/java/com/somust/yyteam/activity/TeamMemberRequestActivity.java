@@ -103,8 +103,8 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
 
         //初始化刷新
         refresh_view = (RefreshLayout) findViewById(R.id.refresh_view);
-        refresh_view.setColorSchemeResources(R.color.color_bule2, R.color.color_bule, R.color.color_bule2, R.color.color_bule3);
-
+        refresh_view.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
+        refresh_view.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
 
     }
 

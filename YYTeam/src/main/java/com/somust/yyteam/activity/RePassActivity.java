@@ -337,7 +337,9 @@ public class RePassActivity extends Activity implements View.OnClickListener{
 
     @Override
     protected void onDestroy() {
-        dialog.dismiss();
+        if(dialog != null){
+            dialog.dismiss();
+        }
         super.onDestroy();
     }
 }

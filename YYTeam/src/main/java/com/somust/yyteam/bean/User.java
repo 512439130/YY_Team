@@ -19,7 +19,11 @@ public class User implements Serializable {
 
     }
 
-
+    public User(Integer userId, String userNickname, String userSex) {
+        this.userId = userId;
+        this.userNickname = userNickname;
+        this.userSex = userSex;
+    }
 
     public User(String userPhone, String userNickname, String userPassword, String userToken, String userImage, String userSex) {
         this.userPhone = userPhone;

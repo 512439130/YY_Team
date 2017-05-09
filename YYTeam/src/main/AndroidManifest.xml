@@ -216,7 +216,7 @@
 
         </activity>
         <!--更换用户信息界面-->
-        <activity android:name=".activity.AccountActivity"
+        <activity android:name=".activity.UpdateUserInfoActivity"
             android:launchMode="singleTop">
 
         </activity>
@@ -235,9 +235,38 @@
         </activity>
 
         <!--加入社团请求界面-->
-        <activity android:name=".activity.TeamMemberRequestActivity">
+        <activity android:name=".activity.TeamMemberRequestActivity"
+            android:launchMode="singleTop">
 
         </activity>
+
+        <!--发布社团新闻界面-->
+        <activity android:name=".activity.CreateTeamNewsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+
+        </activity>
+
+
+        <!--完善社团信息-->
+        <activity android:name=".activity.UpdateTeamInfoActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+
+        </activity>
+
+        <activity android:name=".activity.TeamListActivity"
+            android:launchMode="singleTop">
+
+        </activity>
+        <activity android:name=".activity.TeamTaskActivity"
+            android:launchMode="singleTop">
+
+        </activity>
+
+
+
+
         <!-- 测试环境 -->
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"

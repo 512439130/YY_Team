@@ -4,36 +4,36 @@ package com.somust.yyteam.constant;
  * Created by 13160677911 on 2017-4-1.
  */
 
-public class ConstantUrl {
-    //test
-    public static final String mTestUrl = "http://139.199.171.79/renren-security/";  //gethtml
+public class ConstantUrl extends Constant{
+
 
 
     //user
-    public static final String userUrl = "http://139.199.171.79/renren-security/user/";
+    public static final String userUrl = BASE_URL+"/renren-security/user/";
 
     //friend
-    public static final String friendUrl = "http://139.199.171.79/renren-security/friend/";
+    public static final String friendUrl = BASE_URL+"/renren-security/friend/";
 
 
     //team
-    public static final String teamUrl = "http://139.199.171.79/renren-security/team/";
+    public static final String teamUrl = BASE_URL+"/renren-security/team/";
 
     //teamMember
-    public static final String teamMemberUrl = "http://139.199.171.79/renren-security/teamMember/";
-
+    public static final String teamMemberUrl = BASE_URL+"/renren-security/teamMember/";
+    //teamTask
+    public static final String teamTaskUrl = BASE_URL+"/renren-security/teamTask/";
 
     //file
-    public static final String FileImageUrl = "http://139.199.171.79/renren-security/file/";
+    public static final String FileImageUrl = BASE_URL+"/renren-security/file/";
 
 
 
 
     //default image
     //man
-    public static final String imageDefaultManUrl = "http://139.199.171.79/image/man_default.png";
+    public static final String imageDefaultManUrl = BASE_URL+"/image/man_default.png";
     //woman
-    public static final String imageDefaultWomanUrl = "http://139.199.171.79/image/woman_default.png";
+    public static final String imageDefaultWomanUrl = BASE_URL+"/image/woman_default.png";
 
 
 
@@ -48,6 +48,8 @@ public class ConstantUrl {
     public static final String getUserInfo_interface = "yy_get_userinfo?";  //查询用户信息
     public static final String getAllUserInfo_interface = "yy_get_alluserinfo"; //查询系统所有用户
 
+
+    public static final String updateUserInfo_interface = "yy_update_userInfo?Json="; //完善用户信息
 
 
     //interface friend
@@ -68,9 +70,12 @@ public class ConstantUrl {
 
     public static final String addTeam_interface = "yy_add_team_member?Json="; //加入社团的处理
 
-    public static final String getTeamId_interface = "yy_obtain_team_byuser?"; //查询我的社团的编号
+    public static final String getMyTeam_interface = "yy_obtain_team_byuser?"; //查询我的社团的编号
+
+    public static final String createTeamNews_interface = "yy_add_team_news?Json=";  //发表社团新闻
 
 
+    public static final String updateTeamInfo_interface = "yy_update_teamInfo?Json="; //完善社团信息
 
 
     //interface teamMember
@@ -78,25 +83,12 @@ public class ConstantUrl {
     public static final String obtainTeamMemberRequest_interface = "yy_obtain_team_member_request?";  //查询哪个用户加社团
     public static final String updateTeamMemberRequest_interface = "yy_operate_team_member_request?";  //处理社团添加请求
     public static final String obtainTeamMember_interface = "yy_obtain_team_member?";//获取社团成员列表
-    /**
-     * 社团添加请求
-     * http://localhost:8080/renren-security/teamMember/yy_team_member_request json
-     *
-     */
 
-    /**
-     * 查询哪个用户添加我的社团
-     * http://localhost:8080/renren-security/teamMember/yy_obtain_friendrequest?receiveId=9&teamMemberRequestState=insert
-     */
-    /**
-     * 处理社团添加请求
-     *http://localhost:8080/renren-security/teamMember/yy_operate_team_member_request?requestUserId=4&receiveTeamId=9&teamMemberRequestState=agree
-     */
-    /**
-     * 加入社团处理
-     *
-     * http://localhost:8080/renren-security/team/yy_add_team_member?Json=(包含User的Json)
-     */
+
+
+    //interface teamTask
+    public static final String getTeamTask_interface = "yy_obtain_team_task";//获取活动列表
+
 
     //文件上传
     public static final String uploadImage_interface = "yy_upload_file?";  //上传图片到服务器

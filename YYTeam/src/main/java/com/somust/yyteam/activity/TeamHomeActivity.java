@@ -1,41 +1,33 @@
 package com.somust.yyteam.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
-import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
 import com.somust.yyteam.bean.TeamMember;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.fragment.CommunityFragment;
-import com.somust.yyteam.fragment.FriendFragment;
-import com.somust.yyteam.fragment.MineFragment;
-import com.somust.yyteam.fragment.TeamFragment;
+import com.somust.yyteam.fragment.TeamTaskFragment;
 import com.somust.yyteam.fragment.TeamMemberFragment;
 import com.somust.yyteam.fragment.TeamMineFragment;
-import com.somust.yyteam.fragment.TeamNewsFragment;
 import com.somust.yyteam.popwindow.ActionItem;
 import com.somust.yyteam.popwindow.TitlePopup;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.ChangeColorIconWithText;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.rong.imkit.RongIM;
-import io.rong.imkit.fragment.ConversationListFragment;
-import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.UserInfo;
 
 public class TeamHomeActivity extends FragmentActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
@@ -134,7 +126,7 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
 
     private void initDatas() {
         //4个Fragment
-        mFragment.add(TeamFragment.getInstance());//加入第1页,大学社团列表
+        mFragment.add(TeamTaskFragment.getInstance());//社团任务列表
         mFragment.add(TeamMemberFragment.getInstance());  //社团成员列表
         mFragment.add(CommunityFragment.getInstance());//社团圈列表
         mFragment.add(TeamMineFragment.getInstance());//我的社团页（社团任务通知item）
@@ -315,6 +307,38 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
                 }
             }
         }
+    }
+
+    private boolean isTeamExit = false;//定义是否退出程序的标记
+
+    private Handler mTeamKeyDownHandler = new Handler() {    //定义接受用户发送信息的handler
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //标记用户不退出状态
+            isTeamExit = false;
+        }
+    };
+
+    //监听手机的物理按键点击事件
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //判断用户是否点击的是返回键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //如果isExit标记为false，提示用户再次按键
+            if (!isTeamExit) {
+                isTeamExit = true;
+                T.testShowShort(TeamHomeActivity.this, "再按一次返回");
+                //如果用户没有在2秒内再次按返回键的话，就发送消息标记用户为不退出状态
+                mTeamKeyDownHandler.sendEmptyMessageDelayed(0, 2000);
+            }
+            //如果isExit标记为true，退出程序
+            else {
+                //退出程序
+                finish();
+            }
+        }
+        return false;
     }
 
 }

@@ -28,7 +28,9 @@ import com.yy.http.okhttp.callback.BitmapCallback;
 import okhttp3.Call;
 
 
-
+/**
+ * 暂时停用，改方案
+ */
 public class UserManagerActivity extends Activity implements View.OnClickListener {
     //Tab_Button
     private RelativeLayout user_message;

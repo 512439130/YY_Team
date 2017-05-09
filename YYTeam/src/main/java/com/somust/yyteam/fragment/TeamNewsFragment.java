@@ -65,12 +65,11 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private Bitmap[] newsBitmaps;
     private Bitmap[] teamBitmaps;
-    private Bitmap[] presidentBitmaps;
+
 
 
     private boolean newsFlag = false;
     private boolean teamFlag = false;
-    private boolean presidentFlag = false;
 
 
     private static final String TAG = "TeamNewsFragment:";
@@ -100,7 +99,8 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
         header = getActivity().getLayoutInflater().inflate(R.layout.team_news_header, null);
 
         swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
-        swipeLayout.setColorSchemeResources(R.color.color_bule2,R.color.color_bule,R.color.color_bule2,R.color.color_bule3);
+        swipeLayout.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
+        swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
         teamNewsListView = (ListView) mView.findViewById(R.id.list);
         teamNewsListView.addHeaderView(header);
     }
@@ -113,13 +113,17 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             if (bundle.getString("news_success") == "news_success") {  //新闻图片成功获取
                 for(int i = 0;i<teamNewsList.size();i++){
-                    teamNewsMessages.get(i).setNewsImage(newsBitmaps[i]);
+                    if(teamNewsMessages.size() != 0) {
+                        teamNewsMessages.get(i).setNewsImage(newsBitmaps[i]);
+                    }
                 }
                 newsFlag = true;
             }
             if (bundle.getString("team_success") == "team_success") {  //社团图片成功获取
                 for(int i = 0;i<teamNewsList.size();i++){
-                    teamNewsMessages.get(i).setTeamImage(teamBitmaps[i]);
+                    if(teamNewsMessages.size() != 0){
+                        teamNewsMessages.get(i).setTeamImage(teamBitmaps[i]);
+                    }
                 }
                 teamFlag = true;
             }
@@ -211,7 +215,6 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                 newsBitmaps= new Bitmap[teamNewsList.size()];
                 teamBitmaps= new Bitmap[teamNewsList.size()];
-                presidentBitmaps= new Bitmap[teamNewsList.size()];
 
                 for (int i = 0; i < teamNewsList.size(); i++) {
                     TeamNewsMessage message = new TeamNewsMessage();
@@ -310,7 +313,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 
     /**
-     * 上拉刷新
+     * 下拉刷新
      */
     @Override
     public void onRefresh() {
@@ -329,7 +332,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 
     /**
-     * 下拉加载更多
+     * 上啦拉加载更多
      */
     @Override
     public void onLoad() {

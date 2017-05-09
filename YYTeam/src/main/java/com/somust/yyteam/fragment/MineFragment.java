@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,19 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
-import com.somust.yyteam.activity.AccountActivity;
+import com.somust.yyteam.activity.TeamListActivity;
+import com.somust.yyteam.activity.TeamTaskActivity;
+import com.somust.yyteam.activity.UpdateUserInfoActivity;
 import com.somust.yyteam.activity.FriendRequestActivity;
 import com.somust.yyteam.activity.LoginActivity;
 
+import com.somust.yyteam.activity.RePassActivity;
 import com.somust.yyteam.activity.TeamActivity;
 import com.somust.yyteam.activity.TeamHomeActivity;
-import com.somust.yyteam.activity.UserManagerActivity;
+import com.somust.yyteam.bean.FriendRequestUser;
 import com.somust.yyteam.bean.TeamMember;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
@@ -37,6 +42,7 @@ import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
 import java.io.Serializable;
+import java.util.List;
 
 import io.rong.imkit.RongIM;
 import okhttp3.Call;
@@ -46,13 +52,13 @@ import okhttp3.Call;
  */
 public class MineFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "MineFragment:";
+
     public static MineFragment instance = null;//单例模式
 
     public static MineFragment getInstance() {
         if (instance == null) {
             instance = new MineFragment();
         }
-
         return instance;
     }
 
@@ -60,8 +66,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     //Tab_Button
     private RelativeLayout user_request;
-    private RelativeLayout mUser;
+    private RelativeLayout user_update_message;
+    private RelativeLayout mRepass;
     private RelativeLayout mTeam;
+    private RelativeLayout mTeamTask;
 
     private RelativeLayout mTeamManager;
     private TextView mTeamManagerLine;
@@ -70,6 +78,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
 
     private User user;
+    private String userPhone;
 
     private static final int RESULT_CANCELED = 0;
 
@@ -80,9 +89,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private TextView id_phone;
     private Bitmap portraitBitmap;
 
-    private Integer teamId;
+    private boolean teamFlag;
 
-    private TeamMember teamMember;
+    private List<TeamMember> teamMembers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,22 +102,77 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         initView();
         Intent intent = getActivity().getIntent();
         user = (User) intent.getSerializableExtra("user");
+        userPhone = user.getUserPhone();
 
-        obtainImage(user.getUserImage()); //通过数据库user表中的图片url地址发起网络请求
+        getUserInfo(userPhone);
+
+
         obtainTeamInfo(user.getUserId().toString());
         return mView;
 
     }
 
+
     /**
-     * 获取我的社团ID
+     * 获取用户信息
+     */
+    private void getUserInfo(final String userPhone) {
+        final String url = ConstantUrl.userUrl + ConstantUrl.getUserInfo_interface;
+        if (TextUtils.isEmpty(userPhone)) {
+            T.testShowShort(getActivity(), "手机号不能为空");
+        } else {
+            OkHttpUtils
+                    .post()
+                    .url(url)
+                    .addParams("userPhone", userPhone)
+                    .build()
+                    .execute(new MyStringCallback());
+
+
+        }
+    }
+
+    public class MyStringCallback extends StringCallback {
+
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+            L.e(TAG, "onError:" + e.getMessage());
+            T.testShowShort(getActivity(), Constant.mProgressDialog_error);
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            if (response.equals("")) {
+                T.testShowShort(getActivity(), Constant.mMessage_error);
+            } else {
+                Gson gson = new Gson();
+                user = gson.fromJson(response, User.class);
+                System.out.println(user.toString());
+
+                T.testShowShort(getActivity(), Constant.mMessage_success);
+                L.v(TAG, "onResponse:" + response);
+
+                obtainImage(user.getUserImage());//刷新界面显示
+                //刷新融云用户的头像
+                // refreshUserInfo(user.getUserPhone(), user.getUserNickname(), Constant.USER_IMAGE_PATH + fileName);
+                //photoUtils.clearCropFile(selectUri);//清除手机内存中刚刚裁剪的图片   必须在上传文件成功后执行
+            }
+
+        }
+
+    }
+
+
+    /**
+     * 获取我的所有社团
      *
      * @param userId
      */
     private void obtainTeamInfo(String userId) {
         OkHttpUtils
                 .post()
-                .url(ConstantUrl.teamUrl + ConstantUrl.getTeamId_interface)
+                .url(ConstantUrl.teamUrl + ConstantUrl.getMyTeam_interface)
                 .addParams("userId", userId)
                 .build()
                 .execute(new MyTeamIdCallback());
@@ -128,22 +192,19 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         public void onResponse(String response, int id) {
             if (response.equals("")) {
                 T.testShowShort(getActivity(), Constant.mMessage_error);
-                teamId = 0;
-            } else {
-                Gson gson = new GsonBuilder().setDateFormat(Constant.formatType).create();
-
-                teamMember = gson.fromJson(response,TeamMember.class) ;
-                teamId = teamMember.getTeamId().getTeamId();
-                L.e(TAG, "TeamId:" + teamId);
-
-            }
-            if(teamId == 0){
+                teamFlag = false;
                 mTeamManager.setVisibility(View.GONE);
                 mTeamManagerLine.setVisibility(View.GONE);
-            }else{
+            } else {
+                Gson gson = new GsonBuilder().setDateFormat(Constant.formatType).create();
+                teamMembers = gson.fromJson(response, new TypeToken<List<TeamMember>>() {
+                }.getType());
+                teamFlag = true;
                 mTeamManager.setVisibility(View.VISIBLE);
                 mTeamManagerLine.setVisibility(View.VISIBLE);
             }
+
+
 
         }
 
@@ -157,24 +218,27 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
 
         user_request = (RelativeLayout) mView.findViewById(R.id.user_request);
-        mUser = (RelativeLayout) mView.findViewById(R.id.id_mine_user);
+        user_update_message = (RelativeLayout) mView.findViewById(R.id.user_update_message);
+        mRepass = (RelativeLayout) mView.findViewById(R.id.id_mine_repass);
         mTeam = (RelativeLayout) mView.findViewById(R.id.id_mine_team);
-
+        mTeamTask = (RelativeLayout) mView.findViewById(R.id.id_mine_team_task);
         mTeamManager = (RelativeLayout) mView.findViewById(R.id.id_mine_team_manager);
         mTeamManagerLine = (TextView) mView.findViewById(R.id.id_mine_line);
         mMoney = (RelativeLayout) mView.findViewById(R.id.id_mine_money);
         mSignout = (RelativeLayout) mView.findViewById(R.id.id_mine_sign_out);
 
-        mUser.setOnClickListener(this);
+
         user_request.setOnClickListener(this);
+        user_update_message.setOnClickListener(this);
+        mRepass.setOnClickListener(this);
         mTeam.setOnClickListener(this);
+        mTeamTask.setOnClickListener(this);
         mTeamManager.setOnClickListener(this);
         mMoney.setOnClickListener(this);
         mSignout.setOnClickListener(this);
 
 
         iv_headPortrait = (ImageView) mView.findViewById(R.id.id_head_portrait);
-        iv_headPortrait.setOnClickListener(this);
         id_name = (TextView) mView.findViewById(R.id.id_name);
         id_phone = (TextView) mView.findViewById(R.id.id_phone);
 
@@ -192,23 +256,40 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
-            case R.id.id_mine_user:   //用户管理
-                intent = new Intent(getActivity(), UserManagerActivity.class);
+            case R.id.user_update_message:  //维护个人信息
+
+                intent = new Intent(getActivity(), UpdateUserInfoActivity.class);
                 intent.putExtra("user", user);
+                startActivityForResult(intent, Activity.RESULT_FIRST_USER);
+                break;
+            case R.id.id_mine_repass:   //修改密码
+                intent = new Intent();
+                intent.setClass(getActivity(), RePassActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.id_mine_team://大学社团
+            case R.id.id_mine_team://申请加入社团
                 //先判断team_id是否为空
                 intent = new Intent(getActivity(), TeamActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
-            case R.id.id_mine_team_manager://社团管理
-                if (teamId != 0) {
-                    intent = new Intent(getActivity(), TeamHomeActivity.class);
+            case R.id.id_mine_team_task://社团活动报名
+                //先判断team_id是否为空
+                intent = new Intent(getActivity(), TeamTaskActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                break;
+            case R.id.id_mine_team_manager://我的社团
+                if (teamFlag) {
+                    //打开我的社团列表
+                    intent = new Intent(getActivity(), TeamListActivity.class);
                     intent.putExtra("user", user);
-                    intent.putExtra("teamMember", (Serializable) teamMember);
+                    intent.putExtra("teamMembers", (Serializable) teamMembers);
                     startActivity(intent);
+                   /* intent = new Intent(getActivity(), TeamHomeActivity.class);
+                    intent.putExtra("user", user);
+                    intent.putExtra("teamMembers", (Serializable) teamMembers);
+                    startActivity(intent);*/
                 }
                 break;
             case R.id.id_mine_money://打开我的钱包页面
@@ -217,12 +298,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.id_mine_sign_out:  //切换账户
                 showNullDialog(getActivity(), "是否切换账户？");
                 break;
-
-            case R.id.id_head_portrait:  //更换头像
-
-                intent = new Intent(getActivity(), AccountActivity.class);
-                intent.putExtra("user", user);
-                startActivityForResult(intent, Activity.RESULT_FIRST_USER);
             default:
                 break;
         }
@@ -233,9 +308,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         if (requestCode == Activity.RESULT_FIRST_USER) {
 
             if (resultCode == RESULT_CANCELED) {
-                user = (User) intent.getSerializableExtra("user");
-                obtainImage(user.getUserImage());//刷新头像
-
+                getUserInfo(userPhone);
             }
         }
     }

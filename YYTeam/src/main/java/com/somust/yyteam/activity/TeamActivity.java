@@ -93,7 +93,9 @@ public class TeamActivity extends Activity implements View.OnClickListener,Swipe
         header = getLayoutInflater().inflate(R.layout.team_header, null);
 
         swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
-        swipeLayout.setColorSchemeResources(R.color.color_bule2,R.color.color_bule,R.color.color_bule2,R.color.color_bule3);
+        swipeLayout.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
+        swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
+
         teamNewsListView = (ListView) findViewById(R.id.list);
         teamNewsListView.addHeaderView(header);
     }

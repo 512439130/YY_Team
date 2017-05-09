@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/de_frm_backgroud"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/de_img_backgroud"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="-50dp"
+            android:layout_marginRight="-300dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_background_new" />
+
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/id_create_team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="发布社团新闻"
+        android:textColor="#ffffff"
+        android:textSize="34sp" />
+
+
+
+
+    <LinearLayout
+        android:id="@+id/create_team_news_time_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id_create_team_name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="发 表 时 间 :"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/create_team_news_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="2017-05-03 18;06:30"
+            android:textColor="#FF6817"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/create_team_news_title_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/create_team_news_time_ll"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="新 闻 标 题 :"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+
+        <EditText
+            android:id="@+id/create_team_news_title_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/bg_stroke_yy"
+            android:hint="填写新闻标题~"
+            android:maxLength="15"
+            android:minLines="1"
+            android:padding="3dp"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/create_team_news_image_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/create_team_news_title_ll"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:text="新 闻 照 片 :"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/create_team_news_image_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_create_team_news_default"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="60dp"
+            android:adjustViewBounds="true"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/create_team_news_content_ll"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@id/create_team_news_image_ll"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/create_team_introduce"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:gravity="top"
+            android:text="新 闻 内 容 :"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/create_team_news_content_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_stroke_yy"
+            android:gravity="top"
+            android:hint="请输入新闻内容，不少于50字~"
+            android:maxLines="6"
+            android:minLines="6"
+            android:padding="3dp"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+
+
+
+    <Button
+        android:id="@+id/create_team_news_btn"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/create_team_news_content_ll"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+        android:enabled="true"
+        android:text="发布"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>

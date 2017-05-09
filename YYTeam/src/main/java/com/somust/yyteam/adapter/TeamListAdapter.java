@@ -9,26 +9,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
-import com.somust.yyteam.bean.Team;
+import com.somust.yyteam.bean.TeamMember;
+import com.somust.yyteam.bean.TeamMemberMessage;
 import com.somust.yyteam.bean.TeamMessage;
-import com.somust.yyteam.bean.TeamNewsMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 大学社团
+ * 我的大学社团
  */
-public class TeamAdapter extends BaseAdapter {
-    public List<TeamMessage> teamMessages = new ArrayList<>();
+public class TeamListAdapter extends BaseAdapter {
+    public List<TeamMemberMessage> teamMemberMessages = new ArrayList<>();
 
     public Context context;
     public LayoutInflater layoutInflater;
 
-    public TeamAdapter(Context context, List<TeamMessage> list) {
+    public TeamListAdapter(Context context, List<TeamMemberMessage> list) {
         this.context = context;
 
-        this.teamMessages = list;
+        this.teamMemberMessages = list;
 
         layoutInflater = LayoutInflater.from(context);
     }
@@ -36,7 +36,7 @@ public class TeamAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return teamMessages.size();
+        return teamMemberMessages.size();
     }
 
     @Override
@@ -55,17 +55,17 @@ public class TeamAdapter extends BaseAdapter {
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
-            view = layoutInflater.inflate(R.layout.item_team, null);
+            view = layoutInflater.inflate(R.layout.item_team_list, null);
 
             holder.team_image  = (ImageView) view.findViewById(R.id.team_image);
 
             holder.team_name = (TextView) view.findViewById(R.id.team_name);
             holder.team_type = (ImageView) view.findViewById(R.id.team_type);
 
-            holder.team_president = (TextView) view.findViewById(R.id.team_president);
-            holder.team_president_image = (ImageView) view.findViewById(R.id.team_president_image);
+            holder.team_position = (TextView) view.findViewById(R.id.team_position);
 
-            holder.team_time  = (TextView) view.findViewById(R.id.team_time);
+
+            holder.team_join_time  = (TextView) view.findViewById(R.id.team_join_time);
 
             view.setTag(holder);
         } else {
@@ -74,17 +74,16 @@ public class TeamAdapter extends BaseAdapter {
         }
 
 
-        holder.team_image.setImageBitmap(teamMessages.get(position).getTeamImage());
-        holder.team_name.setText(teamMessages.get(position).getTeamName());
+        holder.team_image.setImageBitmap(teamMemberMessages.get(position).getTeamImage());
+        holder.team_name.setText(teamMemberMessages.get(position).getTeamId().getTeamName());
 
 
-        holder.team_president.setText(teamMessages.get(position).getUserNickname()) ;
+        holder.team_position.setText(teamMemberMessages.get(position).getTeamMemberPosition()) ;
 
-        holder.team_president_image.setImageBitmap(teamMessages.get(position).getUserImage());
-        holder.team_time.setText(teamMessages.get(position).getTeamTime());
+        holder.team_join_time.setText(teamMemberMessages.get(position).getTeamMemberJoinTime());
 
         //根据社团类型的value设置社团类型图片
-        String teamType = teamMessages.get(position).getTeamType();
+        String teamType = teamMemberMessages.get(position).getTeamId().getTeamType();
         if (teamType.equals("学习")) {
             holder.team_type.setBackgroundResource(R.mipmap.ic_team_study);
         } else if (teamType.equals("公益")) {
@@ -102,10 +101,9 @@ public class TeamAdapter extends BaseAdapter {
         TextView team_name;  //社团名称
         ImageView team_type;   //社团类型
 
-        TextView team_president; //社团创建人
-        ImageView team_president_image;  //社团创建人头像
+        TextView team_position; //当前职责
 
-        TextView team_time;  //社团创建时间
+        TextView team_join_time;  //加入时间
 
     }
 

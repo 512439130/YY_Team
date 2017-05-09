@@ -3,6 +3,7 @@ package com.somust.yyteam.utils;
 import com.somust.yyteam.bean.Team;
 import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.TeamNewsMessage;
+import com.somust.yyteam.bean.TeamTask;
 import com.somust.yyteam.constant.Constant;
 
 import java.text.DateFormat;
@@ -54,14 +55,14 @@ public class DateUtil {
 
     /**
      * 对社团新闻时间的排序
-     * @param list
+     * @param teamNewses
      */
 
-    public static void TeamNewsSortDate(List<TeamNews> list){
+    public static void TeamNewsSortDate(List<TeamNews> teamNewses){
 
-        System.out.println("排序前："+list);
+        System.out.println("排序前："+teamNewses);
 
-        Collections.sort(list, new Comparator<TeamNews>(){
+        Collections.sort(teamNewses, new Comparator<TeamNews>(){
 
             /*
              * int compare(Student o1, Student o2) 返回一个基本类型的整型，
@@ -88,20 +89,20 @@ public class DateUtil {
                 return -1;
             }
         });
-        System.out.println("排序后："+list);
+        System.out.println("排序后："+teamNewses);
     }
 
 
     /**
      * 对社团新闻时间的排序
-     * @param list
+     * @param teams
      */
 
-    public static void TeamSortDate(List<Team> list){
+    public static void TeamSortDate(List<Team> teams){
 
-        System.out.println("排序前："+list);
+        System.out.println("排序前："+teams);
 
-        Collections.sort(list, new Comparator<Team>(){
+        Collections.sort(teams, new Comparator<Team>(){
 
             /*
              * int compare(Student team1, Student team2) 返回一个基本类型的整型，
@@ -128,9 +129,49 @@ public class DateUtil {
                 return -1;
             }
         });
-        System.out.println("排序后："+list);
+        System.out.println("排序后："+teams);
     }
 
+
+
+    /**
+     * 对社团活动时间的排序
+     * @param teamTasks
+     */
+
+    public static void TeamTaskSortDate(List<TeamTask> teamTasks){
+
+        System.out.println("排序前："+teamTasks);
+
+        Collections.sort(teamTasks, new Comparator<TeamTask>(){
+
+            /*
+             * int compare(Student team1, Student team2) 返回一个基本类型的整型，
+             * 返回负数表示：team1 team2，
+             * 返回0 表示：team1和team2相等，
+             * 返回正数表示：team1大于team2。
+             */
+            public int compare(TeamTask teamTask1, TeamTask teamTask2) {
+
+
+                try {
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                    Date date1 = df.parse(teamTask1.getTaskCreateTime());
+                    Date date2 = df.parse(teamTask2.getTaskCreateTime());
+                    //按照学生的年龄进行升序排列
+                    if (date1.getTime() < date2.getTime()) {   //date1 在date2前
+                        return 1;
+                    } else if (date1.getTime() == date2.getTime()) {
+                        return 0;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return -1;
+            }
+        });
+        System.out.println("排序后："+teamTasks);
+    }
 
 
 

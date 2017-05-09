@@ -16,8 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
+import com.somust.yyteam.activity.CreateTeamNewsActivity;
 import com.somust.yyteam.activity.LoginActivity;
 import com.somust.yyteam.activity.TeamMemberRequestActivity;
+import com.somust.yyteam.activity.UpdateTeamInfoActivity;
 import com.somust.yyteam.bean.TeamMember;
 import com.somust.yyteam.bean.TeamMemberRequest;
 import com.somust.yyteam.bean.User;
@@ -168,6 +170,11 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.id_member_mine_team_update_message:  //完善社团信息
                 L.v(TAG, "完善社团信息");
+                intent = new Intent(getActivity(), UpdateTeamInfoActivity.class);
+                //传值
+                intent.putExtra("user", user);
+                intent.putExtra("team", teamMember.getTeamId());
+                startActivity(intent);
                 break;
             case R.id.id_member_mine_team_examine_task:  //审核任务总结
                 L.v(TAG, "审核任务总结");
@@ -177,6 +184,10 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.id_member_mine_send_new:  //发布社团新闻
                 L.v(TAG, "发布社团新闻");
+                intent = new Intent(getActivity(), CreateTeamNewsActivity.class);
+                //传值
+                intent.putExtra("team", teamMember.getTeamId());
+                startActivity(intent);
 
                 break;
             case R.id.id_member_mine_send_task://发送任务安排

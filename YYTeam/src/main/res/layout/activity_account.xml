@@ -38,7 +38,7 @@
     </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="20dp"
         android:background="#f5f5f5" />
     <RelativeLayout
         android:id="@+id/account_update_nickname_rl"
@@ -57,13 +57,45 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/user_pass_tv"
+            android:id="@+id/user_nickname_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:text="杨阳"/>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#f5f5f5" />
+    <RelativeLayout
+        android:id="@+id/account_update_sex_rl"
+        style="@style/style_single_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_alignParentLeft="true"
+            android:text="用户性别"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/user_sex_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="男"/>
 
     </RelativeLayout>
 

@@ -6,27 +6,23 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Interpolator;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
-
-import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.utils.log.L;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 
 /**
  * [从本地选择图片以及拍照工具类，完美适配2.0-5.0版本]
  **/
-public class PhotoUtils {
+public class BigPhotoUtils {
 
-    private final String tag = PhotoUtils.class.getSimpleName();
+    private final String tag = BigPhotoUtils.class.getSimpleName();
 
     /**
      * 裁剪图片成功后返回
@@ -48,7 +44,7 @@ public class PhotoUtils {
     private OnPhotoResultListener onPhotoResultListener;
 
 
-    public PhotoUtils(OnPhotoResultListener onPhotoResultListener) {
+    public BigPhotoUtils(OnPhotoResultListener onPhotoResultListener) {
         this.onPhotoResultListener = onPhotoResultListener;
     }
 
@@ -137,9 +133,9 @@ public class PhotoUtils {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
         cropIntent.setDataAndType(uri, "image/*");
         cropIntent.putExtra("crop", "true");
-        cropIntent.putExtra("aspectX", 1);
-        cropIntent.putExtra("aspectY", 1);
-        cropIntent.putExtra("outputX", 200);
+        cropIntent.putExtra("aspectX", 3);
+        cropIntent.putExtra("aspectY", 2);
+        cropIntent.putExtra("outputX", 300);
         cropIntent.putExtra("outputY", 200);
         cropIntent.putExtra("return-data", false);
         cropIntent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
@@ -189,6 +185,7 @@ public class PhotoUtils {
                 if (data != null && data.getData() != null) {
                     Uri imageUri = data.getData();
                     if (corp(activity, imageUri, userPhone, time, photoName)) {
+
                         return;
                     }
                 }

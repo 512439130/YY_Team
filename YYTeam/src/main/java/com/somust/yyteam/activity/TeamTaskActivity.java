@@ -2,6 +2,8 @@ package com.somust.yyteam.activity;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,7 +48,7 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
     private static final String TAG = "TeamTaskActivity:";
     private ImageView iv_reutrn;
     private TextView titleName;
-
+    private View header;
 
     private RefreshLayout swipeLayout;
 
@@ -67,12 +69,27 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_task);
+        immersiveStatusBar();
         initView();
         requestData();
         initListener();
     }
 
-
+    /**
+     * 沉浸式状态栏（伪）
+     */
+    private void immersiveStatusBar() {
+        //沉浸式状态栏（伪）
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
 
     /**
      * 初始化数据
@@ -84,12 +101,14 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
         titleName = (TextView) findViewById(R.id.actionbar_name);
 
         //头部
+        header = getLayoutInflater().inflate(R.layout.team_task_header, null);
 
 
         swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
         swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
         teamNewsListView = (ListView) findViewById(R.id.list);
+        teamNewsListView.addHeaderView(header);
     }
 
 

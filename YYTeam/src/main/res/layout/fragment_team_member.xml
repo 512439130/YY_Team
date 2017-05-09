@@ -5,26 +5,20 @@
     android:background="#11ffffff"
     android:orientation="vertical">
 
-
     <com.somust.yyteam.view.refreshview.RefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-            <ListView
-                android:id="@+id/id_lv_friend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@null"
-                >
+        <ListView
+            android:id="@+id/id_lv_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null">
 
-            </ListView>
-
-
+        </ListView>
 
     </com.somust.yyteam.view.refreshview.RefreshLayout>
-
-
 
     <TextView
         android:id="@+id/dialog"
@@ -41,7 +35,8 @@
 
     <com.somust.yyteam.view.SideBar
         android:id="@+id/sidebar"
-        android:layout_width="12dp"
+        android:layout_width="15dp"
+        android:layout_marginTop="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:background="#00ffffff" />

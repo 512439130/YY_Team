@@ -20,6 +20,7 @@ public class Constant {
 
     //formatType
     public static final String formatType = "yyyy-MM-dd HH:mm:ss";
+    public static final String formatTypeNoTile = "yyyy-MM-dd";
 
     public static final String FILE_PATH = Environment.getExternalStorageDirectory().toString();
 

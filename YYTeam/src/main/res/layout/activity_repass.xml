@@ -27,7 +27,7 @@
         android:layout_height="80dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:src="@mipmap/ic_launcher"
         yy:borderColor="#f5f5f5"
         yy:borderWidth="2dp" />

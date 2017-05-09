@@ -21,9 +21,12 @@ import com.somust.yyteam.adapter.TeamAdapter;
 import com.somust.yyteam.adapter.TeamMemberTaskAdapter;
 import com.somust.yyteam.adapter.TeamTaskAdapter;
 import com.somust.yyteam.bean.Team;
+import com.somust.yyteam.bean.TeamMember;
 import com.somust.yyteam.bean.TeamMessage;
 import com.somust.yyteam.bean.TeamTask;
 import com.somust.yyteam.bean.TeamTaskMessage;
+import com.somust.yyteam.bean.User;
+import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.DateUtil;
 import com.somust.yyteam.utils.log.L;
@@ -34,7 +37,9 @@ import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Call;
@@ -49,6 +54,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
     private static final String TAG = "TeamTaskFragment:";
 
     public static TeamTaskFragment instance = null;//单例模式
+
     public static TeamTaskFragment getInstance() {
         if (instance == null) {
             instance = new TeamTaskFragment();
@@ -73,9 +79,20 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public List<TeamTask> intentDatas;
 
+
+    private User user;
+    private TeamMember teamMember;
+    private Integer teamId = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_team_task, null);
+
+        Intent intent = getActivity().getIntent();
+        user = (User) intent.getSerializableExtra("user");
+        teamMember = (TeamMember) intent.getSerializableExtra("teamMember");
+        teamId = teamMember.getTeamId().getTeamId();
+
         initView();
         requestData();
         initListener();
@@ -93,7 +110,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
 
-        swipeLayout.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
+        swipeLayout.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_orange_dark, android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
         swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
         teamNewsListView = (ListView) mView.findViewById(R.id.list);
         teamNewsListView.addHeaderView(header);
@@ -107,13 +124,13 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 
             if (bundle.getString("team_success") == "team_success") {  //社团图片成功获取
-                for(int i = 0;i<teamTaskMessages.size();i++){
+                for (int i = 0; i < teamTaskMessages.size(); i++) {
                     teamTaskMessages.get(i).setTeamImage(teamBitmaps[i]);
 
                 }
                 teamFlag = true;
             }
-            if(teamFlag){   //2张图片都请求成功时
+            if (teamFlag) {   //2张图片都请求成功时
                 //请求是否有更新（在这个时间段后）
                 teamMemberTaskAdapter.notifyDataSetChanged();
             }
@@ -129,6 +146,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
         teamMemberTaskAdapter = new TeamMemberTaskAdapter(getActivity(), teamTaskMessages);
         teamNewsListView.setAdapter(teamMemberTaskAdapter);
     }
+
     /**
      * 设置监听
      */
@@ -138,8 +156,8 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
         teamNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //新闻item的点击事件
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(intentDatas != null ){
-                    L.v(TAG,"数据获取完成");
+                if (intentDatas != null) {
+                    L.v(TAG, "数据获取完成");
 
                     /*TeamTask teamTask = intentDatas.get(position-1);  //获取当前item的bean
                     Intent intent = new Intent(getActivity(), TeamInformationActivity.class);
@@ -159,7 +177,8 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void requestData() {
         OkHttpUtils
                 .post()
-                .url(ConstantUrl.teamTaskUrl + ConstantUrl.getTeamTask_interface)
+                .url(ConstantUrl.teamTaskUrl + ConstantUrl.getTeamMemberTask_interface)
+                .addParams("teamMemberId",teamMember.getTeamMemberId().toString())
                 .build()
                 .execute(new MyTeamTaskRequestCallback());
     }
@@ -193,7 +212,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
                 intentDatas = teamTasks;
 
 
-                teamBitmaps= new Bitmap[teamTasks.size()];
+                teamBitmaps = new Bitmap[teamTasks.size()];
 
                 for (int i = 0; i < teamTasks.size(); i++) {
                     TeamTaskMessage message = new TeamTaskMessage();
@@ -203,7 +222,17 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
                     message.setTaskReleaseId(teamTasks.get(i).getTaskReleaseId().toString());
                     message.setTeamMemberId(teamTasks.get(i).getTaskResponsibleId().getTeamMemberId().toString());
                     message.setTaskState(teamTasks.get(i).getTaskState());
-                    message.setTaskCreateTime(teamTasks.get(i).getTaskCreateTime());
+                    Date date;//转换为只有年月日的日期（Date）
+                    String nullTimeDate = null;   //转换为只有年月日的日期（String）
+                    try {
+                        date = DateUtil.stringToDate(teamTasks.get(i).getTaskCreateTime(), Constant.formatTypeNoTile);
+                        nullTimeDate = DateUtil.dateToString(date, Constant.formatTypeNoTile);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    message.setTaskCreateTime(nullTimeDate);
                     message.setTaskMaxNumber(teamTasks.get(i).getTaskMaxNumber().toString());
                     message.setTaskSummary(teamTasks.get(i).getTaskSummary());
                     message.setTeamName(teamTasks.get(i).getTaskResponsibleId().getTeamId().getTeamName());
@@ -212,7 +241,6 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
                     //通过网络请求获取图片
                     obtainTeamImage(teamTasks.get(i).getTaskResponsibleId().getTeamId().getTeamImage(), i);
                     teamTaskMessages.add(message);
-
 
 
                 }
@@ -224,10 +252,9 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
 
-
-
     /**
      * 请求社团logo
+     *
      * @param url
      * @param i
      */
@@ -249,18 +276,12 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onResponse(Bitmap bitmap, int id) {
 
-                        teamBitmaps[i]=bitmap;
+                        teamBitmaps[i] = bitmap;
                         UpdateUi(teamTaskHandler, "team_success", "team_success");
                     }
                 });
 
     }
-
-
-
-
-
-
 
 
     /**
@@ -282,9 +303,6 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
 
-
-
-
     /**
      * 更新UI和控制子线程设置图片
      *
@@ -292,7 +310,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
      * @param key
      * @param value
      */
-    private void UpdateUi(Handler handler, String key, String value ) {
+    private void UpdateUi(Handler handler, String key, String value) {
         Message msg = handler.obtainMessage();
         Bundle bundle = new Bundle();
         bundle.putString(key, value);

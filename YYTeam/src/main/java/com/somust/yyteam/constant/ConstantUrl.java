@@ -88,6 +88,10 @@ public class ConstantUrl extends Constant{
 
     //interface teamTask
     public static final String getTeamTask_interface = "yy_obtain_team_task";//获取活动列表
+    public static final String getTeamMemberTask_interface = "yy_obtain_team_member_task?";//负责人获取活动列表
+
+
+
 
 
     //文件上传

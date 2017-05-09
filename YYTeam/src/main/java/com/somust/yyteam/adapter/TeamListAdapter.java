@@ -56,15 +56,9 @@ public class TeamListAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             view = layoutInflater.inflate(R.layout.item_team_list, null);
-
             holder.team_image  = (ImageView) view.findViewById(R.id.team_image);
-
             holder.team_name = (TextView) view.findViewById(R.id.team_name);
-            holder.team_type = (ImageView) view.findViewById(R.id.team_type);
-
             holder.team_position = (TextView) view.findViewById(R.id.team_position);
-
-
             holder.team_join_time  = (TextView) view.findViewById(R.id.team_join_time);
 
             view.setTag(holder);
@@ -72,25 +66,11 @@ public class TeamListAdapter extends BaseAdapter {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
-
-
         holder.team_image.setImageBitmap(teamMemberMessages.get(position).getTeamImage());
         holder.team_name.setText(teamMemberMessages.get(position).getTeamId().getTeamName());
-
-
         holder.team_position.setText(teamMemberMessages.get(position).getTeamMemberPosition()) ;
-
         holder.team_join_time.setText(teamMemberMessages.get(position).getTeamMemberJoinTime());
 
-        //根据社团类型的value设置社团类型图片
-        String teamType = teamMemberMessages.get(position).getTeamId().getTeamType();
-        if (teamType.equals("学习")) {
-            holder.team_type.setBackgroundResource(R.mipmap.ic_team_study);
-        } else if (teamType.equals("公益")) {
-            holder.team_type.setBackgroundResource(R.mipmap.ic_team_welfare);
-        } else if (teamType.equals("技术")) {
-            holder.team_type.setBackgroundResource(R.mipmap.ic_team_technology);
-        }
         return view;
     }
 
@@ -99,7 +79,6 @@ public class TeamListAdapter extends BaseAdapter {
 
 
         TextView team_name;  //社团名称
-        ImageView team_type;   //社团类型
 
         TextView team_position; //当前职责
 

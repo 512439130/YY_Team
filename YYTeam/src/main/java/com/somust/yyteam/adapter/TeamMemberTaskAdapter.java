@@ -56,11 +56,9 @@ public class TeamMemberTaskAdapter extends BaseAdapter {
             holder = new ViewHolder();
             view = layoutInflater.inflate(R.layout.item_team_member_task, null);
 
+            holder.task_id = (TextView) view.findViewById(R.id.task_id);
             holder.team_image = (ImageViewPlus) view.findViewById(R.id.team_image);
-            holder.team_name = (TextView) view.findViewById(R.id.team_name);
-
             holder.team_task_title = (TextView) view.findViewById(R.id.team_task_title);
-            holder.task_content = (TextView) view.findViewById(R.id.task_content);
             holder.task_number = (TextView) view.findViewById(R.id.task_number);
             holder.team_task_state = (ImageView) view.findViewById(R.id.team_task_state);
             holder.team_task_time = (TextView) view.findViewById(R.id.team_task_time);
@@ -71,11 +69,9 @@ public class TeamMemberTaskAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-
+        holder.task_id.setText(position + 1+"");
         holder.team_image.setImageBitmap(teamTaskMessages.get(position).getTeamImage());
-        holder.team_name.setText(teamTaskMessages.get(position).getTeamName());
         holder.team_task_title.setText(teamTaskMessages.get(position).getTaskTitle());
-        holder.task_content.setText(teamTaskMessages.get(position).getTaskContent());
         holder.task_number.setText(teamTaskMessages.get(position).getTaskMaxNumber());
         holder.team_task_time.setText(teamTaskMessages.get(position).getTaskCreateTime());
 
@@ -93,11 +89,9 @@ public class TeamMemberTaskAdapter extends BaseAdapter {
 
     static class ViewHolder {
 
-
+        TextView task_id;
         ImageViewPlus team_image;  //社团icon
-        TextView team_name;      //社团名称
         TextView team_task_title;  //活动标题
-        TextView task_content;     //活动内容
         TextView task_number;    //活动人数（5/50）
         ImageView team_task_state; //活动状态
         TextView team_task_time;  //活动创建时间

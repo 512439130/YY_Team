@@ -4,8 +4,10 @@
     <RelativeLayout
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#302e2e">
+        android:layout_height="63dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="5dp"
+        android:background="#2c2c2c">
 
         <RelativeLayout
             android:id="@+id/id_rl_title_bar"
@@ -32,23 +34,28 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/id_title_back"
-                android:textColor="#e4e4e4" />
+                android:textSize="16sp"
+                android:textColor="#ffffff" />
             <TextView
                 android:id="@+id/actionbar_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textColor="#e4e4e4" />
+                android:textSize="20sp"
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:id="@+id/id_title_creategroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:textSize="16sp"
+                android:textColor="#ffffff"/>
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/id_title_creategroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:textColor="#e4e4e4" />
+
 
     </RelativeLayout>
 </merge>

@@ -12,6 +12,7 @@ import com.somust.yyteam.R;
 import com.somust.yyteam.bean.TeamMessage;
 import com.somust.yyteam.bean.TeamTask;
 import com.somust.yyteam.bean.TeamTaskMessage;
+import com.somust.yyteam.utils.DateUtil;
 import com.somust.yyteam.view.ImageViewPlus;
 
 import java.util.ArrayList;
@@ -62,7 +63,6 @@ public class TeamTaskAdapter extends BaseAdapter {
             holder.team_name = (TextView) view.findViewById(R.id.team_name);
 
             holder.team_task_title = (TextView) view.findViewById(R.id.team_task_title);
-            holder.task_content = (TextView) view.findViewById(R.id.task_content);
             holder.task_number = (TextView) view.findViewById(R.id.task_number);
             holder.team_task_state = (ImageView) view.findViewById(R.id.team_task_state);
             holder.team_task_time = (TextView) view.findViewById(R.id.team_task_time);
@@ -77,7 +77,6 @@ public class TeamTaskAdapter extends BaseAdapter {
         holder.team_image.setImageBitmap(teamTaskMessages.get(position).getTeamImage());
         holder.team_name.setText(teamTaskMessages.get(position).getTeamName());
         holder.team_task_title.setText(teamTaskMessages.get(position).getTaskTitle());
-        holder.task_content.setText(teamTaskMessages.get(position).getTaskContent());
         holder.task_number.setText(teamTaskMessages.get(position).getTaskMaxNumber());
         holder.team_task_time.setText(teamTaskMessages.get(position).getTaskCreateTime());
 
@@ -99,7 +98,6 @@ public class TeamTaskAdapter extends BaseAdapter {
         ImageViewPlus team_image;  //社团icon
         TextView team_name;      //社团名称
         TextView team_task_title;  //活动标题
-        TextView task_content;     //活动内容
         TextView task_number;    //活动人数（5/50）
         ImageView team_task_state; //活动状态
         TextView team_task_time;  //活动创建时间

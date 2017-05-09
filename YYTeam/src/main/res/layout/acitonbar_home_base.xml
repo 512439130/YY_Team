@@ -4,23 +4,25 @@
     <RelativeLayout
         android:id="@+id/id_top"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="63dp"
         android:layout_alignParentTop="true"
-        android:background="#302e2e">
+        android:paddingTop="20dp"
+        android:paddingBottom="5dp"
+        android:background="#2c2c2c">
 
         <RelativeLayout
             android:id="@+id/id_rl_title_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="38dp">
 
 
-            <ImageView
+            <com.somust.yyteam.view.ImageViewPlus
                 android:id="@+id/id_title_back"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
-                android:background="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher" />
 
 
             <TextView
@@ -31,12 +33,12 @@
                 android:layout_marginLeft="12dp"
                 android:layout_toRightOf="@+id/id_title_back"
                 android:text="@string/app_name"
-                android:textColor="@color/title_bar_text"
-                android:textSize="18sp"/>
+                android:textColor="@color/white"
+                android:textSize="19sp"/>
             <ImageView
                 android:id="@+id/id_add"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
@@ -44,8 +46,8 @@
                 android:clickable="true"/>
             <ImageView
                 android:id="@+id/id_search"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/id_add"
                 android:layout_marginRight="20dp"

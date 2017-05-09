@@ -49,12 +49,7 @@
             </intent-filter>
         </activity>
 
-        <!-- 短信验证界面 -->
-        <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
 
         <!-- 会话界面 -->
         <activity

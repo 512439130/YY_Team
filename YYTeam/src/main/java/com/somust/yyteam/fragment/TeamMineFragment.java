@@ -60,7 +60,8 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
 
 
     private User user;
-
+    private TeamMember teamMember;
+    private Integer teamId = 0;
     //top
     //left
     private ImageViewPlus teamImage;
@@ -72,8 +73,7 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
     private TextView userName;
 
 
-    private TeamMember teamMember;
-    private Integer teamId = 0;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

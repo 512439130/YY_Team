@@ -3,6 +3,8 @@ package com.somust.yyteam.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,7 +48,7 @@ public class TeamActivity extends Activity implements View.OnClickListener,Swipe
 
 
     private RefreshLayout swipeLayout;
-    private View header;
+
 
     private ListView teamNewsListView;
     private TeamAdapter teamAdapter;
@@ -70,7 +72,7 @@ public class TeamActivity extends Activity implements View.OnClickListener,Swipe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
-
+        immersiveStatusBar();
         //接收用户的登录信息user
         intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -79,7 +81,21 @@ public class TeamActivity extends Activity implements View.OnClickListener,Swipe
         requestData();
         initListener();
     }
-
+    /**
+     * 沉浸式状态栏（伪）
+     */
+    private void immersiveStatusBar() {
+        //沉浸式状态栏（伪）
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
     /**
      * 初始化数据
      */
@@ -89,15 +105,14 @@ public class TeamActivity extends Activity implements View.OnClickListener,Swipe
 
 
         teamMessages.clear();
-        //头部
-        header = getLayoutInflater().inflate(R.layout.team_header, null);
+
 
         swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
         swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
 
         teamNewsListView = (ListView) findViewById(R.id.list);
-        teamNewsListView.addHeaderView(header);
+
     }
 
 
@@ -152,7 +167,7 @@ public class TeamActivity extends Activity implements View.OnClickListener,Swipe
                 if(intentDatas != null ){
                     L.v(TAG,"数据获取完成");
 
-                    Team teams = intentDatas.get(position-1);  //获取当前item的bean
+                    Team teams = intentDatas.get(position);  //获取当前item的bean
                     Intent intent = new Intent(TeamActivity.this, TeamInformationActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("teams",teams);

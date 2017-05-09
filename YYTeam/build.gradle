@@ -14,7 +14,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com.somust.yyteam"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 10004
         versionName "1.0.4"

@@ -1,19 +1,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    android:background="#ffffff"
+    >
 
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:orientation="vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@mipmap/ic_item_news"
         android:weightSum="1">
 
         <RelativeLayout
@@ -31,7 +35,9 @@
                 android:text="自强人欢聚，自强人欢聚自强人欢聚自强人欢聚自强人欢聚自强人欢聚自强人欢聚"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textSize="14sp" />
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
             <com.somust.yyteam.view.ImageViewPlus
                 android:id="@+id/team_image"
                 android:layout_width="25dp"
@@ -48,15 +54,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.somust.yyteam.view.ImageViewPlus
+            <ImageView
                 android:id="@+id/team_news_image"
-                android:layout_width="100dp"
+                android:layout_width="150dp"
                 android:layout_height="100dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
                 android:scaleType="centerCrop"
-
+                android:adjustViewBounds="true"
                 android:src="@mipmap/ic_launcher" />
 
 
@@ -80,6 +86,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginTop="5dp"
+
             android:layout_marginRight="5dp"
             android:orientation="horizontal">
 
@@ -102,7 +110,7 @@
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="#f5f5f5" />
+        android:layout_height="15dp"
+        android:background="#ffffff"/>
 
 </LinearLayout>

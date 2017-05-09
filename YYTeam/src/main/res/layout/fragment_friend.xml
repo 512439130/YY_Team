@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
             <ListView
                 android:id="@+id/id_lv_friend"
                 android:layout_width="match_parent"
@@ -21,8 +19,6 @@
                 >
 
             </ListView>
-
-
 
     </com.somust.yyteam.view.refreshview.RefreshLayout>
 
@@ -70,8 +66,10 @@
 
     <com.somust.yyteam.view.SideBar
         android:id="@+id/sidebar"
-        android:layout_width="12dp"
+        android:layout_width="15dp"
+        android:layout_marginTop="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+
         android:background="#00ffffff" />
 </RelativeLayout>

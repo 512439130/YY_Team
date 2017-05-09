@@ -1,6 +1,8 @@
 package com.somust.yyteam.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -58,7 +60,7 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_team);
-
+        immersiveStatusBar();
         T.isShow = true;  //关闭toast
         L.isDebug = true;  //关闭Log
 
@@ -80,6 +82,22 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
         initPopwindow();  //初始化titlebar中的popwindow
     }
 
+
+    /**
+     * 沉浸式状态栏（伪）
+     */
+    private void immersiveStatusBar() {
+        //沉浸式状态栏（伪）
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
     private void initView() {
         mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
 

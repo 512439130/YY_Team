@@ -1,26 +1,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#ffffff" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:background="@drawable/team_bg_shape">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical">
 
             <com.somust.yyteam.view.ImageViewPlus
                 android:id="@+id/team_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:scaleType="centerCrop"
+                app:borderWidth="1dp"
+                app:borderColor="#eeeeee"
                 android:src="@mipmap/ic_launcher" />
         </LinearLayout>
 
@@ -28,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="15dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -45,12 +55,14 @@
                     android:layout_gravity="bottom"
                     android:text="计算机学院自强社"
                     android:textColor="#000000"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/team_type"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="21dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="bottom"
@@ -69,8 +81,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp"
-                    android:text="创  建  人："
-                    android:textSize="16sp" />
+                    android:text="创  建  人:"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/team_president"
@@ -80,7 +92,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="杨阳"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <com.somust.yyteam.view.ImageViewPlus
                     android:id="@+id/team_president_image"
@@ -104,8 +116,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="成立时间："
-                    android:textSize="16sp" />
+                    android:text="成立时间:"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/team_time"
@@ -113,16 +125,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:text="2017-04-16"
-                    android:textSize="16sp" />
+                    android:text="2017-04-16 22:22:22"
+                    android:textSize="12sp" />
 
             </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="#f5f5f5" />
+
 </LinearLayout>

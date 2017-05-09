@@ -4,7 +4,9 @@ package com.somust.yyteam.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,25 +18,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.LocationSource;
 import com.google.gson.Gson;
 import com.somust.yyteam.R;
 import com.somust.yyteam.application.YYApplication;
-import com.somust.yyteam.bean.Friend;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.context.BaseContext;
+import com.somust.yyteam.utils.AndroidBug5497Workaround;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.StringCallback;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 import io.rong.imkit.RongIM;
@@ -112,6 +110,8 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversation);
+        AndroidBug5497Workaround.assistActivity(this);   //解决键盘和沉浸式冲突
+        immersiveStatusBar();
 
         Intent intent = getIntent();
 
@@ -125,6 +125,22 @@ public class ConversationActivity extends FragmentActivity implements RongIM.Loc
         setTypingStatusListener();
 
         initLocation();
+    }
+
+    /**
+     * 沉浸式状态栏（伪）
+     */
+    private void immersiveStatusBar() {
+        //沉浸式状态栏（伪）
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
     }
 
 

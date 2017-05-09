@@ -30,7 +30,7 @@
         android:src="@mipmap/ic_launcher"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         yy:borderColor="#f5f5f5"
         yy:borderWidth="2dp"
         />

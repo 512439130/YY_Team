@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#eeeeee">
+    android:paddingTop="20dp"
+    android:background="#17abe3"
+    >
 
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00FA9A"
+
+
         android:orientation="horizontal">
 
 

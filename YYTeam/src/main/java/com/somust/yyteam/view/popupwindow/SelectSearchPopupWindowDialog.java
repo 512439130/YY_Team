@@ -79,7 +79,7 @@ public class SelectSearchPopupWindowDialog implements View.OnClickListener {
         popupView.getLocationOnScreen(location);
         //显示popupwindow
 
-        popupWindow.showAtLocation(parentView, Gravity.CENTER, 0, -230);
+        popupWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
 
 
         // 设置背景颜色变暗

@@ -228,18 +228,20 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    //由于字幕排序引起item不对应list(不能使用排序前的friendlist，必须使用排序后的personBeanList)
+                    String userId = personBeenList.get(position-1).getPhone();
+                    String userNickname = personBeenList.get(position-1).getName();
+                    L.e(TAG, userId);
+                    L.e(TAG, userNickname);
+                    //打开个人信息界面（个人信息界面包含发送消息）
+                    Intent intent = new Intent(getActivity(), PersionInformationActivity.class);
+                    intent.putExtra("userId", userId);
+                    intent.putExtra("userNickname", userNickname);
+                    intent.putExtra("openState","friend");  //好友
+                    startActivity(intent);
+                }
 
-                //由于字幕排序引起item不对应list(不能使用排序前的friendlist，必须使用排序后的personBeanList)
-                String userId = personBeenList.get(position-1).getPhone();
-                String userNickname = personBeenList.get(position-1).getName();
-                L.e(TAG, userId);
-                L.e(TAG, userNickname);
-                //打开个人信息界面（个人信息界面包含发送消息）
-                Intent intent = new Intent(getActivity(), PersionInformationActivity.class);
-                intent.putExtra("userId", userId);
-                intent.putExtra("userNickname", userNickname);
-                intent.putExtra("openState","friend");  //好友
-                startActivity(intent);
 
             }
         });

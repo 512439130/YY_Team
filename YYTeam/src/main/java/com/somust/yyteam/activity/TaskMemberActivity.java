@@ -1,31 +1,29 @@
-package com.somust.yyteam.fragment;
+package com.somust.yyteam.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
-import com.somust.yyteam.activity.PersionInformationActivity;
-import com.somust.yyteam.activity.SearchUserActivity;
-import com.somust.yyteam.adapter.FriendAdapter;
+import com.somust.yyteam.adapter.TaskMemberAdapter;
 import com.somust.yyteam.adapter.TeamMemberAdapter;
 import com.somust.yyteam.bean.PersonBean;
-import com.somust.yyteam.bean.TeamFriend;
-import com.somust.yyteam.bean.TeamMember;
+import com.somust.yyteam.bean.TaskMember;
+import com.somust.yyteam.bean.TeamTask;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
@@ -39,7 +37,6 @@ import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,81 +45,91 @@ import okhttp3.Call;
 
 /**
  * Created by 13160677911 on 2016-12-4.
- * 社团成员列表
+ * 活动成员列表
  */
 
-public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    //首先查询当前用户id的好友表中的好友id，通过融云及时获取用户信息(昵称，id)
-
-    public static TeamMemberFragment instance = null;//单例模式
-
-    public static TeamMemberFragment getInstance() {
-        if (instance == null) {
-            instance = new TeamMemberFragment();
-        }
-        return instance;
-    }
-
-    private View mView;
-
-    private ListView friendListView;
+public class TaskMemberActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+    private static final String TAG = "TaskMemberActivity:";
+    private ImageView iv_reutrn;
+    private TextView titleName;
+    private ListView taskListView;
 
 
     //SideBar相关
     private List<PersonBean> personBeenList;
-    private SideBar sidebar;
-    private TextView dialogTextView;
-    private TeamMemberAdapter teamMemberAdapter;
 
-    private static final String TAG = "TeamMemberFragment:";
+    private TaskMemberAdapter taskMemberAdapter;
+
 
     // private User user;    //登录用户信息
-    private List<TeamMember> teamMembers;   //登录用户的社团人员信息
+    private List<TaskMember> taskMembers;   //登录用户的好友信息
     private Bitmap[] portraitBitmaps;
-
 
 
 
     private RefreshLayout swipeLayout;
     private View header;
 
-    // private List<User> allUser;
     private User user;    //登录用户信息
 
-    private TeamMember teamMember;
-    private Integer teamId = 0;
 
-    @Nullable
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_team_member, null);
+    private Integer taskId = 0;
+
+    private TeamTask teamTask;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_task_member);
+        immersiveStatusBar();
         initView();
-        Intent intent = getActivity().getIntent();
+
+        Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
-        teamMember = (TeamMember) intent.getSerializableExtra("teamMember");
-        teamId = teamMember.getTeamId().getTeamId();
+        teamTask = (TeamTask) intent.getSerializableExtra("teamTask");
+        taskId = teamTask.getTaskId();
 
 
         //发送网络请求，获取社团成员列表
-        obtainTeamMemberList(teamId.toString());
+        obtainTeamMemberList(taskId.toString());
+        initDatas();
         initListener();
 
-        return mView;
+    }
+
+    /**
+     * 沉浸式状态栏（伪）
+     */
+    private void immersiveStatusBar() {
+        //沉浸式状态栏（伪）
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
     }
 
     private void initView() {
-        sidebar = (SideBar) mView.findViewById(R.id.sidebar);
-        dialogTextView = (TextView) mView.findViewById(R.id.dialog);
-        sidebar.setTextView(dialogTextView);
-        friendListView = (ListView) mView.findViewById(R.id.id_lv_friend);
+
+        iv_reutrn = (ImageView) findViewById(R.id.id_title_back);
+        titleName = (TextView) findViewById(R.id.actionbar_name);
+
+
+        taskListView = (ListView) findViewById(R.id.id_lv_task_member);
 
         //头部布局
-        header = getActivity().getLayoutInflater().inflate(R.layout.team_member_header, null);
-        friendListView.addHeaderView(header);
+        header = getLayoutInflater().inflate(R.layout.task_member_header, null);
+        taskListView.addHeaderView(header);
 
 
-        swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
+        swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
 
-        swipeLayout.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
+        swipeLayout.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_orange_dark, android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
         swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
 
     }
@@ -130,13 +137,13 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
     /**
      * 获取好友列表
      *
-     * @param teamId 手机号
+     * @param taskId 任务编号
      */
-    private void obtainTeamMemberList(String teamId) {
+    private void obtainTeamMemberList(String taskId) {
         OkHttpUtils
                 .post()
-                .url(ConstantUrl.teamMemberUrl + ConstantUrl.obtainTeamMember_interface)
-                .addParams("teamId", teamId)
+                .url(ConstantUrl.taskMemberUrl + ConstantUrl.obtainTaskMember_interface)
+                .addParams("taskId", taskId)
                 .build()
                 .execute(new MyTeamMemberCallback());
 
@@ -152,7 +159,7 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
 
             e.printStackTrace();
             L.e(TAG, "onError:" + e.getMessage());
-            T.testShowShort(getActivity(), "获取失败,服务器正在维护中");
+            T.testShowShort(TaskMemberActivity.this, "获取失败,服务器正在维护中");
         }
 
         @Override
@@ -160,19 +167,19 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
 
             if (response.equals("[]")) {
 
-                T.testShowShort(getActivity(), "您当前无社团成员");
+                T.testShowShort(TaskMemberActivity.this, "当前活动无成员");
 
             } else {
-                T.testShowShort(getActivity(), "社团成员获取成功");
+                T.testShowShort(TaskMemberActivity.this, "活动成员获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new GsonBuilder().setDateFormat(Constant.formatType).create();
-                teamMembers = gson.fromJson(response, new TypeToken<List<TeamMember>>() {
+                taskMembers = gson.fromJson(response, new TypeToken<List<TaskMember>>() {
                 }.getType());
 
 
-                portraitBitmaps = new Bitmap[teamMembers.size()];
-                for (int i = 0; i < teamMembers.size(); i++) {
-                    obtainImage(teamMembers.get(i).getUserId().getUserImage(), i);
+                portraitBitmaps = new Bitmap[taskMembers.size()];
+                for (int i = 0; i < taskMembers.size(); i++) {
+                    obtainImage(taskMembers.get(i).getUserId().getUserImage(), i);
                 }
             }
         }
@@ -210,9 +217,14 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
                 });
     }
 
+    private void initDatas() {
+        titleName.setText("活动成员列表");
+    }
+
 
     private void initListener() {
-        friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
@@ -222,57 +234,50 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
                     L.e(TAG, userId);
                     L.e(TAG, userNickname);
                     //打开个人信息界面（个人信息界面包含发送消息）
-                    Intent intent = new Intent(getActivity(), PersionInformationActivity.class);
+                    Intent intent = new Intent(TaskMemberActivity.this, PersionInformationActivity.class);
                     intent.putExtra("userId", userId);
                     intent.putExtra("userNickname", userNickname);
                     intent.putExtra("openState", "friend");  //好友
                     startActivity(intent);
                 }
-
-
             }
         });
-
 
         //设置刷新监听
         swipeLayout.setOnRefreshListener(this);
-
-
+        iv_reutrn.setOnClickListener(this);
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.id_title_back:
+                finish();
+                break;
+            default:
+                break;
+        }
+    }
 
     private void initSidebarAndView() {
-        // 设置字母导航触摸监听
-        sidebar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
 
-            @Override
-            public void onTouchingLetterChanged(String s) {
-                // TODO Auto-generated method stub
-                // 该字母首次出现的位置
-                int position = teamMemberAdapter.getPositionForSelection(s.charAt(0));
-
-                if (position != -1) {
-                    friendListView.setSelection(position);
-                }
-            }
-        });
-
-
-        String[] names = new String[teamMembers.size()];
-        String[] phones = new String[teamMembers.size()];
-        for (int i = 0; i < teamMembers.size(); i++) {
-            names[i] = teamMembers.get(i).getUserId().getUserNickname();
-            phones[i] = teamMembers.get(i).getUserId().getUserPhone();
+        String[] names = new String[taskMembers.size()];
+        String[] phones = new String[taskMembers.size()];
+        for (int i = 0; i < taskMembers.size(); i++) {
+            names[i] = taskMembers.get(i).getUserId().getUserNickname();
+            phones[i] = taskMembers.get(i).getUserId().getUserPhone();
         }
         personBeenList = getData(names, phones);  //真实数据
 
         // 数据在放在adapter之前需要排序
         Collections.sort(personBeenList, new PinyinComparator());
 
-        teamMemberAdapter = new TeamMemberAdapter(getActivity(), personBeenList);
+        //对加入时间排序
 
-        friendListView.setAdapter(teamMemberAdapter);
+        taskMemberAdapter = new TaskMemberAdapter(TaskMemberActivity.this, personBeenList);
+
+        taskListView.setAdapter(taskMemberAdapter);
     }
 
 
@@ -295,7 +300,7 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
             person.setImage(portraitBitmaps[i]);
             person.setPinYin(pinyin);
             person.setPhone(phones[i]);
-            person.setTeamMemberPosition(teamMembers.get(i).getTeamMemberPosition());
+            person.setTaskMemberJoinTime(taskMembers.get(i).getTaskMemberJoinTime());
             // 正则表达式，判断首字母是否是英文字母
             if (Fpinyin.matches("[A-Z]")) {
                 person.setFirstPinYin(Fpinyin);
@@ -324,7 +329,7 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
                 if (personBeenList != null) {
                     personBeenList.clear();
                 }
-                obtainTeamMemberList(teamId.toString());
+                obtainTeamMemberList(taskId.toString());
                 //请求是否有更新（在这个时间段后）
                 swipeLayout.setRefreshing(false);
             }

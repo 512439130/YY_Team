@@ -17,18 +17,16 @@ import java.util.List;
  * Created by 13160677911 on 2017-4-9.
  */
 
-public class TeamMemberAdapter extends BaseAdapter {
+public class TaskMemberAdapter extends BaseAdapter {
     private Context context;
     private List<PersonBean> persons;
     private LayoutInflater inflater;
-    private static final String TAG = "TeamMemberAdapter:";
+    private static final String TAG = "TaskMemberAdapter:";
 
-    public TeamMemberAdapter(Context context, List<PersonBean> persons) {
+    public TaskMemberAdapter(Context context, List<PersonBean> persons) {
         this.context = context;
         this.persons = persons;
         this.inflater = LayoutInflater.from(context);
-
-
 
     }
 
@@ -56,30 +54,19 @@ public class TeamMemberAdapter extends BaseAdapter {
         final PersonBean person = persons.get(position);
         if (convertView == null) {
             viewholder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.item_team_member, null);
+            convertView = inflater.inflate(R.layout.item_task_member, null);
             viewholder.tv_tag = (TextView) convertView.findViewById(R.id.tv_lv_item_tag);
             viewholder.tv_name = (TextView) convertView.findViewById(R.id.item_name_tv);
             viewholder.iv_portrait = (ImageView) convertView.findViewById(R.id.item_head_iv);
-            viewholder.tv_team_position = (TextView) convertView.findViewById(R.id.team_position_tv);
-
+            viewholder.task_time = (TextView) convertView.findViewById(R.id.task_time);
             convertView.setTag(viewholder);
         } else {
             viewholder = (ViewHolder) convertView.getTag();
         }
-        // 获取首字母的assii值
-        int selection = person.getFirstPinYin().charAt(0);
-        // 通过首字母的assii值来判断是否显示字母
-        int positionForSelection = getPositionForSelection(selection);
-        if (position == positionForSelection) {// 相等说明需要显示字母
-            viewholder.tv_tag.setVisibility(View.VISIBLE);
-            viewholder.tv_tag.setText(person.getFirstPinYin());
-        } else {
-            viewholder.tv_tag.setVisibility(View.GONE);
 
-        }
         viewholder.tv_name.setText(person.getName());
         viewholder.iv_portrait.setImageBitmap(person.getImage());
-        viewholder.tv_team_position.setText(person.getTeamMemberPosition());
+        viewholder.task_time.setText(person.getTaskMemberJoinTime());
 
         return convertView;
     }
@@ -99,7 +86,7 @@ public class TeamMemberAdapter extends BaseAdapter {
         TextView tv_tag;
         TextView tv_name;
         ImageView iv_portrait;
-        TextView tv_team_position;
+        TextView task_time;
     }
 
 

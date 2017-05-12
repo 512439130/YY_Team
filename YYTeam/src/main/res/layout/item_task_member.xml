@@ -3,17 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!-- 这个TextView就是显示字母的 -->
-    <TextView
-        android:id="@+id/tv_lv_item_tag"
-        android:layout_width="match_parent"
-        android:layout_height="26dp"
-        android:background="#e2e2e2"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:textSize="16sp"
-        android:text="Z"
-        android:visibility="visible" />
+
 
     <RelativeLayout
         android:id="@+id/id_friend_item"
@@ -45,13 +35,26 @@
             android:text="周华健"/>
 
 
-        <TextView
-            android:id="@+id/team_position_tv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="加入时间:"/>
+            <TextView
+                android:id="@+id/task_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2017-02-28 22:22:22"
+                android:layout_marginLeft="10dp"
+                />
+
+        </LinearLayout>
 
 
     </RelativeLayout>

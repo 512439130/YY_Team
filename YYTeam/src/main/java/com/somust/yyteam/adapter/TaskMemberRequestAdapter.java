@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
-import com.somust.yyteam.bean.AllUser;
+import com.somust.yyteam.bean.AllTask;
 
 import java.util.List;
 
@@ -18,29 +18,31 @@ import java.util.List;
  * Created by yetwish on 2015-05-11
  */
 
-public class FriendRequestAdapter extends BaseAdapter implements View.OnClickListener {
+public class TaskMemberRequestAdapter extends BaseAdapter implements View.OnClickListener {
+
+    private static final String TAG = "TeamMemberRequestAdapter:";
     private Context context;
-    private List<AllUser> allUsers;
+    private List<AllTask> allTasks;
     private LayoutInflater inflater;
-    private static final String TAG = "FriendRequestAdapter:";
+
+
+
+    private TaskMemberRequestCallback mCallback; //注：所有listview的item共用同一个
+
     /**
      * 自定义接口，用于回调按钮点击事件到Activity
      *
      * @author Ivan Xu
      *         2014-11-26
      */
-    public interface FriendRequestCallback {
+    public interface TaskMemberRequestCallback {
         void agreeClick(View v);  //同意按钮的点击事件
         void refuseClick(View v); //拒绝按钮的点击事件
     }
 
-    private FriendRequestCallback mCallback; //注：所有listview的item共用同一个
-
-
-
-    public FriendRequestAdapter(Context context, List<AllUser> users, FriendRequestCallback callback) {
+    public TaskMemberRequestAdapter(Context context, List<AllTask> tasks, TaskMemberRequestCallback callback) {
         this.context = context;
-        this.allUsers = users;
+        this.allTasks = tasks;
         this.inflater = LayoutInflater.from(context);
         this.mCallback = callback;
 
@@ -50,13 +52,13 @@ public class FriendRequestAdapter extends BaseAdapter implements View.OnClickLis
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return allUsers.size();
+        return allTasks.size();
     }
 
     @Override
     public Object getItem(int position) {
         // TODO Auto-generated method stub
-        return allUsers.get(position);
+        return allTasks.get(position);
     }
 
     @Override
@@ -68,10 +70,10 @@ public class FriendRequestAdapter extends BaseAdapter implements View.OnClickLis
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewholder = null;
-        final AllUser allUser = allUsers.get(position);
+        final AllTask allTask = allTasks.get(position);
         if (convertView == null) {
             viewholder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.item_friend_request, null);
+            convertView = inflater.inflate(R.layout.item_task_member_request, null);
             viewholder.user_image = (ImageView) convertView.findViewById(R.id.user_image);
 
             viewholder.user_name = (TextView) convertView.findViewById(R.id.user_name);
@@ -88,15 +90,15 @@ public class FriendRequestAdapter extends BaseAdapter implements View.OnClickLis
         } else {
             viewholder = (ViewHolder) convertView.getTag();
         }
-        viewholder.user_image.setImageBitmap(allUser.getUserImage());
+        viewholder.user_image.setImageBitmap(allTask.getUserImage());
 
-        viewholder.user_name.setText(allUser.getUserNickname());
-        viewholder.user_phone.setText(allUser.getUserPhone());
+        viewholder.user_name.setText(allTask.getUserNickname());
+        viewholder.user_phone.setText(allTask.getUserPhone());
 
-        if(allUser.getFriendRequestReason().equals("")){
-            allUser.setFriendRequestReason("我想撩你~");
+        if(allTask.getTaskMemberRequestReason().equals("")){
+            allTask.setTaskMemberRequestReason("我想撩你~");
         }
-        viewholder.request_reason.setText(allUser.getFriendRequestReason());
+        viewholder.request_reason.setText(allTask.getTaskMemberRequestReason());
 
         viewholder.btn_agree.setTag(position);
         viewholder.btn_agree.setOnClickListener(this);

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.CreateTeamNewsActivity;
 import com.somust.yyteam.activity.LoginActivity;
+import com.somust.yyteam.activity.TaskResponsibleActivity;
 import com.somust.yyteam.activity.TeamMemberRequestActivity;
 import com.somust.yyteam.activity.UpdateTeamInfoActivity;
 import com.somust.yyteam.bean.TeamMember;
@@ -53,7 +54,6 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
     private LinearLayout mTeamRequest;
     private LinearLayout mUpdateTeamMessage;
     private LinearLayout mExamineTask;
-    private LinearLayout mTaskMessage;
     private LinearLayout mSendNew;
     private LinearLayout mSendTask;
     private LinearLayout mTeamnout;
@@ -104,7 +104,7 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
         if (teamMember.getTeamMemberPosition().equals("社长")) {
             //隐藏发布社团新闻
             //隐藏社团任务通知
-            mTaskMessage.setVisibility(View.GONE);
+
             mSendNew.setVisibility(View.GONE);
         } else if (teamMember.getTeamMemberPosition().equals("部长")) {
             //隐藏发布社团新闻
@@ -132,7 +132,7 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
         mUpdateTeamMessage = (LinearLayout) mView.findViewById(R.id.id_member_mine_team_update_message);
         mExamineTask = (LinearLayout) mView.findViewById(R.id.id_member_mine_team_examine_task);
 
-        mTaskMessage = (LinearLayout) mView.findViewById(R.id.id_member_mine_task_message);
+
         mSendNew = (LinearLayout) mView.findViewById(R.id.id_member_mine_send_new);
         mSendTask = (LinearLayout) mView.findViewById(R.id.id_member_mine_send_task);
         mTeamnout = (LinearLayout) mView.findViewById(R.id.id_member_mine_sign_out);
@@ -140,7 +140,7 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
         mTeamRequest.setOnClickListener(this);
         mUpdateTeamMessage.setOnClickListener(this);
         mExamineTask.setOnClickListener(this);
-        mTaskMessage.setOnClickListener(this);
+
         mSendNew.setOnClickListener(this);
         mSendTask.setOnClickListener(this);
         mTeamnout.setOnClickListener(this);
@@ -159,7 +159,6 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.id_member_mine_team_request:  //社团添加请求
-
                 L.v(TAG, "社团添加请求");
                 //查看添加请求的列表（带下拉刷新）
                 intent = new Intent(getActivity(), TeamMemberRequestActivity.class);
@@ -179,9 +178,6 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
             case R.id.id_member_mine_team_examine_task:  //审核任务总结
                 L.v(TAG, "审核任务总结");
                 break;
-            case R.id.id_member_mine_task_message://任务通知消息
-                L.v(TAG, "任务通知消息");
-                break;
             case R.id.id_member_mine_send_new:  //发布社团新闻
                 L.v(TAG, "发布社团新闻");
                 intent = new Intent(getActivity(), CreateTeamNewsActivity.class);
@@ -192,8 +188,13 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.id_member_mine_send_task://发送任务安排
                 L.v(TAG, "发送任务安排");
-
+                intent = new Intent(getActivity(), TaskResponsibleActivity.class);
+                //传值
+                intent.putExtra("user", user);
+                intent.putExtra("teamMember", teamMember);
+                startActivity(intent);
                 break;
+
             case R.id.id_member_mine_sign_out:  //申请退出社团
                 L.v(TAG, "申请退出社团");
                 break;

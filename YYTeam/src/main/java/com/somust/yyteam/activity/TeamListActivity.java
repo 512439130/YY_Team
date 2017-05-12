@@ -180,15 +180,16 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
         teamNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //新闻item的点击事件
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    L.v(TAG,"数据获取完成");
-                    TeamMember teamMember = teamMembers.get(position-1);  //获取当前item的bean
+                if (position != 0) {
+                    L.v(TAG, "数据获取完成");
+                    TeamMember teamMember = teamMembers.get(position - 1);  //获取当前item的bean
 
                     Intent intent = new Intent(TeamListActivity.this, TeamHomeActivity.class);
                     intent.putExtra("user", user);
                     intent.putExtra("teamMember", teamMember);
                     startActivity(intent);
                     finish();
+                }
 
             }
         });
@@ -252,10 +253,11 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
                     //teamMemberMessage.setTeamImage();
 
                 }
-                initDatas();
+
 
 
             }
+            initDatas();
         }
     }
 

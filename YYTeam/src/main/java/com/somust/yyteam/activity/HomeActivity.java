@@ -42,30 +42,21 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
-
-
     private ViewPager mViewPager;
     private List<ChangeColorIconWithText> mTabIndicators = new ArrayList<ChangeColorIconWithText>();
     private FragmentPagerAdapter mFragmentPagerAdapter;//将tab页面持久在内存中
     private Fragment mConversationList;  //会话界面Fragment
     private Fragment mConversationFragment = null;
-
     private List<Fragment> mFragment = new ArrayList<>();
 
     private static final String TAG = "HomeActivity:";
 
     private User user;    //登录用户的信息
-
     private ImageView iv_add;
     private ImageView iv_search;
-
     private TitlePopup addTitlePopup;
-
     private TitlePopup searchTitlePopup;
-
-
     private Activity mActivity;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,8 +140,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         addTitlePopup.addAction(new ActionItem(this, R.string.qrcode, R.mipmap.icon_menu_sao));
         addTitlePopup.addAction(new ActionItem(this, R.string.money, R.mipmap.abv));
     }
-
-
     private void initDatas() {
 
         mConversationList = initConversationList();  //获取融云会话列表的对象

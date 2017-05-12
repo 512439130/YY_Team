@@ -136,10 +136,7 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
         // 给标题栏弹窗添加子类
         titlePopup.addAction(new ActionItem(this, R.string.team_create,
                 R.mipmap.icon_menu_group));
-        titlePopup.addAction(new ActionItem(this, R.string.send_team_task,
-                R.mipmap.icon_menu_addfriend));
-        titlePopup.addAction(new ActionItem(this, R.string.see_tem_task,
-                R.mipmap.icon_menu_sao));
+
     }
 
     private void initDatas() {
@@ -268,13 +265,6 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
                     intent = new Intent(TeamHomeActivity.this, CreateTeamActivity.class);
                     intent.putExtra("user", user);
                     startActivity(intent);
-
-                    break;
-                case 1:// 发布任务安排
-                    T.testShowShort(TeamHomeActivity.this, "发布任务安排");
-                    break;
-                case 2:// 查看任务通知
-                    T.testShowShort(TeamHomeActivity.this, "查看任务通知");
                     break;
                 default:
                     break;

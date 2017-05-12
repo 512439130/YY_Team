@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff">
+
+    <include layout="@layout/actionbar_base"/>
+
+    <EditText
+        android:id="@+id/task_summary_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_stroke_yy"
+        android:layout_gravity="center_horizontal"
+        android:hint="请输入活动总结，不少于50字~"
+        android:layout_margin="10dp"
+        android:minLines="15"
+        android:maxLines="15"
+        android:textColor="#000000"
+        android:textColorHint="#ff0000"
+        android:textSize="20sp"
+        android:gravity="top"
+        android:padding="3dp"
+        />
+
+    <Button
+        android:id="@+id/task_summary_btn"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:enabled="true"
+        android:text="活动总结"
+        android:textColor="#ffffff" />
+
+</LinearLayout>

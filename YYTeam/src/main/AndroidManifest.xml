@@ -225,8 +225,6 @@
         <!--大学社团列表-->
         <activity android:name=".activity.TeamActivity"
             android:launchMode="singleTop">
-
-
         </activity>
 
         <!--加入社团请求界面-->
@@ -249,19 +247,48 @@
             android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
-
+        <!--大学社团列表-->
         <activity android:name=".activity.TeamListActivity"
             android:launchMode="singleTop">
 
         </activity>
+        <!--社团活动列表-->
         <activity android:name=".activity.TeamTaskActivity"
             android:launchMode="singleTop">
 
         </activity>
+        <!--活动信息-->
+        <activity android:name=".activity.TaskInformationActivity">
 
+        </activity>
+        <!--活动报名界面-->
+        <activity android:name=".activity.TaskMemberRequestActivity"
+            android:launchMode="singleTop">
 
+        </activity>
+        <!--活动人人员界面-->
+        <activity android:name=".activity.TaskMemberActivity"
+            android:launchMode="singleTop">
 
+        </activity>
+        <!--我的任务界面-->
+        <activity android:name=".activity.MyTeamTaskActivity"
+            android:launchMode="singleTop">
 
+        </activity>
+        <!--选择负责人界面-->
+        <activity android:name=".activity.TaskResponsibleActivity"
+            android:launchMode="singleTop">
+
+        </activity>
+        <!--发布任务界面-->
+        <activity android:name=".activity.CreateTeamTaskActivity">
+
+        </activity>
+        <!--活动总结界面-->
+        <activity android:name=".activity.TaskSummaryActivity">
+
+        </activity>
         <!-- 测试环境 -->
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"

@@ -1,10 +1,12 @@
 package com.somust.yyteam.adapter;
 
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,22 +16,19 @@ import com.somust.yyteam.bean.PersonBean;
 import java.util.List;
 
 /**
- * Created by 13160677911 on 2017-4-9.
+ * Created by 13160677911 on 2017-4-11.
  */
 
-public class TeamMemberAdapter extends BaseAdapter {
+public class TaskResponsibleAdapter extends BaseAdapter {
     private Context context;
     private List<PersonBean> persons;
     private LayoutInflater inflater;
-    private static final String TAG = "TeamMemberAdapter:";
+    private static final String TAG = "TaskResponsibleAdapter:";
 
-    public TeamMemberAdapter(Context context, List<PersonBean> persons) {
+    public TaskResponsibleAdapter(Context context, List<PersonBean> persons) {
         this.context = context;
         this.persons = persons;
         this.inflater = LayoutInflater.from(context);
-
-
-
     }
 
     @Override
@@ -56,10 +55,11 @@ public class TeamMemberAdapter extends BaseAdapter {
         final PersonBean person = persons.get(position);
         if (convertView == null) {
             viewholder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.item_team_member, null);
+            convertView = inflater.inflate(R.layout.item_task_responsible, null);
             viewholder.tv_tag = (TextView) convertView.findViewById(R.id.tv_lv_item_tag);
-            viewholder.tv_name = (TextView) convertView.findViewById(R.id.item_name_tv);
-            viewholder.iv_portrait = (ImageView) convertView.findViewById(R.id.item_head_iv);
+            viewholder.tv_name = (TextView) convertView.findViewById(R.id.tv_lv_item_name);
+            viewholder.iv_portrait = (ImageView) convertView.findViewById(R.id.iv_lv_item_head);
+            viewholder.cb_select = (CheckBox) convertView.findViewById(R.id.id_cb_checkbox);
             viewholder.tv_team_position = (TextView) convertView.findViewById(R.id.team_position_tv);
 
             convertView.setTag(viewholder);
@@ -80,7 +80,6 @@ public class TeamMemberAdapter extends BaseAdapter {
         viewholder.tv_name.setText(person.getName());
         viewholder.iv_portrait.setImageBitmap(person.getImage());
         viewholder.tv_team_position.setText(person.getTeamMemberPosition());
-
         return convertView;
     }
 
@@ -99,8 +98,7 @@ public class TeamMemberAdapter extends BaseAdapter {
         TextView tv_tag;
         TextView tv_name;
         ImageView iv_portrait;
+        CheckBox cb_select;
         TextView tv_team_position;
     }
-
-
 }

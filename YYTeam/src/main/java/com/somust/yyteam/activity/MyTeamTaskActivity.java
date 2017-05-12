@@ -8,12 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,7 +18,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
-import com.somust.yyteam.adapter.TeamTaskAdapter;
+import com.somust.yyteam.adapter.MyTeamTaskAdapter;
+import com.somust.yyteam.bean.TaskMember;
 import com.somust.yyteam.bean.TeamTask;
 import com.somust.yyteam.bean.TeamTaskMessage;
 import com.somust.yyteam.bean.User;
@@ -46,8 +43,8 @@ import okhttp3.Call;
 /**
  * 社团任务列表
  */
-public class TeamTaskActivity extends Activity implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener {
-    private static final String TAG = "TeamTaskActivity:";
+public class MyTeamTaskActivity extends Activity implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener {
+    private static final String TAG = "MyTeamTaskActivity:";
     private ImageView iv_reutrn;
     private TextView titleName;
     private View header;
@@ -55,9 +52,9 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
     private RefreshLayout swipeLayout;
 
     private ListView teamNewsListView;
-    private TeamTaskAdapter teamTaskAdapter;
+    private MyTeamTaskAdapter myTeamTaskAdapter;
 
-    public List<TeamTask> teamTasks = new ArrayList<>();   //存放网络接受的数据
+    public List<TaskMember> taskMembers = new ArrayList<>();   //存放网络接受的数据
     public List<TeamTaskMessage> teamTaskMessages = new ArrayList<>();   //将网络接收的数据装换为相应bean
 
 
@@ -73,13 +70,13 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team_task);
+        setContentView(R.layout.activity_my_team_task);
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
 
         immersiveStatusBar();
         initView();
-        requestData();
+        requestData(user.getUserId().toString());
         initListener();
     }
 
@@ -109,7 +106,7 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
         titleName = (TextView) findViewById(R.id.actionbar_name);
 
         //头部
-        header = getLayoutInflater().inflate(R.layout.team_task_header, null);
+        header = getLayoutInflater().inflate(R.layout.my_team_task_header, null);
 
 
         swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
@@ -125,17 +122,15 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
 
-
             if (bundle.getString("team_success") == "team_success") {  //社团图片成功获取
                 for(int i = 0;i<teamTaskMessages.size();i++){
                     teamTaskMessages.get(i).setTeamImage(teamBitmaps[i]);
-
                 }
                 teamFlag = true;
             }
             if(teamFlag){   //2张图片都请求成功时
                 //请求是否有更新（在这个时间段后）
-                teamTaskAdapter.notifyDataSetChanged();
+                myTeamTaskAdapter.notifyDataSetChanged();
             }
 
         }
@@ -145,9 +140,9 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
      * 添加数据
      */
     private void initDatas() {
-        titleName.setText("社团活动报名");
-        teamTaskAdapter = new TeamTaskAdapter(TeamTaskActivity.this, teamTaskMessages);
-        teamNewsListView.setAdapter(teamTaskAdapter);
+        titleName.setText("我的社团活动");
+        myTeamTaskAdapter = new MyTeamTaskAdapter(MyTeamTaskActivity.this, teamTaskMessages);
+        teamNewsListView.setAdapter(myTeamTaskAdapter);
     }
     /**
      * 设置监听
@@ -158,17 +153,16 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
         teamNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //新闻item的点击事件
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(teamTasks != null ){
+                if(taskMembers != null ){
                     L.v(TAG,"数据获取完成");
                     if (position != 0) {
                         //因为加头部，必须-1
-                        TeamTask teamTask = teamTasks.get(position - 1);  //获取当前item的bean
-                        Intent intent = new Intent(TeamTaskActivity.this, TaskInformationActivity.class);
+                        TeamTask teamTask = taskMembers.get(position - 1).getTaskId();  //获取当前item的bean
+                        Intent intent = new Intent(MyTeamTaskActivity.this, TaskInformationActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("teamTask", teamTask);
                         bundle.putSerializable("user", user);
-                        bundle.putString("taskState","noRegister");  //未报名状态
-
+                        bundle.putString("taskState","register");
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
@@ -181,10 +175,11 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
     /**
      * 获取全部活动
      */
-    private void requestData() {
+    private void requestData(String userId) {
         OkHttpUtils
                 .post()
-                .url(ConstantUrl.teamTaskUrl + ConstantUrl.getTeamTask_interface)
+                .url(ConstantUrl.taskMemberUrl + ConstantUrl.getTaskByUserId_interface)
+                .addParams("userId",userId)
                 .build()
                 .execute(new MyTeamTaskRequestCallback());
 
@@ -211,7 +206,7 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
 
             e.printStackTrace();
             L.e(TAG, "onError:" + e.getMessage());
-            T.testShowShort(TeamTaskActivity.this, "获取失败,服务器正在维护中");
+            T.testShowShort(MyTeamTaskActivity.this, "获取失败,服务器正在维护中");
         }
 
         @Override
@@ -219,36 +214,36 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
 
 
             if (response.equals("[]")) {
-                T.testShowShort(TeamTaskActivity.this, "当前无活动");
+                T.testShowShort(MyTeamTaskActivity.this, "当前无活动");
             } else {
 
-                T.testShowShort(TeamTaskActivity.this, "所有社团活动获取成功");
+                T.testShowShort(MyTeamTaskActivity.this, "我的社团活动获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();
-                teamTasks = gson.fromJson(response, new TypeToken<List<TeamTask>>() {
+                taskMembers = gson.fromJson(response, new TypeToken<List<TaskMember>>() {
                 }.getType());
 
-                DateUtil.TeamTaskSortDate(teamTasks);   //对社团活动结果排序
+                DateUtil.TaskMemberSortDate(taskMembers);   //对社团活动结果排序
 
-                teamBitmaps= new Bitmap[teamTasks.size()];
+                teamBitmaps= new Bitmap[taskMembers.size()];
 
 
-                for (int i = 0; i < teamTasks.size(); i++) {
+                for (int i = 0; i < taskMembers.size(); i++) {
                     TeamTaskMessage message = new TeamTaskMessage();
-                    message.setTaskId(teamTasks.get(i).getTaskId());
-                    message.setTaskTitle(teamTasks.get(i).getTaskTitle());
-                    message.setTaskContent(teamTasks.get(i).getTaskContent());
-                    message.setTaskReleaseId(teamTasks.get(i).getTaskReleaseId().toString());
-                    message.setTeamMemberId(teamTasks.get(i).getTaskResponsibleId().getTeamMemberId().toString());
-                    message.setTaskState(teamTasks.get(i).getTaskState());
-                    message.setTaskCreateTime(teamTasks.get(i).getTaskCreateTime());
-                    message.setTaskMaxNumber(teamTasks.get(i).getTaskMaxNumber().toString());
-                    message.setTaskSummary(teamTasks.get(i).getTaskSummary());
-                    message.setTeamName(teamTasks.get(i).getTaskResponsibleId().getTeamId().getTeamName());
-                    message.setTaskResponsibleNickname(teamTasks.get(i).getTaskResponsibleId().getUserId().getUserNickname());
+                    message.setTaskId(taskMembers.get(i).getTaskId().getTaskId());
+                    message.setTaskTitle(taskMembers.get(i).getTaskId().getTaskTitle());
+                    message.setTaskContent(taskMembers.get(i).getTaskId().getTaskContent());
+                    message.setTaskReleaseId(taskMembers.get(i).getTaskId().getTaskReleaseId().toString());
+                    message.setTeamMemberId(taskMembers.get(i).getTaskId().getTaskResponsibleId().getTeamMemberId().toString());
+                    message.setTaskState(taskMembers.get(i).getTaskId().getTaskState());
+                    message.setTaskCreateTime(taskMembers.get(i).getTaskId().getTaskCreateTime());
+                    message.setTaskMaxNumber(taskMembers.get(i).getTaskId().getTaskMaxNumber().toString());
+                    message.setTaskSummary(taskMembers.get(i).getTaskId().getTaskSummary());
+                    message.setTeamName(taskMembers.get(i).getTaskId().getTaskResponsibleId().getTeamId().getTeamName());
+                    message.setTaskResponsibleNickname(taskMembers.get(i).getTaskId().getTaskResponsibleId().getUserId().getUserNickname());
 
                     //通过网络请求获取图片
-                    obtainTeamImage(teamTasks.get(i).getTaskResponsibleId().getTeamId().getTeamImage(), i);
+                    obtainTeamImage(taskMembers.get(i).getTaskId().getTaskResponsibleId().getTeamId().getTeamImage(), i);
                     teamTaskMessages.add(message);
 
                 }
@@ -311,7 +306,7 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
                 teamTaskMessages.clear();
-                requestData();
+                requestData(user.getUserId().toString());
 
                 swipeLayout.setRefreshing(false);
             }

@@ -158,16 +158,17 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(intentDatas != null ){
                     L.v(TAG,"数据获取完成");
+                    if (position != 0) {
+                        //intent传递新闻id
+                        TeamNews teamNews = intentDatas.get(position - 1);  //获取当前item的bean
 
-                    //intent传递新闻id
-                    TeamNews teamNews = intentDatas.get(position-1);  //获取当前item的bean
-
-                    Intent intent = new Intent(getActivity(), TeamNewsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("teamNews",teamNews);
-                    bundle.putSerializable("user",user);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                        Intent intent = new Intent(getActivity(), TeamNewsActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("teamNews", teamNews);
+                        bundle.putSerializable("user", user);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
                 }
             }
         });

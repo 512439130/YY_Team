@@ -23,6 +23,7 @@
     <string name="login_add_friend">添加好友</string>
     <string name="login_send_message">发消息</string>
     <string name="login_add_team">申请加入</string>
+    <string name="login_add_task">报名活动</string>
 
     <!--title_bar_home_popwindow-->
     <string name="groupchat">创建讨论组</string>

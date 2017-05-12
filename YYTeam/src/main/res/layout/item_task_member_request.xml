@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants"
+    android:background="#ffffff">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+
+        <com.somust.yyteam.view.ImageViewPlus
+            android:id="@+id/user_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_launcher"
+            android:adjustViewBounds="true"
+            android:layout_margin="8dp"
+
+            android:layout_marginLeft="5dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/user_image"
+            android:layout_marginLeft="5dp">
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#333333"
+                android:text="梓琳"/>
+            <TextView
+                android:id="@+id/user_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/iv_lv_item_head"
+                android:textSize="13sp"
+                android:textColor="#333333"
+                android:text="13160677911"/>
+
+            <TextView
+                android:id="@+id/request_reason"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/iv_lv_item_head"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你我喜欢你"
+                android:textColor="#00FA9A"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_refuse"
+            android:layout_width="55dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+            android:text="@string/request_refuse"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+        <Button
+            android:id="@+id/btn_agree"
+            android:layout_width="55dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/btn_refuse"
+            android:background="@drawable/selector_bg_theme2oragne2grey_with_corner"
+            android:text="@string/request_agree"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/id_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#cccccc"
+        android:layout_above="@id/tv_lv_item_name"
+        />
+
+</LinearLayout>

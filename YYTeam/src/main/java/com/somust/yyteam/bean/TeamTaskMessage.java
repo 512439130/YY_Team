@@ -15,6 +15,7 @@ public class TeamTaskMessage {
         private String taskSummary;
         private String teamName;
         private Bitmap teamImage;
+        private String taskResponsibleNickname;
 
         public Integer getTaskId() {
                 return taskId;
@@ -102,5 +103,13 @@ public class TeamTaskMessage {
 
         public void setTeamImage(Bitmap teamImage) {
                 this.teamImage = teamImage;
+        }
+
+        public String getTaskResponsibleNickname() {
+                return taskResponsibleNickname;
+        }
+
+        public void setTaskResponsibleNickname(String taskResponsibleNickname) {
+                this.taskResponsibleNickname = taskResponsibleNickname;
         }
 }

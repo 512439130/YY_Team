@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.jrmf360.rylib.JrmfClient;
 import com.somust.yyteam.R;
+import com.somust.yyteam.activity.MyTeamTaskActivity;
 import com.somust.yyteam.activity.TeamListActivity;
 import com.somust.yyteam.activity.TeamTaskActivity;
 import com.somust.yyteam.activity.UpdateUserInfoActivity;
@@ -69,9 +70,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout user_update_message;
     private RelativeLayout mRepass;
     private RelativeLayout mTeam;
+    private RelativeLayout mTeamManager;
     private RelativeLayout mTeamTask;
 
-    private RelativeLayout mTeamManager;
+    private RelativeLayout mMyTeamTask;
     private TextView mTeamManagerLine;
     private RelativeLayout mMoney;
     private RelativeLayout mSignout;
@@ -221,8 +223,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         user_update_message = (RelativeLayout) mView.findViewById(R.id.user_update_message);
         mRepass = (RelativeLayout) mView.findViewById(R.id.id_mine_repass);
         mTeam = (RelativeLayout) mView.findViewById(R.id.id_mine_team);
-        mTeamTask = (RelativeLayout) mView.findViewById(R.id.id_mine_team_task);
+
         mTeamManager = (RelativeLayout) mView.findViewById(R.id.id_mine_team_manager);
+        mTeamTask = (RelativeLayout) mView.findViewById(R.id.id_mine_team_task);
+        mMyTeamTask = (RelativeLayout) mView.findViewById(R.id.id_mine_my_team_task);
         mTeamManagerLine = (TextView) mView.findViewById(R.id.id_mine_line);
         mMoney = (RelativeLayout) mView.findViewById(R.id.id_mine_money);
         mSignout = (RelativeLayout) mView.findViewById(R.id.id_mine_sign_out);
@@ -232,8 +236,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         user_update_message.setOnClickListener(this);
         mRepass.setOnClickListener(this);
         mTeam.setOnClickListener(this);
-        mTeamTask.setOnClickListener(this);
         mTeamManager.setOnClickListener(this);
+        mTeamTask.setOnClickListener(this);
+        mMyTeamTask.setOnClickListener(this);
         mMoney.setOnClickListener(this);
         mSignout.setOnClickListener(this);
 
@@ -257,7 +262,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.user_update_message:  //维护个人信息
-
                 intent = new Intent(getActivity(), UpdateUserInfoActivity.class);
                 intent.putExtra("user", user);
                 startActivityForResult(intent, Activity.RESULT_FIRST_USER);
@@ -273,12 +277,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
-            case R.id.id_mine_team_task://社团活动报名
-                //先判断team_id是否为空
-                intent = new Intent(getActivity(), TeamTaskActivity.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
-                break;
+
             case R.id.id_mine_team_manager://我的社团
                 if (teamFlag) {
                     //打开我的社团列表
@@ -286,12 +285,19 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     intent.putExtra("user", user);
                     intent.putExtra("teamMembers", (Serializable) teamMembers);
                     startActivity(intent);
-                   /* intent = new Intent(getActivity(), TeamHomeActivity.class);
-                    intent.putExtra("user", user);
-                    intent.putExtra("teamMembers", (Serializable) teamMembers);
-                    startActivity(intent);*/
                 }
                 break;
+            case R.id.id_mine_team_task://社团活动报名
+                intent = new Intent(getActivity(), TeamTaskActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                break;
+            case R.id.id_mine_my_team_task://我的社团活动
+                intent = new Intent(getActivity(), MyTeamTaskActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                break;
+
             case R.id.id_mine_money://打开我的钱包页面
                 JrmfClient.intentWallet(getActivity());
                 break;

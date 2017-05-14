@@ -20,12 +20,12 @@ import java.util.List;
 /**
  * 社团活动
  */
-public class TeamMemberTaskAdapter extends BaseAdapter implements View.OnClickListener {
+public class ExammineTeamTaskAdapter extends BaseAdapter implements View.OnClickListener {
     public List<TeamTaskMessage> teamTaskMessages = new ArrayList<>();
 
     public Context context;
     public LayoutInflater layoutInflater;
-    private TaskMemberRequestCallback mCallback; //注：所有listview的item共用同一个
+    private ExamineTaskCallback mCallback; //注：所有listview的item共用同一个
 
     /**
      * 自定义接口，用于回调按钮点击事件到Activity
@@ -33,17 +33,11 @@ public class TeamMemberTaskAdapter extends BaseAdapter implements View.OnClickLi
      * @author Ivan Xu
      *         2014-11-26
      */
-    public interface TaskMemberRequestCallback {
-        void runTaskClick(View v); //开始任务的点击事件
-
-        void taskMemberClick(View v);  //活动人员按钮的点击事件
-
-        void addAuditClick(View v); //审核报名按钮的点击事件
-
-        void summaryClick(View v); //活动总结的点击事件
+    public interface ExamineTaskCallback {
+        void ExamineTaskClick(View v); //开始任务的点击事件
     }
 
-    public TeamMemberTaskAdapter(Context context, List<TeamTaskMessage> list, TaskMemberRequestCallback mCallback) {
+    public ExammineTeamTaskAdapter(Context context, List<TeamTaskMessage> list, ExamineTaskCallback mCallback) {
         this.context = context;
 
         this.teamTaskMessages = list;
@@ -56,17 +50,8 @@ public class TeamMemberTaskAdapter extends BaseAdapter implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_task_member:
-                mCallback.taskMemberClick(v);
-                break;
-            case R.id.btn_add_audit:
-                mCallback.addAuditClick(v);
-                break;
-            case R.id.btn_summary:
-                mCallback.summaryClick(v);
-                break;
-            case R.id.btn_run:
-                mCallback.runTaskClick(v);
+            case R.id.btn_examine:
+                mCallback.ExamineTaskClick(v);
                 break;
 
         }
@@ -94,7 +79,7 @@ public class TeamMemberTaskAdapter extends BaseAdapter implements View.OnClickLi
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
-            view = layoutInflater.inflate(R.layout.item_team_member_task, null);
+            view = layoutInflater.inflate(R.layout.item_exammine_team_task, null);
 
             holder.task_id = (TextView) view.findViewById(R.id.task_id);
             holder.team_image = (ImageViewPlus) view.findViewById(R.id.team_image);
@@ -103,10 +88,10 @@ public class TeamMemberTaskAdapter extends BaseAdapter implements View.OnClickLi
             holder.team_task_state = (ImageView) view.findViewById(R.id.team_task_state);
             holder.team_task_time = (TextView) view.findViewById(R.id.team_task_time);
 
-            holder.btn_task_member = (Button) view.findViewById(R.id.btn_task_member);
-            holder.btn_add_audit = (Button) view.findViewById(R.id.btn_add_audit);
-            holder.btn_summary = (Button) view.findViewById(R.id.btn_summary);
+
             holder.btn_run = (Button) view.findViewById(R.id.btn_run);
+            holder.btn_examine = (Button) view.findViewById(R.id.btn_examine);
+
 
 
             view.setTag(holder);
@@ -126,42 +111,34 @@ public class TeamMemberTaskAdapter extends BaseAdapter implements View.OnClickLi
         String taskState = teamTaskMessages.get(position).getTaskState();
 
         if (taskState.equals("正在报名")) {
-            holder.btn_run.setEnabled(true);
-            holder.btn_add_audit.setEnabled(true);
-            holder.btn_summary.setEnabled(false);
-            holder.btn_run.setTextColor(Color.WHITE);
-            holder.btn_run.setText("开始活动");
+            holder.btn_run.setEnabled(false);
+            holder.btn_run.setText("正在报名");
+            holder.btn_run.setTextColor(Color.RED);
+            holder.btn_examine.setEnabled(false);
+            holder.btn_examine.setText("正在报名中");
 
             holder.team_task_state.setBackgroundResource(R.mipmap.ic_task_sign);
         } else if (taskState.equals("正在进行")) {
             holder.btn_run.setEnabled(false);
-            holder.btn_add_audit.setEnabled(false);
-            holder.btn_summary.setEnabled(true);
+            holder.btn_run.setText("任务结束");
             holder.btn_run.setTextColor(Color.RED);
-            holder.btn_run.setText("任务已开始");
+
+            holder.btn_examine.setEnabled(true);
+            holder.btn_examine.setText("通过审核");
 
             holder.team_task_state.setBackgroundResource(R.mipmap.ic_task_run);
         } else if (taskState.equals("已结束")) {
             holder.btn_run.setEnabled(false);
-            holder.btn_add_audit.setEnabled(false);
-            holder.btn_summary.setEnabled(false);
-            holder.btn_task_member.setEnabled(false);
-            holder.btn_run.setText("任务已结束");
+            holder.btn_run.setText("任务结束");
+            holder.btn_run.setTextColor(Color.RED);
+            holder.btn_examine.setEnabled(false);
+            holder.btn_examine.setText("通过审核");
             holder.team_task_state.setBackgroundResource(R.mipmap.ic_task_stop);
         }
 
 
-
-        holder.btn_task_member.setTag(position);
-        holder.btn_task_member.setOnClickListener(this);
-        holder.btn_add_audit.setTag(position);
-        holder.btn_add_audit.setOnClickListener(this);
-        holder.btn_summary.setTag(position);
-        holder.btn_summary.setOnClickListener(this);
-        holder.btn_run.setTag(position);
-        holder.btn_run.setOnClickListener(this);
-
-
+        holder.btn_examine.setTag(position);
+        holder.btn_examine.setOnClickListener(this);
         return view;
     }
 
@@ -174,10 +151,9 @@ public class TeamMemberTaskAdapter extends BaseAdapter implements View.OnClickLi
         ImageView team_task_state; //活动状态
         TextView team_task_time;  //活动创建时间
 
-        Button btn_task_member;
-        Button btn_add_audit;
-        Button btn_summary;
         Button btn_run;
+
+        Button btn_examine;   //审核任务
     }
 
 

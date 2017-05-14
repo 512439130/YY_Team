@@ -19,6 +19,7 @@ import java.util.List;
  * 社团活动
  */
 public class MyTeamTaskAdapter extends BaseAdapter {
+
     public List<TeamTaskMessage> teamTaskMessages = new ArrayList<>();
 
     public Context context;

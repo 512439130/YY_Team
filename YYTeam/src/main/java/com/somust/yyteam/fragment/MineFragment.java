@@ -74,7 +74,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout mTeamTask;
 
     private RelativeLayout mMyTeamTask;
-    private TextView mTeamManagerLine;
+
     private RelativeLayout mMoney;
     private RelativeLayout mSignout;
 
@@ -196,14 +196,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 T.testShowShort(getActivity(), Constant.mMessage_error);
                 teamFlag = false;
                 mTeamManager.setVisibility(View.GONE);
-                mTeamManagerLine.setVisibility(View.GONE);
             } else {
                 Gson gson = new GsonBuilder().setDateFormat(Constant.formatType).create();
                 teamMembers = gson.fromJson(response, new TypeToken<List<TeamMember>>() {
                 }.getType());
                 teamFlag = true;
                 mTeamManager.setVisibility(View.VISIBLE);
-                mTeamManagerLine.setVisibility(View.VISIBLE);
             }
 
 
@@ -227,7 +225,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         mTeamManager = (RelativeLayout) mView.findViewById(R.id.id_mine_team_manager);
         mTeamTask = (RelativeLayout) mView.findViewById(R.id.id_mine_team_task);
         mMyTeamTask = (RelativeLayout) mView.findViewById(R.id.id_mine_my_team_task);
-        mTeamManagerLine = (TextView) mView.findViewById(R.id.id_mine_line);
         mMoney = (RelativeLayout) mView.findViewById(R.id.id_mine_money);
         mSignout = (RelativeLayout) mView.findViewById(R.id.id_mine_sign_out);
 
@@ -278,7 +275,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
 
-            case R.id.id_mine_team_manager://我的社团
+            case R.id.id_mine_team_manager://我的大学社团
                 if (teamFlag) {
                     //打开我的社团列表
                     intent = new Intent(getActivity(), TeamListActivity.class);

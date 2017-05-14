@@ -66,6 +66,7 @@ public class MyTeamTaskActivity extends Activity implements View.OnClickListener
     private User user;
     private Intent intent;
 
+    private TextView nullDataTextView;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -114,6 +115,9 @@ public class MyTeamTaskActivity extends Activity implements View.OnClickListener
         swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
         teamNewsListView = (ListView) findViewById(R.id.list);
         teamNewsListView.addHeaderView(header);
+
+        nullDataTextView = (TextView) findViewById(R.id.null_data_tv);
+
     }
 
 
@@ -182,7 +186,6 @@ public class MyTeamTaskActivity extends Activity implements View.OnClickListener
                 .addParams("userId",userId)
                 .build()
                 .execute(new MyTeamTaskRequestCallback());
-
     }
 
 
@@ -214,9 +217,12 @@ public class MyTeamTaskActivity extends Activity implements View.OnClickListener
 
 
             if (response.equals("[]")) {
-                T.testShowShort(MyTeamTaskActivity.this, "当前无活动");
-            } else {
+                T.testShowShort(MyTeamTaskActivity.this, "当前无参与活动");
+                nullDataTextView.setVisibility(View.VISIBLE);
+                nullDataTextView.setText("当前无参与活动");
 
+            } else {
+                nullDataTextView.setVisibility(View.INVISIBLE);
                 T.testShowShort(MyTeamTaskActivity.this, "我的社团活动获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();

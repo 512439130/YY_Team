@@ -104,6 +104,14 @@ public class ConstantUrl extends Constant{
     public static final String getTaskByUserId_interface = "yy_obtain_task_byuser?";  //查询我参与的活动
 
 
+    public static final String getTeamMemberTaskByTeamId_interface = "yy_obtain_team_task_summary?";//负责人获取活动列表
+    //社长审核任务
+    /**
+     * 查询社团的所有任务
+     * http://localhost:8080/renren-security/teamTask/yy_obtain_team_task_summary?teamId=1
+     */
+
+
     //interface teamMember
 
     public static final String addTaskMemberRequest_interface = "yy_task_member_request?Json=";  //申请报名活动的请求

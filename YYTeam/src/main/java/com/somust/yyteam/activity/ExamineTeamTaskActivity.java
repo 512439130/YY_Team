@@ -1,42 +1,26 @@
-package com.somust.yyteam.fragment;
+package com.somust.yyteam.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
-import com.somust.yyteam.activity.FriendRequestActivity;
-import com.somust.yyteam.activity.MyTeamTaskActivity;
-import com.somust.yyteam.activity.TaskInformationActivity;
-import com.somust.yyteam.activity.TaskMemberActivity;
-import com.somust.yyteam.activity.TaskMemberRequestActivity;
-import com.somust.yyteam.activity.TaskSummaryActivity;
-import com.somust.yyteam.activity.TeamInformationActivity;
-import com.somust.yyteam.activity.TeamListActivity;
-import com.somust.yyteam.adapter.TeamAdapter;
-import com.somust.yyteam.adapter.TeamMemberTaskAdapter;
-import com.somust.yyteam.adapter.TeamTaskAdapter;
+import com.somust.yyteam.adapter.ExammineTeamTaskAdapter;
 import com.somust.yyteam.bean.Team;
-import com.somust.yyteam.bean.TeamMember;
-import com.somust.yyteam.bean.TeamMessage;
 import com.somust.yyteam.bean.TeamTask;
 import com.somust.yyteam.bean.TeamTaskMessage;
 import com.somust.yyteam.bean.User;
@@ -50,13 +34,11 @@ import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
 import com.yy.http.okhttp.callback.StringCallback;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.rong.imkit.RongIM;
 import okhttp3.Call;
 /**
  * Created by DELL on 2016/3/14.
@@ -65,24 +47,23 @@ import okhttp3.Call;
 /**
  * 社团任务列表
  */
-public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,TeamMemberTaskAdapter.TaskMemberRequestCallback {
-    private static final String TAG = "TeamTaskFragment:";
+public class ExamineTeamTaskActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener,ExammineTeamTaskAdapter.ExamineTaskCallback{
+    private static final String TAG = "ExamineTeamTaskActivity:";
 
-    public static TeamTaskFragment instance = null;//单例模式
+    public static ExamineTeamTaskActivity instance = null;//单例模式
 
-    public static TeamTaskFragment getInstance() {
+    public static ExamineTeamTaskActivity getInstance() {
         if (instance == null) {
-            instance = new TeamTaskFragment();
+            instance = new ExamineTeamTaskActivity();
         }
         return instance;
     }
 
-    private View mView;
     private RefreshLayout swipeLayout;
     private View header;
 
     private ListView teamTasksListView;
-    private TeamMemberTaskAdapter teamMemberTaskAdapter;
+    private ExammineTeamTaskAdapter exammineTeamTaskAdapter;
 
     public List<TeamTask> teamTasks = new ArrayList<>();   //存放网络接受的数据
     public List<TeamTaskMessage> teamTaskMessages = new ArrayList<>();   //将网络接收的数据装换为相应bean
@@ -94,7 +75,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 
     private User user;
-    private TeamMember teamMember;
+    private Team team;
     private Integer teamId = 0;
 
     private Intent intent;
@@ -103,20 +84,19 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_team_task, null);
-
-        Intent intent = getActivity().getIntent();
+    protected void onCreate( Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_examine_team_task);
+        Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
-        teamMember = (TeamMember) intent.getSerializableExtra("teamMember");
-        teamId = teamMember.getTeamId().getTeamId();
+        team = (Team) intent.getSerializableExtra("team");
+        teamId = team.getTeamId();  //获取社团Id
 
         initView();
         requestData();
         initListener();
-        return mView;
-
     }
+
 
     /**
      * 初始化数据
@@ -125,15 +105,15 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
         teamTaskMessages.clear();
 
         //头部
-        header = getActivity().getLayoutInflater().inflate(R.layout.team_member_task_header, null);
+        header = getLayoutInflater().inflate(R.layout.exammine_team_task_header, null);
 
-        swipeLayout = (RefreshLayout) mView.findViewById(R.id.swipe_container);
+        swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
 
         swipeLayout.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_orange_dark, android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
         swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
-        teamTasksListView = (ListView) mView.findViewById(R.id.list);
+        teamTasksListView = (ListView) findViewById(R.id.list);
         teamTasksListView.addHeaderView(header);
-        noDataTextView = (TextView) mView.findViewById(R.id.null_data_tv);
+        noDataTextView = (TextView) findViewById(R.id.null_data_tv);
 
 
     }
@@ -154,7 +134,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             if (teamFlag) {   //2张图片都请求成功时
                 //请求是否有更新（在这个时间段后）
-                teamMemberTaskAdapter.notifyDataSetChanged();
+                exammineTeamTaskAdapter.notifyDataSetChanged();
             }
 
         }
@@ -165,8 +145,8 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
      */
     private void initDatas() {
 
-        teamMemberTaskAdapter = new TeamMemberTaskAdapter(getActivity(), teamTaskMessages,this);
-        teamTasksListView.setAdapter(teamMemberTaskAdapter);
+        exammineTeamTaskAdapter = new ExammineTeamTaskAdapter(ExamineTeamTaskActivity.this, teamTaskMessages,this);
+        teamTasksListView.setAdapter(exammineTeamTaskAdapter);
     }
 
     /**
@@ -183,7 +163,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                     if (position != 0) {
                         TeamTask teamTask = teamTasks.get(position - 1);  //获取当前item的bean
-                        Intent intent = new Intent(getActivity(), TaskInformationActivity.class);
+                        Intent intent = new Intent(ExamineTeamTaskActivity.this, TaskInformationActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("teamTask", teamTask);
                         bundle.putSerializable("user", user);
@@ -197,13 +177,12 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
         });
     }
-
-    //开始任务
     @Override
-    public void runTaskClick(View view) {
+    public void ExamineTaskClick(View view) {
         //弹出确认对话框
-        showNullDialog(view,getActivity(), "开始活动？");
+        showNullDialog(view,ExamineTeamTaskActivity.this, "是否通过审核？");
     }
+
     /**
      * 弹出无输入确认框
      */
@@ -220,7 +199,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
                 .setNegativeButton("确定",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                startTaskRequest(teamTasks.get((Integer) view.getTag()).getTaskId().toString(),"正在进行");
+                                endTaskRequest(teamTasks.get((Integer) view.getTag()).getTaskId().toString(),"已结束");
                             }
                         })
                 .setPositiveButton("取消",
@@ -238,7 +217,7 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
      * @param taskId
      * @param taskState
      */
-    private void startTaskRequest(String taskId,String taskState) {
+    private void endTaskRequest(String taskId,String taskState) {
         OkHttpUtils
                 .post()
                 .url(ConstantUrl.teamTaskUrl + ConstantUrl.auditTeamTaskSummary_interface)
@@ -266,44 +245,10 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
 
-    /**
-     * 活动人员
-     * @param view
-     */
-    @Override
-    public void taskMemberClick(View view) {
-        //查看添加请求的列表（带下拉刷新）
-        intent = new Intent(getActivity(), TaskMemberActivity.class);
-        //传值
-        intent.putExtra("user", user);
-        intent.putExtra("teamTask", teamTasks.get((Integer) view.getTag()));
-        startActivity(intent);
-    }
 
-    /**
-     * 审核报名
-     * @param view
-     */
-    @Override
-    public void addAuditClick(View view) {
-        //查看添加请求的列表（带下拉刷新）
-        intent = new Intent(getActivity(), TaskMemberRequestActivity.class);
-        //传值
-        intent.putExtra("user", user);
-        intent.putExtra("teamTask", teamTasks.get((Integer) view.getTag()));
-        startActivity(intent);
-    }
 
-    /**
-     * 活动总结
-     * @param view
-     */
-    @Override
-    public void summaryClick(View view) {
-        intent = new Intent(getActivity(), TaskSummaryActivity.class);
-        intent.putExtra("taskId", teamTasks.get((Integer) view.getTag()).getTaskId().toString());
-        startActivity(intent);
-    }
+
+
 
     /**
      * 获取全部活动
@@ -311,11 +256,12 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void requestData() {
         OkHttpUtils
                 .post()
-                .url(ConstantUrl.teamTaskUrl + ConstantUrl.getTeamMemberTask_interface)
-                .addParams("teamMemberId", teamMember.getTeamMemberId().toString())
+                .url(ConstantUrl.teamTaskUrl + ConstantUrl.getTeamMemberTaskByTeamId_interface)
+                .addParams("teamId", teamId.toString())
                 .build()
                 .execute(new MyTeamTaskRequestCallback());
     }
+
 
 
 
@@ -328,19 +274,19 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             e.printStackTrace();
             L.e(TAG, "onError:" + e.getMessage());
-            T.testShowShort(getActivity(), "获取失败,服务器正在维护中");
+            T.testShowShort(ExamineTeamTaskActivity.this, "获取失败,服务器正在维护中");
         }
 
         @Override
         public void onResponse(String response, int id) {
 
             if (response.equals("[]")) {
-                T.testShowShort(getActivity(), "当前无活动");
+                T.testShowShort(ExamineTeamTaskActivity.this, "当前无活动");
                 noDataTextView.setVisibility(View.VISIBLE);
                 noDataTextView.setText("当前无任务分配");
             } else {
                 noDataTextView.setVisibility(View.INVISIBLE);
-                T.testShowShort(getActivity(), "所有社团活动获取成功");
+                T.testShowShort(ExamineTeamTaskActivity.this, "所有社团活动获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();
                 teamTasks = gson.fromJson(response, new TypeToken<List<TeamTask>>() {

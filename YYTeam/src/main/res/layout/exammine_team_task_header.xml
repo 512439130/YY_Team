@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/team_new_background"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_gravity="right"
+
+        android:padding="15dp"
+
+        android:orientation="horizontal">
+
+        <com.somust.yyteam.view.ImageViewPlus
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="审核任务"
+            android:textColor="#ff5100"
+            android:textSize="28sp" />
+    </LinearLayout>
+</LinearLayout>

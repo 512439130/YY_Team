@@ -74,10 +74,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#f5f5f5" />
 
 
     <ScrollView
@@ -89,6 +85,11 @@
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#f5f5f5" />
+
 
             <RelativeLayout
                 android:id="@+id/user_request"
@@ -103,7 +104,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_mine_friend_request" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -113,22 +114,17 @@
                     android:layout_toRightOf="@id/icon_user"
                     android:text="好友添加请求"
                     android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
                     android:src="@mipmap/icon_go" />
 
             </RelativeLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#f5f5f5" />
-
 
             <RelativeLayout
                 android:id="@+id/user_update_message"
@@ -143,7 +139,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_mine_maintain" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -153,21 +149,18 @@
                     android:layout_toRightOf="@id/icon_update_message"
                     android:text="维护个人信息"
                     android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
                     android:src="@mipmap/icon_go" />
 
             </RelativeLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#f5f5f5" />
+
             <RelativeLayout
                 android:id="@+id/id_mine_repass"
                 style="@style/style_single_item"
@@ -181,7 +174,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_mine_repass" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -189,13 +182,48 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="12dp"
                     android:layout_toRightOf="@id/iv_icon_repass"
-                    android:text="修改密码"
+                    android:text="修改个人密码"
                     android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/icon_go" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/id_mine_money"
+                style="@style/style_single_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_icon_mmmoney"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="9dp"
+                    android:src="@mipmap/ic_mine_money" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@id/iv_icon_mmmoney"
+                    android:text="我的个人钱包"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
@@ -216,12 +244,12 @@
 
                 <ImageView
                     android:id="@+id/iv_icon_team"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:layout_marginLeft="4dp"
+                    android:src="@mipmap/ic_mine_add_team" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -231,11 +259,11 @@
                     android:layout_toRightOf="@id/iv_icon_team"
                     android:text="申请加入社团"
                     android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
@@ -243,13 +271,6 @@
 
             </RelativeLayout>
 
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#f5f5f5" />
             <RelativeLayout
                 android:id="@+id/id_mine_team_manager"
                 style="@style/style_single_item"
@@ -258,12 +279,12 @@
 
                 <ImageView
                     android:id="@+id/iv_icon_team_manager"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:layout_marginLeft="6dp"
+                    android:src="@mipmap/ic_mine_myi_team" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -273,11 +294,11 @@
                     android:layout_toRightOf="@id/iv_icon_team_manager"
                     android:text="我的大学社团"
                     android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
@@ -297,12 +318,12 @@
 
                 <ImageView
                     android:id="@+id/iv_icon_team_task"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:layout_marginLeft="9dp"
+                    android:src="@mipmap/ic_mine_add_task" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -312,11 +333,11 @@
                     android:layout_toRightOf="@id/iv_icon_team_task"
                     android:text="社团活动报名"
                     android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
@@ -324,10 +345,6 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#f5f5f5" />
             <RelativeLayout
                 android:id="@+id/id_mine_my_team_task"
                 style="@style/style_single_item"
@@ -336,12 +353,12 @@
 
                 <ImageView
                     android:id="@+id/iv_icon_my_team_task"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:layout_marginLeft="9dp"
+                    android:src="@mipmap/ic_mine_my_task" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -351,53 +368,11 @@
                     android:layout_toRightOf="@id/iv_icon_my_team_task"
                     android:text="我的社团活动"
                     android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp"
-                    android:src="@mipmap/icon_go" />
-
-            </RelativeLayout>
-
-
-            <TextView
-                android:id="@+id/id_mine_line"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#f5f5f5" />
-
-            <RelativeLayout
-                android:id="@+id/id_mine_money"
-                style="@style/style_single_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_icon_mmmoney"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_launcher" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_icon_mmmoney"
-                    android:text="我的钱包"
-                    android:textColor="#333333"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
@@ -425,7 +400,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_mine_signout" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -435,11 +410,11 @@
                     android:layout_toRightOf="@id/iv_icon_sign_out"
                     android:text="切换账户"
                     android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"

@@ -33,6 +33,7 @@ import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.ChangeColorIconWithText;
 import com.somust.yyteam.view.popupwindow.SelectSearchPopupWindowDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,7 +138,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         // 给标题栏弹窗添加子类
         addTitlePopup.addAction(new ActionItem(this, R.string.groupchat, R.mipmap.icon_menu_group));
         addTitlePopup.addAction(new ActionItem(this, R.string.addfriend, R.mipmap.icon_menu_addfriend));
-        addTitlePopup.addAction(new ActionItem(this, R.string.qrcode, R.mipmap.icon_menu_sao));
+        addTitlePopup.addAction(new ActionItem(this, R.string.addteam, R.mipmap.icon_menu_addteam));
         addTitlePopup.addAction(new ActionItem(this, R.string.money, R.mipmap.abv));
     }
     private void initDatas() {
@@ -339,9 +340,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     startActivity(intent);
 
                     break;
-                case 2:// 扫一扫
-                    T.testShowShort(HomeActivity.this, "扫一扫");
-                    //扫一扫打开好友信息界面
+                case 2:// 创建大学社团
+                    T.testShowShort(HomeActivity.this, "创建大学社团");
+                    intent = new Intent(HomeActivity.this, CreateTeamActivity.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
                     break;
                 case 3:// 收钱
                     T.testShowShort(HomeActivity.this, "我的钱包");

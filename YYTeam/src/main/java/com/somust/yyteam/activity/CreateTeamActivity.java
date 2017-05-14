@@ -462,7 +462,7 @@ public class CreateTeamActivity extends Activity implements View.OnClickListener
             T.testShowShort(CreateTeamActivity.this, Constant.mMessage_success);
 
             //数据保持问题(解决，采用singTask启动模式)
-            startActivity(new Intent(CreateTeamActivity.this, TeamHomeActivity.class));  //跳转回主页面
+            startActivity(new Intent(CreateTeamActivity.this, HomeActivity.class));  //跳转回主页面
             photoUtils.clearCropFile(selectUri);//清除手机内存中刚刚裁剪的图片   必须在上传文件成功后执行
 
         }

@@ -43,7 +43,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="5dp"
                 yy:color_yy="#FF6817"
-                yy:icon_yy="@mipmap/ic_menu_start_conversation"
+                yy:icon_yy="@mipmap/icon_home_chat"
                 yy:text_size_yy="12sp"
                 yy:text_yy="@string/app_name" />
 
@@ -56,7 +56,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="5dp"
                 yy:color_yy="#FF6817"
-                yy:icon_yy="@mipmap/ic_menu_friendslist"
+                yy:icon_yy="@mipmap/icon_home_friend"
                 yy:text_size_yy="12sp"
                 yy:text_yy="@string/tab_contact" />
 
@@ -69,7 +69,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="5dp"
                 yy:color_yy="#FF6817"
-                yy:icon_yy="@mipmap/ic_menu_emoticons"
+                yy:icon_yy="@mipmap/icon_home_news"
                 yy:text_size_yy="12sp"
                 yy:text_yy="@string/tab_found" />
 
@@ -82,7 +82,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="5dp"
                 yy:color_yy="#FF6817"
-                yy:icon_yy="@mipmap/ic_menu_mine"
+                yy:icon_yy="@mipmap/icon_home_mine"
                 yy:text_size_yy="12sp"
                 yy:text_yy="@string/tab_me" />
 

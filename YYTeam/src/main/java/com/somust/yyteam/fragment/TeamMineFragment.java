@@ -10,19 +10,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
 import com.somust.yyteam.activity.CreateTeamNewsActivity;
+import com.somust.yyteam.activity.ExamineTeamTaskActivity;
 import com.somust.yyteam.activity.LoginActivity;
 import com.somust.yyteam.activity.TaskResponsibleActivity;
 import com.somust.yyteam.activity.TeamMemberRequestActivity;
 import com.somust.yyteam.activity.UpdateTeamInfoActivity;
 import com.somust.yyteam.bean.TeamMember;
-import com.somust.yyteam.bean.TeamMemberRequest;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.view.ImageViewPlus;
@@ -177,6 +175,11 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.id_member_mine_team_examine_task:  //审核任务总结
                 L.v(TAG, "审核任务总结");
+                intent = new Intent(getActivity(), ExamineTeamTaskActivity.class);
+                //传值
+                intent.putExtra("user", user);
+                intent.putExtra("team", teamMember.getTeamId());
+                startActivity(intent);
                 break;
             case R.id.id_member_mine_send_new:  //发布社团新闻
                 L.v(TAG, "发布社团新闻");

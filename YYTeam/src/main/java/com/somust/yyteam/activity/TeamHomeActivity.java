@@ -1,6 +1,7 @@
 package com.somust.yyteam.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.somust.yyteam.R;
 import com.somust.yyteam.bean.TeamMember;
@@ -27,9 +29,14 @@ import com.somust.yyteam.popwindow.TitlePopup;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.ChangeColorIconWithText;
+import com.somust.yyteam.view.ImageViewPlus;
+import com.yy.http.okhttp.OkHttpUtils;
+import com.yy.http.okhttp.callback.BitmapCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
 
 public class TeamHomeActivity extends FragmentActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
@@ -43,10 +50,9 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
     private static final String TAG = "TeamHomeActivity:";
 
 
-    private ImageView iv_add;
-    private ImageView iv_search;
+    private ImageView id_add_community;
 
-    private TitlePopup titlePopup;
+
 
     private User user;
 
@@ -54,6 +60,9 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
 
     private TeamMember teamMember;
     private Integer teamId = 0;
+
+    private ImageViewPlus myTeamImage; //社团名
+    private TextView myTeamName; //社团名
 
 
     @Override
@@ -74,12 +83,13 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
         initView();
         //初始化数据
         initDatas();
+        obtainMyTeamImage(teamMember.getTeamId().getTeamImage());  //获取社团信息显示在titlebar上
 
         mViewPager.setAdapter(mFragmentPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
         mViewPager.setOffscreenPageLimit(4);  //设置缓存的页面个数
 
-        initPopwindow();  //初始化titlebar中的popwindow
+
     }
 
 
@@ -119,25 +129,46 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
         four.setOnClickListener(this);
         one.setIconAlpha(1.0f);
 
-        iv_add = (ImageView) findViewById(R.id.id_add);
-        iv_search = (ImageView) findViewById(R.id.id_search);
-        iv_search.setVisibility(View.INVISIBLE);
-        iv_add.setOnClickListener(new MyTitleBarOncliclListener());
+        id_add_community = (ImageView) findViewById(R.id.id_add_community);
+        id_add_community.setOnClickListener(new addCommunityOncliclListener());
+
+        myTeamImage = (ImageViewPlus) findViewById(R.id.id_title_back);
+        myTeamName = (TextView) findViewById(R.id.id_title_name);
     }
+
 
     /**
-     * 实例化标题栏弹窗
+     * 获取网络图片请求，并将网络图片显示到imageview中去(如果是多次请求，需要一个bitmap数组)
+     *
+     * @param url 每次请求的Url
      */
-    private void initPopwindow() {
-        // 实例化标题栏弹窗
-        titlePopup = new TitlePopup(this, LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT);
-        titlePopup.setItemOnClickListener(new MyOnItemOnClickListener());
-        // 给标题栏弹窗添加子类
-        titlePopup.addAction(new ActionItem(this, R.string.team_create,
-                R.mipmap.icon_menu_group));
+    public void obtainMyTeamImage(String url) {
+        OkHttpUtils
+                .get()
+                .url(url)
+                .tag(this)
+                .build()
+                .connTimeOut(20000)
+                .readTimeOut(20000)
+                .writeTimeOut(20000)
+                .execute(new BitmapCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        L.e("onError:" + e.getMessage());
+                    }
 
+                    @Override
+                    public void onResponse(Bitmap bitmap, int id) {
+                        L.v("TAG", "onResponse：complete");
+                        myTeamImage.setImageBitmap(bitmap);
+                        myTeamName.setText(teamMember.getTeamId().getTeamName());
+                    }
+                });
     }
+
+
+
+
 
     private void initDatas() {
         //4个Fragment
@@ -234,44 +265,8 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
 
 
 
-    /**
-     * titlebar的监听事件
-     */
-    private class MyTitleBarOncliclListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.id_add:  //打开popwindow
-                    titlePopup.showAddView(findViewById(R.id.id_add));
-                    break;
 
 
-                default:
-                    break;
-            }
-        }
-    }
-
-    /**
-     * popwindow中item的点击事件监听
-     */
-    private class MyOnItemOnClickListener implements TitlePopup.OnItemOnClickListener {
-        @Override
-        public void onItemClick(ActionItem item, int position) {
-            // mLoadingDialog.show();
-            switch (position) {
-                case 0:// 创建大学社团
-                    T.testShowShort(TeamHomeActivity.this, "创建大学社团");
-                    intent = new Intent(TeamHomeActivity.this, CreateTeamActivity.class);
-                    intent.putExtra("user", user);
-                    startActivity(intent);
-                    break;
-                default:
-                    break;
-
-            }
-        }
-    }
 
 
     /**
@@ -349,4 +344,13 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
         return false;
     }
 
+    /**
+     * 发送社团圈的监听事件
+     */
+    private class addCommunityOncliclListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            L.v(TAG,"发送社团圈");
+        }
+    }
 }

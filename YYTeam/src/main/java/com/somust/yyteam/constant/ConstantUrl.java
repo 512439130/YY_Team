@@ -86,7 +86,12 @@ public class ConstantUrl extends Constant{
     public static final String obtainTeamMember_interface = "yy_obtain_team_member?";//获取社团成员列表
 
 
+    public static final String updateTeamMemberState_interface = "yy_operate_team_state?";  //处理退出社团
 
+    /**
+     * 处理社团成员退出
+     *http://localhost:8080/renren-security/teamMember/yy_operate_team_state?teamMemberId=4&teamMemberState = '1'
+     */
 
     //interface teamTask
     public static final String getTeamTask_interface = "yy_obtain_team_task";//获取活动列表

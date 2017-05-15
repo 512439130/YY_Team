@@ -2,6 +2,7 @@ package com.somust.yyteam.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -10,11 +11,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 import com.somust.yyteam.adapter.TeamMemberRequestAdapter.TeamMemberRequestCallback;
@@ -70,13 +73,22 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
 
     private Team team;
 
+    private String flag;
+
+    private List<TeamMember> teamMembers;
+
+    private String teamMemberId;
+
+
+    private String userId;
+    private Integer teamId;
+
+
     private ProgressDialog dialog;
     /**
      * 搜索结果列表adapter
      */
     private TeamMemberRequestAdapter teamMemberRequestAdapter;
-
-
 
 
     @Override
@@ -88,11 +100,15 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
         Intent intent = this.getIntent();
         team = (Team) intent.getSerializableExtra("team");
         user = (User) intent.getSerializableExtra("user");
-        obtainTeamMemberRequest(team.getTeamId().toString(), "insert"); //获取请求列表（加请求用户的个人信息）
+        flag = (String) intent.getSerializableExtra("flag");
+
+
+        obtainTeamMemberRequest(team.getTeamId().toString(), flag); //获取请求列表（加请求用户的个人信息）
 
         initView();
         initListener();
     }
+
     /**
      * 沉浸式状态栏（伪）
      */
@@ -112,14 +128,19 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
     private void initView() {
         returnView = (ImageView) findViewById(R.id.id_title_back);
         titleName = (TextView) findViewById(R.id.actionbar_name);
-        titleName.setText("加入社团请求");
+        if (flag.equals("insert")) {
+            titleName.setText("加入社团请求");
+        } else if (flag.equals("signout")) {
+            titleName.setText("退出社团请求");
+        }
+
 
         //刷新相关初始化
         teamMemberRequestListview = (ListView) findViewById(R.id.request_team_member_list);
 
         //初始化刷新
         refresh_view = (RefreshLayout) findViewById(R.id.refresh_view);
-        refresh_view.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
+        refresh_view.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_orange_dark, android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
         refresh_view.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
 
     }
@@ -143,32 +164,44 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
 
     /**
      * 同意按钮点击事件
+     *
      * @param v
      */
     @Override
     public void agreeClick(View v) {
         //改变请求表状态
-        UpdateRequestTeamMember(teamMemberRequests.get((Integer) v.getTag()).getRequestId().getUserId().toString(),team.getTeamId().toString(), "agree");
-        //加入社团成员
-        TeamMember teamMember = new TeamMember();
-        teamMember.setUserId(teamMemberRequests.get((Integer) v.getTag()).getRequestId());
-        teamMember.setTeamId(team);
-        teamMember.setTeamMemberPosition("干事");
-        Date nowTime = new Date();
-        String time = DateUtil.dateToString(nowTime, Constant.formatType);  //创建社团的时间
+        UpdateRequestTeamMember(teamMemberRequests.get((Integer) v.getTag()).getRequestId().getUserId().toString(), team.getTeamId().toString(), "agree");
+        if (flag.equals("insert")) {
+            //加入社团成员
+            TeamMember teamMember = new TeamMember();
+            teamMember.setUserId(teamMemberRequests.get((Integer) v.getTag()).getRequestId());
+            teamMember.setTeamId(team);
+            teamMember.setTeamMemberPosition("干事");
+            Date nowTime = new Date();
+            String time = DateUtil.dateToString(nowTime, Constant.formatType);  //创建社团的时间
 
-        teamMember.setTeamMemberJoinTime(time);
-        addTeamMember(teamMember);
+            teamMember.setTeamMemberJoinTime(time);
+            addTeamMember(teamMember);
+        } else if (flag.equals("signout")) {
+            userId = teamMemberRequests.get((Integer) v.getTag()).getRequestId().getUserId().toString();
+            teamId = (Integer) v.getTag();
+            obtainTeamInfo(userId);
+
+
+        }
+
+
     }
 
     /**
      * 拒绝按钮点击事件
+     *
      * @param v
      */
     @Override
     public void refuseClick(View v) {
         //改变请求表状态
-        UpdateRequestTeamMember(teamMemberRequests.get((Integer) v.getTag()).getRequestId().getUserId().toString(),team.getTeamId().toString(), "refuse");
+        UpdateRequestTeamMember(teamMemberRequests.get((Integer) v.getTag()).getRequestId().getUserId().toString(), team.getTeamId().toString(), "refuse");
     }
 
 
@@ -217,9 +250,9 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
             T.testShowShort(TeamMemberRequestActivity.this, Constant.mMessage_success);
 
             //刷新
-            if (allTeams != null){
+            if (allTeams != null) {
                 allTeams.clear();
-                obtainTeamMemberRequest(team.getTeamId().toString(), "insert");
+                obtainTeamMemberRequest(team.getTeamId().toString(), flag);
                 teamMemberRequestAdapter.notifyDataSetChanged();
             }
 
@@ -231,7 +264,6 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
 
     /**
      * 加入社团的网络请求
-     *
      */
     private void addTeamMember(TeamMember teamMember) {
         String jsonString = new Gson().toJson(teamMember);
@@ -247,7 +279,7 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
     /**
      * 加好友的回调
      */
-    public class MyAddTeamMemberCallback extends StringCallback{
+    public class MyAddTeamMemberCallback extends StringCallback {
 
         @Override
         public void onError(Call call, Exception e, int id) {
@@ -261,7 +293,6 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
             L.v(response);
         }
     }
-
 
 
     /**
@@ -294,9 +325,9 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
         public void onResponse(String response, int id) {
 
             if (response.equals("[]")) {
-                L.e(TAG,"无好友请求");
+                L.e(TAG, "无好友请求");
             } else {
-                L.e(TAG,"社团添加请求获取成功");
+                L.e(TAG, "社团添加请求获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();
                 teamMemberRequests = gson.fromJson(response, new TypeToken<List<TeamMemberRequest>>() {
@@ -382,18 +413,96 @@ public class TeamMemberRequestActivity extends Activity implements SwipeRefreshL
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                obtainTeamMemberRequest(team.getTeamId().toString(), "insert");
-                if (allTeams != null){
+                obtainTeamMemberRequest(team.getTeamId().toString(), flag);
+                if (allTeams != null) {
                     allTeams.clear();
-                    obtainTeamMemberRequest(team.getTeamId().toString(), "insert");
+                    obtainTeamMemberRequest(team.getTeamId().toString(), flag);
                     refresh_view.setRefreshing(false);
                     teamMemberRequestAdapter.notifyDataSetChanged();
-                }else {
+                } else {
                     refresh_view.setRefreshing(false);
                 }
             }
         }, 1200);
     }
 
+
+    /**
+     * 同意社团成员退出
+     */
+    private void updateTeamMemberState(final String teamMemberId) {
+        L.v(TAG, "同意退出");
+        //发起同意请求
+        OkHttpUtils
+                .post()
+                .url(ConstantUrl.teamMemberUrl + ConstantUrl.updateTeamMemberState_interface)
+                .addParams("teamMemberId", teamMemberId)
+                .addParams("teamMemberState", "1")
+                .build()
+                .execute(new StringCallback() {
+                    public void onError(Call call, Exception e, int id) {
+                        e.printStackTrace();
+                        L.v(TAG, "请求失败");
+                        T.testShowShort(TeamMemberRequestActivity.this, Constant.mProgressDialog_error);
+                        L.v(e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        L.v(response);
+                        L.v(TAG, "请求成功");
+                        T.testShowShort(TeamMemberRequestActivity.this, Constant.mMessage_success);
+
+
+                    }
+                });
+
+
+    }
+
+    /**
+     * 获取我的所有社团
+     *
+     * @param userId
+     */
+    private void obtainTeamInfo(String userId) {
+        OkHttpUtils
+                .post()
+                .url(ConstantUrl.teamUrl + ConstantUrl.getMyTeam_interface)
+                .addParams("userId", userId)
+                .build()
+                .execute(new MyTeamIdCallback());
+    }
+
+
+    public class MyTeamIdCallback extends StringCallback {
+
+
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+            L.e(TAG, "onError:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            if (response.equals("")) {
+                T.testShowShort(TeamMemberRequestActivity.this, Constant.mMessage_error);
+            } else {
+                Gson gson = new GsonBuilder().setDateFormat(Constant.formatType).create();
+                teamMembers = gson.fromJson(response, new TypeToken<List<TeamMember>>() {
+                }.getType());
+
+
+                teamMemberId = teamMembers.get(teamId).getTeamMemberId().toString();
+                updateTeamMemberState(teamMemberId);
+
+            }
+
+
+        }
+
+
+    }
 
 }

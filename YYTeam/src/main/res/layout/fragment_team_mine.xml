@@ -179,6 +179,54 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/id_member_mine_sign_out_team_request"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+
+                    style="@style/style_single_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_icon_team_sign_out_request"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:src="@mipmap/ic_team_mine_signout_team_request" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:layout_toRightOf="@id/iv_icon_team_sign_out_request"
+                        android:text="社团退出请求"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
+                        android:src="@mipmap/icon_go" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="#f5f5f5" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
                 android:id="@+id/id_member_mine_team_update_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -77,6 +77,8 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
     private boolean teamFlag = false;
     private boolean presidentFlag = false;
 
+    private TextView nullDataTextView;
+
 
     private Handler teamMemberHandler = new Handler() {
         @Override
@@ -157,6 +159,8 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
         swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
         teamNewsListView = (ListView) findViewById(R.id.list);
         teamNewsListView.addHeaderView(header);
+
+        nullDataTextView = (TextView) findViewById(R.id.null_data_tv);
     }
 
 
@@ -225,13 +229,18 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
         public void onError(Call call, Exception e, int id) {
             e.printStackTrace();
             L.e(TAG, "onError:" + e.getMessage());
+
         }
 
         @Override
         public void onResponse(String response, int id) {
-            if (response.equals("")) {
+            if (response.equals("[]")) {
                 T.testShowShort(TeamListActivity.this, Constant.mMessage_error);
+                nullDataTextView.setVisibility(View.VISIBLE);
+                nullDataTextView.setText("当前未加入社团");
             } else {
+
+                nullDataTextView.setVisibility(View.INVISIBLE);
                 Gson gson = new GsonBuilder().setDateFormat(Constant.formatType).create();
                 teamMembers = gson.fromJson(response, new TypeToken<List<TeamMember>>() {
                 }.getType());

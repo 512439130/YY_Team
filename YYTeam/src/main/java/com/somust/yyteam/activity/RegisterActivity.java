@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 
 import com.google.gson.Gson;
@@ -84,6 +85,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "RegisterActivity:";
     private ImageView mImg_Background;
+
+    private boolean isRegister = true;  //是否注册标志位
+
+    private TextView registerMessage;
 
     private Handler mRegisterCountDownHandler = new Handler() {
         @Override
@@ -186,7 +191,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         edt_code = (EditText) findViewById(R.id.edt_code);
         mBtnSubmit = (Button) findViewById(R.id.btn_submit_button);
 
-
+        registerMessage = (TextView) findViewById(R.id.register_message);
         user = new User();
     }
 
@@ -384,26 +389,31 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
      */
     private void SendHttpRegister() throws IOException {
         // 方式四 使用静态方式创建并显示，这种进度条只能是圆形条,这里最后一个参数boolean cancelable 设置是否进度条是可以取消的
-        dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_success, true, true);
+
         final String phone = edt_phone.getText().toString().trim();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                userJsonString = new Gson().toJson(new User(phone, user.getUserNickname(), user.getUserPassword(), token, user.getUserImage(), user.getUserSex()));
+        getUserInfo(phone);  ///判断是否注册过
 
-                //发起注册请求
-                OkHttpUtils
-                        .postString()
-                        .url(ConstantUrl.userUrl + ConstantUrl.userRegister_interface)
-                        .mediaType(MediaType.parse("application/json; charset=utf-8"))
-                        .content(userJsonString)
-                        .build()
-                        .execute(new MyStringCallback());
-            }
-        }, 600);//3秒后执行Runnable中的run方法
+        if(isRegister){
+            registerMessage.setText("手机号已注册，如忘记密码，请找回密码！");
+        }else{
+            dialog = ProgressDialog.show(this, "提示", Constant.mProgressDialog_success, true, true);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    userJsonString = new Gson().toJson(new User(phone, user.getUserNickname(), user.getUserPassword(), token, user.getUserImage(), user.getUserSex()));
 
-        L.v(TAG, "json处理后格式：" + userJsonString);
+                    //发起注册请求
+                    OkHttpUtils
+                            .postString()
+                            .url(ConstantUrl.userUrl + ConstantUrl.userRegister_interface)
+                            .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                            .content(userJsonString)
+                            .build()
+                            .execute(new MyStringCallback());
+                }
+            }, 600);//3秒后执行Runnable中的run方法
+        }
     }
 
     public class MyStringCallback extends StringCallback {
@@ -474,6 +484,45 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         }
     }
 
+
+    /**
+     * 获取用户信息
+     */
+    private void getUserInfo(final String userPhone) {
+        final String url = ConstantUrl.userUrl + ConstantUrl.getUserInfo_interface;
+        if (TextUtils.isEmpty(userPhone)) {
+            T.testShowShort(RegisterActivity.this, "手机号不能为空");
+        } else {
+
+            OkHttpUtils
+                    .post()
+                    .url(url)
+                    .addParams("userPhone", userPhone)
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            e.printStackTrace();
+                            L.e(TAG, "onError:" + e.getMessage());
+                        }
+
+                        @Override
+                        public void onResponse(String response, int id) {
+                            if (response.equals("")) {
+                                isRegister = false;  //未注册
+                            } else {
+                                isRegister = true;   //已注册
+                            }
+                        }
+                    });
+
+
+        }
+    }
+
+
+
+
     /**
      * 更新UI和控制子线程弹出Toast
      *
@@ -495,4 +544,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         }
         super.onDestroy();
     }
+
+
+
 }

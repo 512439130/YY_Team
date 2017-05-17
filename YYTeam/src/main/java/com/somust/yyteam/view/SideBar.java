@@ -74,6 +74,7 @@ public class SideBar extends View {
             paint.setTypeface(Typeface.DEFAULT_BOLD);  //设置字体
             paint.setAntiAlias(true);  //设置抗锯齿
 
+            //解决不同分辨率手机字体大小适配问题
             paint.setTextSize(getResources().getDimension(R.dimen.sidebar_size));  //设置字母字体大小
             // 选中的状态
             if (i == choose) {

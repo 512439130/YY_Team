@@ -1,5 +1,8 @@
 package com.somust.yyteam.view;
 
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
 
 /**
@@ -17,6 +20,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
@@ -63,13 +67,14 @@ public class SideBar extends View {
         // 获取焦点改变背景颜色.
         int height = getHeight();// 获取对应高度
         int width = getWidth(); // 获取对应宽度
-        int singleHeight = height / A_Z.length-3;// 获取每一个字母的高度  (这里-2仅仅是为了好看而已)
+        int singleHeight = height / A_Z.length-2;// 获取每一个字母的高度  (这里-2仅仅是为了好看而已)
 
         for (int i = 0; i < A_Z.length; i++) {
             paint.setColor(Color.rgb(33, 65, 98));  //设置字体颜色
             paint.setTypeface(Typeface.DEFAULT_BOLD);  //设置字体
             paint.setAntiAlias(true);  //设置抗锯齿
-            paint.setTextSize(44);  //设置字母字体大小
+
+            paint.setTextSize(getResources().getDimension(R.dimen.sidebar_size));  //设置字母字体大小
             // 选中的状态
             if (i == choose) {
                 paint.setColor(Color.parseColor("#3399ff"));  //选中的字母改变颜色
@@ -83,6 +88,8 @@ public class SideBar extends View {
         }
 
     }
+
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {

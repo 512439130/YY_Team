@@ -66,9 +66,9 @@
 
     <com.somust.yyteam.view.SideBar
         android:id="@+id/sidebar"
-        android:layout_width="15dp"
+        android:layout_width="14dp"
         android:layout_marginTop="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
 
         android:background="#00ffffff" />

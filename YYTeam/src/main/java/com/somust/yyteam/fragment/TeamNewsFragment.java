@@ -83,7 +83,7 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
         mView = inflater.inflate(R.layout.fragment_team_news, null);
         Intent intent = getActivity().getIntent();
         user = (User) intent.getSerializableExtra("user");
-
+        T.isShow = false;
         initView();
         requestData();
         initListener();

@@ -91,7 +91,6 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="30dp"
                 android:hint="请输入手机号..."
-                android:text="13160677911"
                 android:inputType="number"
                 android:maxLength="11"
                 android:textColor="#ffffff"
@@ -119,7 +118,7 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="30dp"
                 android:hint="请输入密码..."
-                android:text="123456"
+
                 android:inputType="textPassword"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />

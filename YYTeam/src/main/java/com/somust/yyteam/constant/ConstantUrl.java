@@ -125,7 +125,7 @@ public class ConstantUrl extends Constant{
     public static final String obtainTaskMember_interface = "yy_obtain_task_member?";//获取活动成员列表
     public static final String addTask_interface = "yy_add_task_member?Json="; //加入活动的处理
 
-    public static final String getTeamMemberByResponsible_interface = "yy_obtain_team_member_by_responsible";   //查询负责人的信息
+    public static final String getTeamMemberByResponsible_interface = "yy_obtain_team_member_by_responsible?";   //查询负责人的信息
 
 
 

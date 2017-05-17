@@ -92,6 +92,7 @@ public class FriendFragment extends Fragment  implements SwipeRefreshLayout.OnRe
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_friend, null);
+        T.isShow = false;
         initView();
         Intent intent = getActivity().getIntent();
         user = (User) intent.getSerializableExtra("user");

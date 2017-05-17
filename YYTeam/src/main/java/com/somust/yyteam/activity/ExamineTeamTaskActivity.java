@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -87,6 +89,7 @@ public class ExamineTeamTaskActivity extends Activity implements SwipeRefreshLay
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_examine_team_task);
+        immersiveStatusBar();
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
         team = (Team) intent.getSerializableExtra("team");
@@ -97,6 +100,19 @@ public class ExamineTeamTaskActivity extends Activity implements SwipeRefreshLay
         initListener();
     }
 
+    /**
+     * 沉浸式状态栏（伪）
+     */
+    private void immersiveStatusBar() {
+        //沉浸式状态栏（伪）
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
 
     /**
      * 初始化数据

@@ -162,11 +162,9 @@ public class CreateTeamTaskActivity extends Activity implements View.OnClickList
         //沉浸式状态栏（伪）
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setNavigationBarColor(Color.TRANSPARENT);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
@@ -194,6 +192,7 @@ public class CreateTeamTaskActivity extends Activity implements View.OnClickList
         taskTitle = (EditText) findViewById(R.id.create_task_title_et);
         taskContent = (EditText) findViewById(R.id.create_task_content_et);
         taskMaxNumber = (NumberAddSubView) findViewById(R.id.task_max_number);
+        teamTask.setTaskMaxNumber(1);
         btn_createTaskNews = (Button) findViewById(R.id.create_task_btn);
 
 

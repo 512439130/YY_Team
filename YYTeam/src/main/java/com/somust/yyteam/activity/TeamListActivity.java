@@ -46,7 +46,7 @@ import okhttp3.Call;
  * 我的大学社团列表
  */
 
-public class TeamListActivity extends Activity implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener{
+public class TeamListActivity extends Activity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "TeamListActivity:";
     private ImageView iv_reutrn;
     private TextView titleName;
@@ -59,18 +59,13 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
     private TeamListAdapter teamListAdapter;
 
 
-
-
-
     private Bitmap[] teamBitmaps;
-
-
 
 
     private User user;
     private List<TeamMember> teamMembers;
 
-    private List<TeamMemberMessage> teamMemberMessages  = new ArrayList<TeamMemberMessage>();
+    private List<TeamMemberMessage> teamMemberMessages = new ArrayList<TeamMemberMessage>();
 
     private Intent intent;
 
@@ -87,14 +82,14 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
 
 
             if (bundle.getString("team_success") == "team_success") {  //社团图片成功获取
-                for(int i = 0;i<teamMemberMessages.size();i++){
+                for (int i = 0; i < teamMemberMessages.size(); i++) {
                     teamMemberMessages.get(i).setTeamImage(teamBitmaps[i]);
                 }
                 teamFlag = true;
             }
 
 
-            if(teamFlag){   //2张图片都请求成功时
+            if (teamFlag) {   //2张图片都请求成功时
 
                 //请求是否有更新（在这个时间段后）
                 teamListAdapter.notifyDataSetChanged();
@@ -105,19 +100,13 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
     };
 
 
-
-
-
-
-
-
-
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_list);
         immersiveStatusBar();
+
+        T.isShow = false;
+
         //接收用户的登录信息user
         intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
@@ -128,6 +117,7 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
         obtainTeamInfo(user.getUserId().toString());
         initListener();
     }
+
     /**
      * 沉浸式状态栏（伪）
      */
@@ -135,14 +125,13 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
         //沉浸式状态栏（伪）
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setNavigationBarColor(Color.TRANSPARENT);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
+
     /**
      * 初始化数据
      */
@@ -155,15 +144,13 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
         header = getLayoutInflater().inflate(R.layout.team_header, null);
 
         swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
-        swipeLayout.setColorSchemeResources( android.R.color.holo_red_light, android.R.color.holo_orange_dark,android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
+        swipeLayout.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_orange_dark, android.R.color.holo_orange_light, android.R.color.holo_green_light);//设置刷新圆圈颜色变化
         swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
         teamNewsListView = (ListView) findViewById(R.id.list);
         teamNewsListView.addHeaderView(header);
 
         nullDataTextView = (TextView) findViewById(R.id.null_data_tv);
     }
-
-
 
 
     /**
@@ -174,6 +161,7 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
         teamListAdapter = new TeamListAdapter(TeamListActivity.this, teamMemberMessages);
         teamNewsListView.setAdapter(teamListAdapter);
     }
+
     /**
      * 设置监听
      */
@@ -198,6 +186,7 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
             }
         });
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -245,7 +234,7 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
                 teamMembers = gson.fromJson(response, new TypeToken<List<TeamMember>>() {
                 }.getType());
 
-                teamBitmaps= new Bitmap[teamMembers.size()];
+                teamBitmaps = new Bitmap[teamMembers.size()];
 
                 for (int i = 0; i < teamMembers.size(); i++) {
                     TeamMemberMessage teamMemberMessage = new TeamMemberMessage();
@@ -264,21 +253,15 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
                 }
 
 
-
             }
             initDatas();
         }
     }
 
 
-
-
-
-
-
-
     /**
      * 请求社团logo
+     *
      * @param url
      * @param i
      */
@@ -299,18 +282,12 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
 
                     @Override
                     public void onResponse(Bitmap bitmap, int id) {
-                        teamBitmaps[i]=bitmap;
+                        teamBitmaps[i] = bitmap;
                         UpdateUi(teamMemberHandler, "team_success", "team_success");
                     }
                 });
 
     }
-
-
-
-
-
-
 
 
     /**
@@ -332,7 +309,6 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
     }
 
 
-
     /**
      * 更新UI和控制子线程设置图片
      *
@@ -340,7 +316,7 @@ public class TeamListActivity extends Activity implements View.OnClickListener,S
      * @param key
      * @param value
      */
-    private void UpdateUi(Handler handler, String key, String value ) {
+    private void UpdateUi(Handler handler, String key, String value) {
         Message msg = handler.obtainMessage();
         Bundle bundle = new Bundle();
         bundle.putString(key, value);

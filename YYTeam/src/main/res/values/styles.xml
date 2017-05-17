@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowTranslucentNavigation">false</item>
 
+
     </style>
 
     <style name="AnimHead" parent="@android:style/Animation">

@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 import com.somust.yyteam.adapter.SearchUserAdapter;
 import com.somust.yyteam.bean.AllUser;
+import com.somust.yyteam.bean.TeamFriend;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.log.L;
@@ -55,20 +56,16 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
     private List<AllUser> resultData;
 
 
-
-
     /**
      * 全部用户的数据(查询出的数据，bitmap还未获取)
      */
     private List<User> users;  //数据库的bean数据
 
 
-
     /**
      * 保存网络获取的图片集合
      */
     private Bitmap[] portraitBitmaps;
-
 
 
     /**
@@ -79,10 +76,13 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
 
     /**
      * 保存登录用户的手机号
+     *
      * @param savedInstanceState
      */
     private String Own_id;
 
+
+    private List<TeamFriend> friendlist;   //登录用户的好友信息
 
 
     private Handler userImageHandler = new Handler() {
@@ -91,7 +91,7 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
             Bundle bundle = msg.getData();
 
             if (bundle.getString("user_success") == "user_success") {  //社团图片成功获取
-                for(int i = 0;i<allUsers.size();i++){
+                for (int i = 0; i < allUsers.size(); i++) {
                     allUsers.get(i).setUserImage(portraitBitmaps[i]);
                 }
                 searchUserAdapter.notifyDataSetChanged();
@@ -101,14 +101,17 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
     };
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_user);
+        Intent intent = this.getIntent();
+        Own_id = intent.getStringExtra("Own_id");
         immersiveStatusBar();
         initViews();
         obtainAllUserInfo();//获取全部用户
+
+        obtainFriendList(Own_id);//获取自己的好友
     }
 
     /**
@@ -118,11 +121,9 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
         //沉浸式状态栏（伪）
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setNavigationBarColor(Color.TRANSPARENT);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
@@ -150,8 +151,25 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
                 Intent intent = new Intent(SearchUserActivity.this, PersionInformationActivity.class);
                 intent.putExtra("userId", userId);
                 intent.putExtra("userNickname", userNickname);
-                intent.putExtra("Own_id",Own_id);
-                intent.putExtra("openState","stranger");  //好友
+                intent.putExtra("Own_id", Own_id);
+                int flag = -1;
+                //如果是好友，则不显示添加好友，如果不是好友，则显示添加好友按钮有
+
+                for (int i = 0; i < friendlist.size(); i++) {
+                    if (resultData.get(position).getUserPhone().contains(friendlist.get(i).getFriendPhone().getUserPhone())) {  //模糊查询
+                        flag = 0;  //相同
+                        break;
+                    } else {
+                        flag = 1; //不同
+                    }
+                }
+
+
+                if (flag == 0) {  //相同
+                    intent.putExtra("openState", "friend");  //好友
+                } else if (flag == 1) {
+                    intent.putExtra("openState", "stranger");  //好友
+                }
                 startActivity(intent);
             }
         });
@@ -161,10 +179,53 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
      * 初始化数据
      */
     private void initData() {
-        Intent intent = this.getIntent();
-        Own_id = intent.getStringExtra("Own_id");
+
         getResultData(null);  //初始化listview
         initListener();
+    }
+
+    /**
+     * 获取好友列表
+     *
+     * @param phone 手机号
+     */
+    private void obtainFriendList(String phone) {
+        OkHttpUtils
+                .post()
+                .url(ConstantUrl.friendUrl + ConstantUrl.friend_interface)
+                .addParams("user_id", phone)
+                .build()
+                .execute(new MyStringCallback());
+
+    }
+
+
+    /**
+     * 回调
+     */
+    public class MyStringCallback extends StringCallback {
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+            L.e(TAG, "onError:" + e.getMessage());
+            T.testShowShort(SearchUserActivity.this, "获取失败,服务器正在维护中");
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            if (response.equals("[]")) {
+                T.testShowShort(SearchUserActivity.this, "您当前无好友");
+            } else {
+
+                T.testShowShort(SearchUserActivity.this, "好友获取成功");
+                L.v(TAG, "onResponse:" + response);
+                Gson gson = new Gson();
+                friendlist = gson.fromJson(response, new TypeToken<List<TeamFriend>>() {
+                }.getType());
+
+
+            }
+        }
     }
 
 
@@ -215,8 +276,6 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
     }
 
 
-
-
     /**
      * 获取网络图片请求，并将网络图片显示到imageview中去(如果是多次请求，需要一个bitmap数组)
      *
@@ -253,7 +312,7 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
      */
     public void Transformation(List<AllUser> mAllUser) {
 
-        for (int i = 0;i<users.size();i++ ){
+        for (int i = 0; i < users.size(); i++) {
             AllUser allUser = new AllUser();
             allUser.setUserId(users.get(i).getUserId().toString());
             allUser.setUserPhone(users.get(i).getUserPhone());
@@ -279,6 +338,7 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
             resultData = new ArrayList<>();
         } else {
             resultData.clear();
+
             for (int i = 0; i < allUsers.size(); i++) {
                 if (allUsers.get(i).getUserPhone().contains(text.trim()) && !allUsers.get(i).getUserPhone().equals(Own_id)) {  //模糊查询
                     resultData.add(allUsers.get(i));
@@ -321,7 +381,7 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
      * @param key
      * @param value
      */
-    private void UpdateUi(Handler handler, String key, String value ) {
+    private void UpdateUi(Handler handler, String key, String value) {
         Message msg = handler.obtainMessage();
         Bundle bundle = new Bundle();
         bundle.putString(key, value);

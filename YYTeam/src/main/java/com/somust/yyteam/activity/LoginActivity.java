@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
@@ -28,6 +29,7 @@ import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.User;
 import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
+import com.somust.yyteam.utils.AndroidBug54971Workaround;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.DropEditText;
@@ -72,6 +74,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Ron
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         immersiveStatusBar();
+
         initView();
         initEvent();
 
@@ -92,12 +95,19 @@ public class LoginActivity extends Activity implements View.OnClickListener, Ron
     private void immersiveStatusBar() {
         //沉浸式状态栏（伪）
         if (Build.VERSION.SDK_INT >= 21) {
-            View decorView = getWindow().getDecorView();
+            /*View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);  //底部
+            getWindow().setStatusBarColor(Color.TRANSPARENT);  //顶部*/
+
+
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
@@ -246,7 +256,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Ron
                     bundle.putSerializable("user", user);
                     intent.putExtras(bundle);
                     startActivity(intent);
-                    T.testShowShort(LoginActivity.this, "用户Id：" + userId);
+                    //T.testShowShort(LoginActivity.this, "用户Id：" + userId);
                     LoginActivity.this.finish();
                     dialog.cancel();
                 } else {

@@ -154,13 +154,14 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
                 intent.putExtra("Own_id", Own_id);
                 int flag = -1;
                 //如果是好友，则不显示添加好友，如果不是好友，则显示添加好友按钮有
-
-                for (int i = 0; i < friendlist.size(); i++) {
-                    if (resultData.get(position).getUserPhone().contains(friendlist.get(i).getFriendPhone().getUserPhone())) {  //模糊查询
-                        flag = 0;  //相同
-                        break;
-                    } else {
-                        flag = 1; //不同
+                if (friendlist != null) {
+                    for (int i = 0; i < friendlist.size(); i++) {
+                        if (resultData.get(position).getUserPhone().contains(friendlist.get(i).getFriendPhone().getUserPhone())) {  //模糊查询
+                            flag = 0;  //相同
+                            break;
+                        } else {
+                            flag = 1; //不同
+                        }
                     }
                 }
 
@@ -168,7 +169,10 @@ public class SearchUserActivity extends Activity implements SearchView.SearchVie
                 if (flag == 0) {  //相同
                     intent.putExtra("openState", "friend");  //好友
                 } else if (flag == 1) {
-                    intent.putExtra("openState", "stranger");  //好友
+                    intent.putExtra("openState", "stranger");  //陌生人
+                }
+                if (flag == -1) {
+                    intent.putExtra("openState", "stranger");  //陌生人
                 }
                 startActivity(intent);
             }

@@ -13,13 +13,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
 
 import com.somust.yyteam.adapter.SearchTeamAdapter;
 import com.somust.yyteam.bean.AllTeam;
 import com.somust.yyteam.bean.Team;
+import com.somust.yyteam.bean.TeamMember;
+import com.somust.yyteam.bean.TeamMemberMessage;
 import com.somust.yyteam.bean.User;
+import com.somust.yyteam.constant.Constant;
 import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
@@ -83,7 +87,7 @@ public class SearchTeamActivity extends Activity implements SearchView.SearchVie
     private List<Team> NoBitmapTeamResult ;    //保存搜索结果的无Bitmap的team集合（类型为Team）
 
 
-
+    private List<TeamMember> teamMembers;
 
 
 
@@ -94,17 +98,12 @@ public class SearchTeamActivity extends Activity implements SearchView.SearchVie
         @Override
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
-
-
             if (bundle.getString("team_success") == "team_success") {  //社团图片成功获取
                 for(int i = 0;i<allTeams.size();i++){
                     allTeams.get(i).setTeamImage(teamImageBitmaps[i]);
                 }
                 searchTeamAdapter.notifyDataSetChanged();
             }
-
-
-
         }
     };
     @Override
@@ -112,9 +111,11 @@ public class SearchTeamActivity extends Activity implements SearchView.SearchVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_team);
         immersiveStatusBar();
+        Intent intent = this.getIntent();
+        user = (User) intent.getSerializableExtra("user");
         initViews();
         obtainAllTeamInfo();//获取全部社团
-
+        obtainTeamInfo(user.getUserId().toString());//获取自己的好友
     }
 
 
@@ -146,9 +147,6 @@ public class SearchTeamActivity extends Activity implements SearchView.SearchVie
      * 初始化数据
      */
     private void initData() {
-        Intent intent = this.getIntent();
-        user = (User) intent.getSerializableExtra("user");
-
         getResultData(null);  //初始化listview
         initListener();
     }
@@ -167,7 +165,29 @@ public class SearchTeamActivity extends Activity implements SearchView.SearchVie
                 Intent intent = new Intent(SearchTeamActivity.this, TeamInformationActivity.class);
                 intent.putExtra("user", user);
                 intent.putExtra("teams", team);
-                //intent.putExtra("team","stranger");  //好友
+
+                int flag = -1;
+                //如果是好友，则不显示添加好友，如果不是好友，则显示添加好友按钮有
+                if (teamMembers != null) {
+                    for (int i = 0; i < teamMembers.size(); i++) {
+                        if (NoBitmapTeamResult.get(position).getTeamId().toString().contains(teamMembers.get(i).getTeamId().getTeamId().toString())) {  //模糊查询
+                            flag = 0;  //相同
+                            break;
+                        } else {
+                            flag = 1; //不同
+                        }
+                    }
+                }
+                if (flag == 0) {  //相同
+                    intent.putExtra("openTeamState", "team_member");  //好友
+                } else if (flag == 1) {
+                    intent.putExtra("openTeamState", "no_team_member");  //陌生人
+                }
+                if (flag == -1) {
+                    intent.putExtra("openTeamState", "no_team_member");  //陌生人
+                }
+
+
                 startActivity(intent);
             }
         });
@@ -331,4 +351,45 @@ public class SearchTeamActivity extends Activity implements SearchView.SearchVie
         msg.setData(bundle);
         handler.sendMessage(msg);
     }
+
+
+
+    /**
+     * 获取我的所有社团
+     *
+     * @param userId
+     */
+    private void obtainTeamInfo(String userId) {
+        OkHttpUtils
+                .post()
+                .url(ConstantUrl.teamUrl + ConstantUrl.getMyTeam_interface)
+                .addParams("userId", userId)
+                .build()
+                .execute(new MyTeamIdCallback());
+    }
+
+
+    public class MyTeamIdCallback extends StringCallback {
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+            L.e(TAG, "onError:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            if (response.equals("[]")) {
+
+            } else {
+                Gson gson = new GsonBuilder().setDateFormat(Constant.formatType).create();
+                teamMembers = gson.fromJson(response, new TypeToken<List<TeamMember>>() {
+                }.getType());
+            }
+
+        }
+    }
+
+
+
+
 }

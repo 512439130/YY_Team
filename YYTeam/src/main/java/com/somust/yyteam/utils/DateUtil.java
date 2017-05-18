@@ -1,5 +1,6 @@
 package com.somust.yyteam.utils;
 
+import com.somust.yyteam.bean.Community;
 import com.somust.yyteam.bean.TaskMember;
 import com.somust.yyteam.bean.Team;
 import com.somust.yyteam.bean.TeamNews;
@@ -95,7 +96,7 @@ public class DateUtil {
 
 
     /**
-     * 对社团新闻时间的排序
+     * 对社团时间的排序
      * @param teams
      */
 
@@ -172,6 +173,44 @@ public class DateUtil {
             }
         });
         System.out.println("排序后："+teamTasks);
+    }
+
+
+    /**
+     * 对社团圈时间的排序
+     * @param communities
+     */
+
+    public static void CommunitySortDate(List<Community> communities){
+
+        System.out.println("排序前："+communities);
+
+        Collections.sort(communities, new Comparator<Community>(){
+
+            /*
+             * int compare(Student o1, Student o2) 返回一个基本类型的整型，
+             * 返回负数表示：o1 小于o2，
+             * 返回0 表示：o1和o2相等，
+             * 返回正数表示：o1大于o2。
+             */
+            public int compare(Community o1, Community o2) {
+                try {
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                    Date date1 = df.parse(o1.getCommunityTime());
+                    Date date2 = df.parse(o2.getCommunityTime());
+                    //按照学生的年龄进行升序排列
+                    if (date1.getTime() < date2.getTime()) {   //date1 在date2前
+                        return 1;
+                    } else if (date1.getTime() == date2.getTime()) {
+                        return 0;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return -1;
+            }
+        });
+        System.out.println("排序后："+communities);
     }
 
 

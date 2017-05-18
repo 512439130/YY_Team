@@ -348,7 +348,13 @@ public class TeamHomeActivity extends FragmentActivity implements View.OnClickLi
     private class addCommunityOncliclListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            L.v(TAG,"发送社团圈");
+            switch (v.getId()){
+                case R.id.id_add_community:
+                    intent = new Intent(TeamHomeActivity.this, CreateCommunityActivity.class);
+                    intent.putExtra("teamMember", teamMember);
+                    startActivity(intent);
+                    break;
+            }
         }
     }
 }

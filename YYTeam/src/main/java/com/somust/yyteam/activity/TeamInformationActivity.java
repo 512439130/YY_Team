@@ -63,6 +63,8 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
 
     private Button btn_add_team;  //加入社团
 
+    private String openTeamState;  //是否加入社团
+
 
     private ProgressDialog dialog;
 
@@ -88,6 +90,8 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
         teamNews = (TeamNews) intent.getSerializableExtra("teamNews");  //新闻列表跳转
         team = (Team) intent.getSerializableExtra("teams");  //社团列表跳转
         user = (User) intent.getSerializableExtra("user");
+
+        openTeamState = intent.getStringExtra("openTeamState");
         obtainFriendList(user.getUserPhone());
         //通过网络请求获取用户信息
 
@@ -130,6 +134,9 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
 
     private void initDatas() {
         titleName.setText("社团信息");
+
+
+
         if (teamNews != null) {
             //社团类型转换图标
             if (teamNews.getTeamId().getTeamType().equals("学习")) {
@@ -177,7 +184,15 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
         //监听事件
         iv_reutrn.setOnClickListener(this);
         team_president_image.setOnClickListener(this);
-        btn_add_team.setOnClickListener(this);
+        if(openTeamState.equals("team_member")){  //社团成员
+            btn_add_team.setEnabled(false);
+            btn_add_team.setText("您已经加入社团");
+            btn_add_team.setTextColor(Color.RED);
+        }else if(openTeamState.equals("no_team_member")){//非社团成员
+            btn_add_team.setEnabled(true);
+            btn_add_team.setOnClickListener(this);
+        }
+
     }
 
 
@@ -249,15 +264,18 @@ public class TeamInformationActivity extends Activity implements View.OnClickLis
                 Intent intent = new Intent(TeamInformationActivity.this, PersionInformationActivity.class);
                 int flag = -1;
                 //如果是好友，则不显示添加好友，如果不是好友，则显示添加好友按钮有
-                for (int i = 0; i < friendlist.size(); i++) {
-                    if (teamNews.getTeamId().getTeamPresident().getUserPhone().equals(friendlist.get(i).getFriendPhone().getUserPhone()) || teamNews.getTeamId().getTeamPresident().getUserPhone().equals(user.getUserPhone())) {  //模糊查询
-                        flag = 0; //相同
-                        break;
-                    } else{  //模糊查询
-
-                        flag = 1; //不同
-
+                if (friendlist != null) {
+                    for (int i = 0; i < friendlist.size(); i++) {
+                        if (teamNews.getTeamId().getTeamPresident().getUserPhone().equals(friendlist.get(i).getFriendPhone().getUserPhone()) || teamNews.getTeamId().getTeamPresident().getUserPhone().equals(user.getUserPhone())) {  //模糊查询
+                            flag = 0; //相同
+                            break;
+                        } else {  //模糊查询
+                            flag = 1; //不同
+                        }
                     }
+                }
+                if (flag == -1) {
+                    intent.putExtra("openState", "stranger");  //陌生人
                 }
                 if (flag == 0) {  //相同
                     intent.putExtra("openState", "friend");  //好友

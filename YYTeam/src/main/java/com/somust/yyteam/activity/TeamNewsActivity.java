@@ -10,12 +10,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
+import com.somust.yyteam.bean.TeamMember;
 import com.somust.yyteam.bean.TeamNews;
 import com.somust.yyteam.bean.User;
+import com.somust.yyteam.constant.Constant;
+import com.somust.yyteam.constant.ConstantUrl;
 import com.somust.yyteam.utils.log.L;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
+import com.yy.http.okhttp.callback.StringCallback;
+
+import java.util.List;
 
 import okhttp3.Call;
 
@@ -37,7 +46,7 @@ public class TeamNewsActivity extends Activity implements View.OnClickListener {
     private TextView news_time;  //新闻发表时间
 
     private User user;
-
+    private List<TeamMember> teamMembers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +57,8 @@ public class TeamNewsActivity extends Activity implements View.OnClickListener {
         Intent intent = this.getIntent();
         teamNews = (TeamNews) intent.getSerializableExtra("teamNews");
         user = (User) intent.getSerializableExtra("user");
-        L.v(TAG, teamNews.toString());
 
+        obtainTeamInfo(user.getUserId().toString());
         initView();
         initData();
         initListener();
@@ -121,6 +130,28 @@ public class TeamNewsActivity extends Activity implements View.OnClickListener {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("teamNews",teamNews);
                 bundle.putSerializable("user",user);
+                int flag = -1;
+                //如果是好友，则不显示添加好友，如果不是好友，则显示添加好友按钮有
+                if (teamMembers != null) {
+                    for (int i = 0; i < teamMembers.size(); i++) {
+                        if (teamNews.getTeamId().toString().contains(teamMembers.get(i).getTeamId().getTeamId().toString())) {  //模糊查询
+                            flag = 0;  //相同
+                            break;
+                        } else {
+                            flag = 1; //不同
+                        }
+                    }
+                }
+                if (flag == 0) {  //相同
+                    intent.putExtra("openTeamState", "team_member");  //好友
+                } else if (flag == 1) {
+                    intent.putExtra("openTeamState", "no_team_member");  //陌生人
+                }
+                if (flag == -1) {
+                    intent.putExtra("openTeamState", "no_team_member");  //陌生人
+                }
+
+
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -190,4 +221,39 @@ public class TeamNewsActivity extends Activity implements View.OnClickListener {
     }
 
 
+    /**
+     * 获取我的所有社团
+     *
+     * @param userId
+     */
+    private void obtainTeamInfo(String userId) {
+        OkHttpUtils
+                .post()
+                .url(ConstantUrl.teamUrl + ConstantUrl.getMyTeam_interface)
+                .addParams("userId", userId)
+                .build()
+                .execute(new MyTeamIdCallback());
+    }
+
+
+    public class MyTeamIdCallback extends StringCallback {
+        @Override
+        public void onError(Call call, Exception e, int id) {
+            e.printStackTrace();
+            L.e(TAG, "onError:" + e.getMessage());
+
+        }
+
+        @Override
+        public void onResponse(String response, int id) {
+            if (response.equals("[]")) {
+
+            } else {
+                Gson gson = new GsonBuilder().setDateFormat(Constant.formatType).create();
+                teamMembers = gson.fromJson(response, new TypeToken<List<TeamMember>>() {
+                }.getType());
+            }
+
+        }
+    }
 }

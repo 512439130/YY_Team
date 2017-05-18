@@ -24,6 +24,9 @@ public class ConstantUrl extends Constant{
     //taskMembers
     public static final String taskMemberUrl = BASE_URL+"/renren-security/taskMember/";
 
+    //team
+    public static final String communityUrl = BASE_URL+"/renren-security/community/";
+
     //file
     public static final String FileImageUrl = BASE_URL+"/renren-security/file/";
 
@@ -88,10 +91,20 @@ public class ConstantUrl extends Constant{
 
     public static final String updateTeamMemberState_interface = "yy_operate_team_state?";  //处理退出社团
 
+    public static final String updateTeamMemberPosition_interface = "yy_operate_team_member_position_state?";  //社团成员任职
+
+    public static final String createCommunity_interface = "yy_add_community?Json=";  //发布社团圈
+    public static final String getCommunity_interface = "yy_obtain_community?";  //获取社团圈
+
     /**
-     * 处理社团成员退出
-     *http://localhost:8080/renren-security/teamMember/yy_operate_team_state?teamMemberId=4&teamMemberState = '1'
+     * 查询社团圈 http://localhost:8080/renren-security/community/yy_obtain_community
      */
+    /**
+     * 发布社团圈
+     * http://localhost:8080/renren-security/community/yy_add_community?Json=
+     *
+     */
+
 
     //interface teamTask
     public static final String getTeamTask_interface = "yy_obtain_team_task";//获取活动列表

@@ -125,7 +125,7 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
             //隐藏社团任务通知
             mTeamnout.setVisibility(View.GONE);
             mSendNew.setVisibility(View.GONE);
-        } else if (teamMember.getTeamMemberPosition().equals("部长")) {
+        } else if (teamMember.getTeamMemberPosition().equals("干部")) {
             //隐藏发布社团新闻
             //隐藏完善社团信息
             mSendNew.setVisibility(View.GONE);
@@ -364,11 +364,6 @@ public class TeamMineFragment extends Fragment implements View.OnClickListener {
                         .execute(new MyRequestSignOutTeamCallback());
             }
         }, 600);//2秒后执行Runnable中的run方法
-
-
-
-
-
     }
     public class MyRequestSignOutTeamCallback extends StringCallback {
         @Override

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="70%"
+        android:orientation="vertical"
+        android:paddingTop="15dp"
+        android:background="#ffffff"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="社员职责变更"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/colorAccent"
+
+            android:layout_marginBottom="10dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eeeeee"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/team_member_cadre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="任职为干部"
+            android:gravity="center"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eeeeee"/>
+
+
+        <TextView
+            android:id="@+id/team_member_mohamed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="任职为干事"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+</android.support.percent.PercentRelativeLayout>

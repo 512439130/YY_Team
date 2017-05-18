@@ -35,6 +35,7 @@ import java.util.List;
 import okhttp3.Call;
 
 import android.os.Handler;
+import android.widget.TextView;
 /**
  * Created by DELL on 2016/3/14.
  */
@@ -78,6 +79,8 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private User user;
 
+    private TextView noDataTextView;  //无数据展示内容
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_team_news, null);
@@ -103,6 +106,8 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
         swipeLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);  //设置刷新圆圈背景
         teamNewsListView = (ListView) mView.findViewById(R.id.list);
         teamNewsListView.addHeaderView(header);
+
+        noDataTextView = (TextView) mView.findViewById(R.id.null_data_tv);
     }
 
 
@@ -203,8 +208,10 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             if (response.equals("[]")) {
                 T.testShowShort(getActivity(), "当前无社团新闻");
+                noDataTextView.setVisibility(View.VISIBLE);
+                noDataTextView.setText("当前无社团新闻");
             } else {
-
+                noDataTextView.setVisibility(View.INVISIBLE);
                 T.testShowShort(getActivity(), "社团新闻获取成功");
                 L.v(TAG, "onResponse:" + response);
                 Gson gson = new Gson();
@@ -241,9 +248,9 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                 }
 
-                initDatas();
-            }
 
+            }
+            initDatas();
         }
     }
 

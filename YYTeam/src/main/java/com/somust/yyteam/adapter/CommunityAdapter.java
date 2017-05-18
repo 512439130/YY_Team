@@ -2,6 +2,7 @@ package com.somust.yyteam.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 import android.content.Context;
@@ -13,25 +14,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.somust.yyteam.R;
+import com.somust.yyteam.bean.CommunityMessage;
+import com.somust.yyteam.bean.TeamNewsMessage;
 
 /**
  * 社团圈
  */
 public class CommunityAdapter extends BaseAdapter {
-    public ArrayList<HashMap<String, String>> list;
+    public List<CommunityMessage> communityMessages;
     public Context context;
     public LayoutInflater layoutInflater;
 
-    public CommunityAdapter(Context context, ArrayList<HashMap<String, String>> list) {
+    public CommunityAdapter(Context context, List<CommunityMessage> communityMessages) {
         this.context = context;
-        this.list = list;
+        this.communityMessages = communityMessages;
         layoutInflater = LayoutInflater.from(context);
     }
 
 
     @Override
     public int getCount() {
-        return list.size();
+        return communityMessages.size();
     }
 
     @Override
@@ -64,8 +67,11 @@ public class CommunityAdapter extends BaseAdapter {
             view = convertView;
             holder = (ViewHolder) view.getTag();
         }
-        holder.release_content.setText(list.get(position).get("itemText"));
-
+        holder.release_image.setImageBitmap(communityMessages.get(position).getUserImage());
+        holder.release_name.setText(communityMessages.get(position).getUserNickname());
+        holder.release_content.setText(communityMessages.get(position).getCommunityContent());
+        holder.release_time.setText(communityMessages.get(position).getCommunityTime());
+        holder.release_picture.setImageBitmap(communityMessages.get(position).getCommunityImage());
 
         return view;
     }

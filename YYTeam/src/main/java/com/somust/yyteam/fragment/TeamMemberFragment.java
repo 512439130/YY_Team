@@ -1,17 +1,24 @@
 package com.somust.yyteam.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,8 +26,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.somust.yyteam.R;
+import com.somust.yyteam.activity.HomeActivity;
 import com.somust.yyteam.activity.PersionInformationActivity;
+import com.somust.yyteam.activity.SearchTeamActivity;
 import com.somust.yyteam.activity.SearchUserActivity;
+import com.somust.yyteam.activity.TeamMemberRequestActivity;
 import com.somust.yyteam.adapter.FriendAdapter;
 import com.somust.yyteam.adapter.TeamMemberAdapter;
 import com.somust.yyteam.bean.PersonBean;
@@ -34,6 +44,8 @@ import com.somust.yyteam.utils.SideBar.PinyinUtils;
 import com.somust.yyteam.utils.log.L;
 import com.somust.yyteam.utils.log.T;
 import com.somust.yyteam.view.SideBar;
+import com.somust.yyteam.view.popupwindow.OfficePopupWindowDialog;
+import com.somust.yyteam.view.popupwindow.SelectSearchPopupWindowDialog;
 import com.somust.yyteam.view.refreshview.RefreshLayout;
 import com.yy.http.okhttp.OkHttpUtils;
 import com.yy.http.okhttp.callback.BitmapCallback;
@@ -92,8 +104,18 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
     private TeamMember teamMember;
     private Integer teamId = 0;
 
+    private PopupWindow popupWindow;  //变更社团职责
+    private String teamPosition;
+
+    private String positionUserId;
+    private String positionTeamId;
+    private String teamMemberPosition;
+
+
+
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         mView = inflater.inflate(R.layout.fragment_team_member, null);
         initView();
         Intent intent = getActivity().getIntent();
@@ -101,10 +123,11 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
         teamMember = (TeamMember) intent.getSerializableExtra("teamMember");
         teamId = teamMember.getTeamId().getTeamId();
 
-
+        teamPosition = teamMember.getTeamMemberPosition();
         //发送网络请求，获取社团成员列表
         obtainTeamMemberList(teamId.toString());
         initListener();
+
 
         return mView;
     }
@@ -237,6 +260,23 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
         //设置刷新监听
         swipeLayout.setOnRefreshListener(this);
 
+        if(teamPosition.equals("社长")){
+            friendListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    positionUserId = personBeenList.get(position - 1).getUserId().toString();
+                    positionTeamId = teamId.toString();
+
+                    if(!teamMembers.get(position-1).getTeamMemberPosition().equals("社长"))
+                    {
+                        openSelectView(view);
+                    }
+
+                    return true;
+                }
+            });
+        }
+
 
 
     }
@@ -291,6 +331,7 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
             String Fpinyin = pinyin.substring(0, 1).toUpperCase();
 
             PersonBean person = new PersonBean();
+            person.setUserId(teamMembers.get(i).getUserId().getUserId());
             person.setName(names[i]);
             person.setImage(portraitBitmaps[i]);
             person.setPinYin(pinyin);
@@ -332,4 +373,67 @@ public class TeamMemberFragment extends Fragment implements SwipeRefreshLayout.O
     }
 
 
+
+
+    /**
+     * 打开任职选择框
+     *
+     * @param view
+     */
+    private void openSelectView(View view) {
+        OfficePopupWindowDialog officePopupWindowDialog = new OfficePopupWindowDialog(getActivity(), view, getActivity(), new OfficePopupWindowDialog.Callback() {
+            @Override
+            public void cadreClick(View v) {
+                L.v(TAG, "任职为干部");
+                teamMemberPosition = "干部";
+                L.v(TAG,positionUserId+"-"+positionTeamId+"-"+teamMemberPosition);
+
+                updateTeamMemberPosition(positionUserId,positionTeamId,teamMemberPosition);
+            }
+
+            @Override
+            public void mohamedClick(View v) {
+                L.v(TAG, "任职为干事");
+                teamMemberPosition = "干事";
+                L.v(TAG,positionUserId+"-"+positionTeamId+"-"+teamMemberPosition);
+                updateTeamMemberPosition(positionUserId,positionTeamId,teamMemberPosition);
+            }
+        });
+        officePopupWindowDialog.create();
+    }
+
+
+
+    /**
+     * 同意社团成员退出
+     */
+    private void updateTeamMemberPosition(final String uId,String tId, String teamMemberPosition) {
+        L.v(TAG, "更换成功");
+        //发起同意请求
+        OkHttpUtils
+                .post()
+                .url(ConstantUrl.teamMemberUrl + ConstantUrl.updateTeamMemberPosition_interface)
+                .addParams("userId", uId)
+                .addParams("teamId", tId)
+                .addParams("teamMemberPosition", teamMemberPosition)
+                .build()
+                .execute(new StringCallback() {
+                    public void onError(Call call, Exception e, int id) {
+                        e.printStackTrace();
+                        L.v(TAG, "请求失败");
+                        T.testShowShort(getActivity(), Constant.mProgressDialog_error);
+                        L.v(e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        L.v(response);
+                        L.v(TAG, "请求成功");
+                        T.testShowShort(getActivity(), Constant.mMessage_success);
+                        obtainTeamMemberList(teamId.toString());  //刷新
+                    }
+                });
+
+
+    }
 }

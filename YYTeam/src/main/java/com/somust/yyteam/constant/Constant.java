@@ -28,8 +28,13 @@ public class Constant {
     public static final String CROP_USER_IMAGE_NAME = "user_image.png";     //用户头像名称
     public static final String CROP_TEAM_IMAGE_NAME = "team_image.png";     //社团头像名称
     public static final String CROP_TEAM_NEWS_IMAGE_NAME = "team_news_image.png";     //社团新闻图片名称
+    public static final String CROP_COMMUNITY_IMAGE_NAME = "community_image.png";     //社团圈图片名称
+
+
 
     public static final String USER_IMAGE_PATH = BASE_URL + "/image/";         //用户头像存放的服务器地址
     public static final String TEAM_IMAGE_PATH = BASE_URL + "/image/team/";         //社团头像存放的服务器地址
     public static final String TEAM_NEWS_IMAGE_PATH = BASE_URL + "/image/news/";         //社团新闻存放的服务器地址
+
+    public static final String COMMUNITY_IMAGE_PATH = BASE_URL + "/image/community/";   //社团圈存放的服务器地址
 }

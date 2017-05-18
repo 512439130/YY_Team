@@ -98,8 +98,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             if (bundle.getString("token") == "token_success") {
                 L.v(TAG, "开始执行第二个请求");
                 try {
-                    SendHttpRegister();
-                } catch (IOException e) {
+                    final String phone = edt_phone.getText().toString().trim();
+                    getUserInfo(phone);  ///判断是否注册过
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -391,7 +392,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         // 方式四 使用静态方式创建并显示，这种进度条只能是圆形条,这里最后一个参数boolean cancelable 设置是否进度条是可以取消的
 
         final String phone = edt_phone.getText().toString().trim();
-        getUserInfo(phone);  ///判断是否注册过
 
         if(isRegister){
             registerMessage.setText("手机号已注册，如忘记密码，请找回密码！");
@@ -512,6 +512,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                                 isRegister = false;  //未注册
                             } else {
                                 isRegister = true;   //已注册
+                            }
+                            try {
+                                SendHttpRegister();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     });

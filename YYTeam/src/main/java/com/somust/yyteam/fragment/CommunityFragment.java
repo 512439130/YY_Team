@@ -311,7 +311,13 @@ public class CommunityFragment extends Fragment implements SwipeRefreshLayout.On
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                communityMessages.clear();
+
+                if(communityMessages != null){
+                    communityMessages.clear();
+                }
+                if(communities != null){
+                    communities.clear();
+                }
                 requestData();
                 swipeLayout.setRefreshing(false);
             }

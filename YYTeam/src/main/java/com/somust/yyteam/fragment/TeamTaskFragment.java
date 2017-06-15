@@ -122,7 +122,6 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
      * 初始化数据
      */
     private void initView() {
-        teamTaskMessages.clear();
 
         //头部
         header = getActivity().getLayoutInflater().inflate(R.layout.team_member_task_header, null);
@@ -431,9 +430,14 @@ public class TeamTaskFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                teamTaskMessages.clear();
-                requestData();
 
+                if(teamTaskMessages != null){
+                    teamTaskMessages.clear();
+                }
+                if(teamTasks != null){
+                    teamTasks.clear();
+                }
+                requestData();
                 swipeLayout.setRefreshing(false);
             }
         }, 1200);

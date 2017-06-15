@@ -1,10 +1,18 @@
 [
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
-        "source": "C:\\Users\\13160677911\\.android\\build-cache\\ec5d30310c6f62c3efbcb5f986db3d41feb0c5a1\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/C:\\Users\\13160677911\\.android\\build-cache\\ec5d30310c6f62c3efbcb5f986db3d41feb0c5a1\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
-        "source": "C:\\Users\\13160677911\\.android\\build-cache\\ec5d30310c6f62c3efbcb5f986db3d41feb0c5a1\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\IMKit\\build\\intermediates\\res\\merged\\release\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/C:\\Users\\13160677911\\.android\\build-cache\\ec5d30310c6f62c3efbcb5f986db3d41feb0c5a1\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/IMKit/build/intermediates/res/merged/release/color-v11/abc_background_cache_hint_selector_material_light.xml",
+        "source": "/home/yy/.android/build-cache/f44d4ec27c24948e6e2d705e6cc6c731568e3cbd/output/res/color-v11/abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/IMKit/build/intermediates/res/merged/release/color-v11/abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/home/yy/.android/build-cache/f44d4ec27c24948e6e2d705e6cc6c731568e3cbd/output/res/color-v11/abc_background_cache_hint_selector_material_dark.xml"
     }
 ]

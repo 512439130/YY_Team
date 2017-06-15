@@ -300,8 +300,12 @@ public class TeamListActivity extends Activity implements View.OnClickListener, 
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-
-                teamMemberMessages.clear();
+                if(teamMemberMessages != null){
+                    teamMemberMessages.clear();
+                }
+                if(teamMembers != null){
+                    teamMembers.clear();
+                }
                 obtainTeamInfo(user.getUserId().toString());
                 swipeLayout.setRefreshing(false);
             }

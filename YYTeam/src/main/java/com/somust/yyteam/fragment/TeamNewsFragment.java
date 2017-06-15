@@ -330,9 +330,13 @@ public class TeamNewsFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                teamNewsMessages.clear();
+                if(teamNewsMessages != null){
+                    teamNewsMessages.clear();
+                }
+                if(teamNewsList != null){
+                    teamNewsList.clear();
+                }
                 requestData();
-
                 swipeLayout.setRefreshing(false);
             }
         }, 1200);

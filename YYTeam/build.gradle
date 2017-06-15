@@ -16,8 +16,8 @@ android {
         applicationId "com.somust.yyteam"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 10011
-        versionName "1.0.11"
+        versionCode 10013
+        versionName "1.0.13"
     }
     buildTypes {
         release {

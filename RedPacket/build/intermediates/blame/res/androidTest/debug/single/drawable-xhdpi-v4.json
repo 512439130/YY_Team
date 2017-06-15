@@ -1,30 +1,58 @@
 [
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_ic_hongbao.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_ic_hongbao.png"
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_ic_hongbao.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_ic_hongbao.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_rmb.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_rmb.png"
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_rmb.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_rmb.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_bg_from_hongbao.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_bg_from_hongbao.png"
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_bg_from_hongbao.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_bg_from_hongbao.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_ic_hongbao_hover.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_ic_hongbao_hover.png"
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/_ic_pin.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/_ic_pin.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_ic_pin.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_ic_pin.png"
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/_bg_to_hongbao.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/_bg_to_hongbao.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_bg_to_hongbao.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_bg_to_hongbao.png"
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/_bg_from_hongbao.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/_bg_from_hongbao.png"
     },
     {
-        "merged": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_xiaobao_icon.png",
-        "source": "E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_xiaobao_icon.png"
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_ic_hongbao_hover.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_ic_hongbao_hover.png"
+    },
+    {
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/_ic_hongbao.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/_ic_hongbao.png"
+    },
+    {
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_ic_pin.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_ic_pin.png"
+    },
+    {
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/_rmb.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/_rmb.png"
+    },
+    {
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_bg_to_hongbao.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_bg_to_hongbao.png"
+    },
+    {
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/_ic_hongbao_hover.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/_ic_hongbao_hover.png"
+    },
+    {
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\_xiaobao_icon.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/E:\\work\\software\\androidstdio\\android_studio_workspace\\YY_Team\\RedPacket\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\_xiaobao_icon.png"
+    },
+    {
+        "merged": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/_xiaobao_icon.png",
+        "source": "/home/yy/AndroidStudioProjects/YY_Team/RedPacket/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/_xiaobao_icon.png"
     }
 ]

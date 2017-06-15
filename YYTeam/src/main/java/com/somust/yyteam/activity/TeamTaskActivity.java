@@ -313,7 +313,13 @@ public class TeamTaskActivity extends Activity implements View.OnClickListener,S
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
-                teamTaskMessages.clear();
+
+                if(teamTaskMessages != null){
+                    teamTaskMessages.clear();
+                }
+                if(teamTasks != null){
+                    teamTasks.clear();
+                }
                 requestData();
 
                 swipeLayout.setRefreshing(false);

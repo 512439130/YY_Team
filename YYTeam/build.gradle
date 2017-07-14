@@ -10,7 +10,7 @@ android {
         }
     }
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.2'
     defaultConfig {
         multiDexEnabled true
         applicationId "com.somust.yyteam"
@@ -33,7 +33,7 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            multiDexEnabled true
+            multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }

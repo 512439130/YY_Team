@@ -59,6 +59,7 @@ public class UpdateUserInfoActivity extends Activity implements View.OnClickList
 
     private BottomMenuDialog bottomMenuDialog;
     static public final int REQUEST_CODE_ASK_PERMISSIONS = 101;
+    static public final int WRITE_EXTERNAL_STORAGE_PERMISSIONS = 102;
     private PhotoUtils photoUtils;
     private Uri selectUri;
 
@@ -345,6 +346,7 @@ public class UpdateUserInfoActivity extends Activity implements View.OnClickList
                     dialog = ProgressDialog.show(UpdateUserInfoActivity.this, "提示", Constant.mProgressDialog_success, true, true);
                     //根据图片位置发送上传文件的网络请求
                     final String path = selectUri.getPath();
+
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -390,6 +392,29 @@ public class UpdateUserInfoActivity extends Activity implements View.OnClickList
             T.testShowShort(UpdateUserInfoActivity.this, "文件不存在，请修改文件路径");
             return;
         }
+        //6.0以上的权限问题
+        //毕业设计后上传图片bug解决方案，也可以在手机里主动设置权限（文件读写权限）
+        /*if (Build.VERSION.SDK_INT >= 23) {
+            int checkPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (checkPermission != PackageManager.PERMISSION_GRANTED) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSIONS);
+                } else {
+                    new AlertDialog.Builder(UpdateUserInfoActivity.this)
+                            .setMessage("您需要在设置里打开文件读取权限。")
+                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @TargetApi(Build.VERSION_CODES.M)
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSIONS);
+                                }
+                            })
+                            .setNegativeButton("取消", null)
+                            .create().show();
+                }
+                return;
+            }
+        }*/
         OkHttpUtils.post()
                 .addFile("image", fileName, file)
                 .url(ConstantUrl.FileImageUrl + ConstantUrl.uploadImage_interface)
@@ -411,11 +436,13 @@ public class UpdateUserInfoActivity extends Activity implements View.OnClickList
 
         @Override
         public void onError(Call call, Exception e, int id) {
-
+                L.e("upload error:",e.toString());
         }
 
         @Override
         public void onResponse(String response, int id) {
+            L.v(TAG, "上传成功");
+            UpdateUserImage();
         }
 
         @Override

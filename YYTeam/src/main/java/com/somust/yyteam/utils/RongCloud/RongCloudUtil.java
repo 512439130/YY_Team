@@ -14,11 +14,11 @@ import java.util.Map;
  */
 
 public class RongCloudUtil {
-    /*private final static String debugAppkey = "uwd1c0sxugt21";// 测试appkey
-    private final static String debugAppSecret = "qvUSlSP2Na";// 测试secret*/
+    private final static String debugAppkey = "uwd1c0sxugt21";// 测试appkey
+    private final static String debugAppSecret = "qvUSlSP2Na";// 测试secret
 
-    private final static String releaseAppkey = "8luwapkv859cl";// 正式appkey
-    private final static String releaseAppSecret = "QgDNk9e92qwTpO";// 正式secret
+    /*private final static String releaseAppkey = "8luwapkv859cl";// 正式appkey
+    private final static String releaseAppSecret = "QgDNk9e92qwTpO";// 正式secret*/
     private final static int[] abcde = {0x67452301, 0xefcdab89, 0x98badcfe,
             0x10325476, 0xc3d2e1f0};// sha1加密产参数
     // 摘要数据存储数组
@@ -238,7 +238,7 @@ public class RongCloudUtil {
         byte[] resultBuffer = null;
         Double nonce = Math.floor(Math.random() * 100000 + 100000);
         Long timestamp = Timestamp.valueOf("2015-03-18 00:00:00").getTime();
-        String signature = getDigestOfString((releaseAppSecret + nonce + timestamp)
+        String signature = getDigestOfString((debugAppSecret + nonce + timestamp)
                 .getBytes());
         StringBuilder parambuilder = new StringBuilder("");
         if (params != null && !params.isEmpty()) {
@@ -261,7 +261,7 @@ public class RongCloudUtil {
                 "Accept",
                 "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
         conn.setRequestProperty("Accept-Language", "zh-CN");
-        conn.setRequestProperty("App-Key", releaseAppkey);
+        conn.setRequestProperty("App-Key", debugAppkey);
         conn.setRequestProperty("Nonce", nonce + "");
         conn.setRequestProperty("Timestamp", timestamp + "");
         conn.setRequestProperty("Signature", signature);

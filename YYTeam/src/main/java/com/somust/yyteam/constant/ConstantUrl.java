@@ -150,7 +150,7 @@ public class ConstantUrl extends Constant{
     public static final String uploadImage_interface = "yy_upload_file?";  //上传图片到服务器
 
     //更换头像
-    public static final String updateUserImage_interface = "yy_update_userImage?";  //上传图片到服务器
+    public static final String updateUserImage_interface = "yy_update_userImage?";  //更换头像地址
 
 
 

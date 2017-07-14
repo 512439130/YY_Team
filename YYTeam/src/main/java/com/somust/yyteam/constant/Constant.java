@@ -8,7 +8,7 @@ import android.os.Environment;
 
 public class Constant {
     //test
-    public static final String BASE_URL = "http://www.wamvm.cn";  //服务器ip地址
+    public static final String BASE_URL = "http://139.199.171.79";  //服务器ip地址
 
     //ProgressDialog_message
     public static final String mProgressDialog_success = "正在操作，请稍后...";
